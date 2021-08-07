@@ -1,32 +1,32 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-//import purple from '@material-ui/core/colors/purple';
-//import green from '@material-ui/core/colors/green';
+import { createMuiTheme } from "@material-ui/core/styles";
+import {brown} from '@material-ui/core/colors';
 
 
-const green = '#bada55'
-const blue = '#7fe5f0'
-const gray = '#696969'
-const latte = '#fff9e3'
+const green = "#bada55";
+const blue = "#7fe5f0";
+const gray = "#696969";
+const latte = "#fff9e3";
+//const brown = "#964B00";
 
 export default createMuiTheme({
   palette: {
     primary: {
-      main: green,
+      main: green
     },
     secondary: {
-      main: blue,
+      main: brown[500]
     },
     common: {
-        gray: gray,
-        latte: latte
+      gray: gray,
+      latte: latte,
+      brown: brown[500],
+      blue: blue
     }
   },
   typography: {
     tab: {
-      fontFamily: 'Playfair Display',
-      fontSize: '1.5rem'
+      fontFamily: "Playfair Display",
+      fontSize: "1.5rem"
     }
   }
 });
-
-
