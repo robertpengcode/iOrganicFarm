@@ -1,12 +1,10 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import {brown} from '@material-ui/core/colors';
-
+import { brown } from "@material-ui/core/colors";
 
 const green = "#bada55";
 const blue = "#7fe5f0";
 const gray = "#696969";
 const latte = "#fff9e3";
-//const brown = "#964B00";
 
 export default createMuiTheme({
   palette: {
