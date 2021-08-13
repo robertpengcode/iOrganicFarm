@@ -252,30 +252,30 @@ export default function Header() {
         classes={{ paper: classes.drawer }}
       >
         <List>
-          {routes.map((route, i) =>(
+          {routes.map((route, i) => (
             <ListItem
-            key={i}
-            onClick={() => {
-              setOpenDrawer(false);
-              setTabValue(0);
-            }}
-            divider
-            button
-            component={Link}
-            to={route.link}
-            selected={tabValue === route.tabValue}
-          >
-            <ListItemText
-              className={
-                tabValue === route.tabValue
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-              disableTypography
+              key={i}
+              onClick={() => {
+                setOpenDrawer(false);
+                setTabValue(0);
+              }}
+              divider
+              button
+              component={Link}
+              to={route.link}
+              selected={tabValue === route.tabValue}
             >
-              {route.name}
-            </ListItemText>
-          </ListItem>
+              <ListItemText
+                className={
+                  tabValue === route.tabValue
+                    ? [classes.drawerItem, classes.drawerItemSelected]
+                    : classes.drawerItem
+                }
+                disableTypography
+              >
+                {route.name}
+              </ListItemText>
+            </ListItem>
           ))}
 
           {/* <ListItem

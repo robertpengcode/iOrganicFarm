@@ -25,6 +25,11 @@ export default createTheme({
     tab: {
       fontFamily: "Playfair Display",
       fontSize: "1.5rem"
+    },
+    footer: {
+      fontFamily: "Playfair Display",
+      textAlign: "center",
+      width: "100%"
     }
   }
 });
