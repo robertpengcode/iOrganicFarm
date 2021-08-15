@@ -47,9 +47,6 @@ const useStyles = makeStyles(theme => ({
   copyRight: {
     ...theme.typography.footer,
     opacity: "0.75"
-  },
-  socialIcons: {
-    margin: "auto"
   }
 }));
 
