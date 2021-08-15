@@ -28,7 +28,6 @@ export default createTheme({
     },
     footer: {
       fontFamily: "Playfair Display",
-      textAlign: "center",
       width: "100%"
     }
   }
