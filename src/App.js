@@ -8,6 +8,7 @@ import Shop from "./components/Market/Shop";
 import Exchange from "./components/Market/Exchange";
 import ContactUs from "./components/ContactUs";
 import Footer from "./components/UI/Footer";
+import ThankYou from "./components/ThankYou";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import myTheme from "./components/UI/Theme";
@@ -32,6 +33,7 @@ function App() {
           <Route exact path="/shop" component={Shop} />
           <Route exact path="/exchange" component={Exchange} />
           <Route exact path="/contact" component={ContactUs} />
+          <Route exact path="/thankyou" component={ThankYou} />
         </Switch>
         <Footer
           tabValue={tabValue}
