@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
       width: "60%",
     },
   },
+  text: {
+    ...theme.typography.text
+  },
   paperForImg: {
     width: "50%",
     marginTop: "2rem",
@@ -51,9 +54,9 @@ const ThankYou = () => {
   const classes = useStyles();
   return (
     <Paper className={classes.paper}>
-      <Typography variant="h4">Thank You!</Typography>
-      <Typography variant="h5">For contacting us.</Typography>
-      <Typography variant="h5">We'll be in touch soon.</Typography>
+      <Typography variant="h4" className={classes.text}>Thank You!</Typography>
+      <Typography variant="h5" className={classes.text}>For contacting us.</Typography>
+      {/* <Typography variant="h5" className={classes.text}>We'll be in touch soon.</Typography> */}
       <Paper className={classes.paperForImg}>
         {/* <Image src={navigateImg} className={classes.img} /> */}
       </Paper>

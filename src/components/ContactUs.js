@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import EmailIcon from '@material-ui/icons/Email';
 // import FormControl from "@material-ui/core/FormControl";
 // import FormGroup from "@material-ui/core/FormGroup";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -40,18 +41,24 @@ const useStyles = makeStyles(theme => ({
     textAlign: "Center",
   },
   emailTitle: {
+    ...theme.typography.text,
     fontSize: "2rem",
-    marginBottom: "0.5rem",
-    marginRight: "auto",
+    color: theme.palette.common.armyGreen,
+  },
+  emailIcon: {
+    color: theme.palette.common.armyGreen,
   },
   emailItem: {
     width: "80%",
     marginBottom: "1rem",
+    color: "blue",
   },
   emailButton: {
+    ...theme.typography.text,
     marginBottom: "1rem",
     fontSize: "1.2rem",
     fontWeight: "bold",
+    color: theme.palette.common.armyGreen,
   },
 }));
 
@@ -120,7 +127,10 @@ export default function ContactUs() {
       <form className={classes.contactform} onSubmit={sendEmail}>
         <Grid container direction="column">
           <Grid item>
-            <Typography className={classes.emailTitle}>Email Us</Typography>
+            <Grid container direction="row" alignItems="flex-end" justify="center" spacing={1}>
+              <Grid item><EmailIcon fontSize="large" className={classes.emailIcon}/></Grid>
+              <Grid item><Typography className={classes.emailTitle}>Email Us</Typography></Grid>
+            </Grid>
           </Grid>
           {/* <Grid item className={classes.checkBoxes}>
             {checkBoxes}
@@ -129,7 +139,6 @@ export default function ContactUs() {
             <TextField
               id="subject"
               label="Subject"
-              variant="outlined"
               name="subject"
               value={emailValues.subject}
               onChange={handleChange}
@@ -140,7 +149,6 @@ export default function ContactUs() {
             <TextField
               id="name"
               label="Your Name"
-              variant="outlined"
               name="name"
               value={emailValues.name}
               onChange={handleChange}
@@ -149,9 +157,9 @@ export default function ContactUs() {
           </Grid>
           <Grid item>
             <TextField
+              required
               id="email"
               label="Your Email (Required)"
-              variant="outlined"
               name="email"
               value={emailValues.email}
               onChange={handleChange}
@@ -162,7 +170,6 @@ export default function ContactUs() {
             <TextField
               id="phone"
               label="Your Phone# (Optional)"
-              variant="outlined"
               name="phone"
               value={emailValues.phone}
               onChange={handleChange}
@@ -186,7 +193,7 @@ export default function ContactUs() {
             <Button
               type="submit"
               variant="contained"
-              size="large"
+              size="medium"
               color="primary"
               className={classes.emailButton}
             >
@@ -197,14 +204,5 @@ export default function ContactUs() {
       </form>
     </Paper>
   );
-
   return emailSent === false ? emailForm : <Redirect to="/thankyou" />;
-
-  // return (
-  //   <Container>
-  //     <Typography className={classes.paragraph}>
-  //       Contact Us
-  //     </Typography>
-  //   </Container>
-  // );
 }
