@@ -18,24 +18,33 @@ const templateID = process.env.REACT_APP_TEMPLATE_ID;
 const userID = process.env.REACT_APP_USER_ID;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  paper: {
-    width: "50%",
-    marginTop: "1rem",
-    marginBottom: "1rem",
-    marginLeft: "auto",
-    marginRight: "auto",
+  paperContainer: {
+    backgroundImage: `url(contactImg.jpg)`,
+    height: "72vh",
+    width: "100%",
+    backgroundSize: "cover",
     [theme.breakpoints.down("md")]: {
-      width: "60%",
+      height: "81vh",
     },
     [theme.breakpoints.down("sm")]: {
-      width: "80%",
+      height: "81vh",
     },
     [theme.breakpoints.down("xs")]: {
-      width: "95%",
-    },
+      height: "82vh",
+    }
+  },
+  container: {
+    height: "100%",
+    //border: "solid",
+  },
+  sub: {
+    //border: "solid",
+    height: "85%",
+  },
+  paper: {
+    backgroundColor: "white",
+    opacity: "0.85",
+    //border: "solid",
   },
   contactform: {
     textAlign: "Center",
@@ -50,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
   emailItem: {
     width: "80%",
-    marginBottom: "1rem",
+    marginBottom: "0.75rem",
     color: "blue",
   },
   emailButton: {
@@ -66,9 +75,6 @@ export default function ContactUs() {
   const classes = useStyles();
 
   const initialEmailValues = {
-    // recruiter: false,
-    // company: false,
-    // others: false,
     subject: "",
     name: "",
     email: "",
@@ -204,5 +210,15 @@ export default function ContactUs() {
       </form>
     </Paper>
   );
-  return emailSent === false ? emailForm : <Redirect to="/thankyou" />;
+  return emailSent === false ? 
+  <Paper className={classes.paperContainer}>
+    <Grid container className={classes.container} alignItems="center">
+      <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
+      <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
+        {emailForm}
+      </Grid>
+      <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
+    </Grid>
+  </Paper>
+  : <Redirect to="/thankyou" />;
 }
