@@ -136,6 +136,7 @@ export default function Footer(props) {
               onClick={() => {
                 props.setTabValue(3);
               }}
+              target="_blank"
             >
               CONTACT
             </Grid>
@@ -147,6 +148,7 @@ export default function Footer(props) {
               onClick={() => {
                 props.setTabValue(3);
               }}
+              target="_blank"
             >
               EMAIL US
             </Grid>
@@ -158,6 +160,7 @@ export default function Footer(props) {
               onClick={() => {
                 props.setTabValue(3);
               }}
+              target="_blank"
             >
               JOIN US
             </Grid>

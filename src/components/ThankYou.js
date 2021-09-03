@@ -1,66 +1,70 @@
-import React from "react";
-//import navigateImg from "./../../src/pics/navigate.jpg";
+import React, {Fragment} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-//import Image from "material-ui-image";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    paddingTop: "1rem",
-    width: "50%",
-    marginTop: "1rem",
-    marginBottom: "1rem",
-    marginLeft: "auto",
-    marginRight: "auto",
-    textAlign: "center",
-    height: "76vh",
-    [theme.breakpoints.down("md")]: {
-      width: "50%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: "55%",
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: "60%",
-    },
-  },
   text: {
-    ...theme.typography.text
+    ...theme.typography.text,
   },
-  paperForImg: {
-    width: "50%",
-    marginTop: "2rem",
-    marginLeft: "auto",
-    marginRight: "auto",
-    textAlign: "center",
-    aspectRatio: "1",
+  paperContainer: {
+    backgroundImage: `url(thankImg.jpg)`,
+    height: "72vh",
+    width: "100%",
+    backgroundSize: "cover",
+    opacity: "0.9",
     [theme.breakpoints.down("md")]: {
-      width: "55%",
+      height: "81vh",
     },
     [theme.breakpoints.down("sm")]: {
-      width: "60%",
+      height: "81vh",
     },
     [theme.breakpoints.down("xs")]: {
-      width: "70%",
-    },
+      height: "82vh",
+    }
   },
-  img: {
-    width: "100%",
+  container: {
+    height: "80%",
+  },
+  textContainer: {
+    backgroundColor: "white",
+    opacity: "0.75",
+    padding: "1.5rem",
+    borderRadius: "0.5rem",
+    textAlign: "center",
+    [theme.breakpoints.down("md")]: {
+      padding: "1.2rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      padding: "1rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: "1rem",
+    }
   },
 }));
 
 const ThankYou = () => {
   const classes = useStyles();
   return (
-    <Paper className={classes.paper}>
-      <Typography variant="h4" className={classes.text}>Thank You!</Typography>
-      <Typography variant="h5" className={classes.text}>For contacting us.</Typography>
-      {/* <Typography variant="h5" className={classes.text}>We'll be in touch soon.</Typography> */}
-      <Paper className={classes.paperForImg}>
-        {/* <Image src={navigateImg} className={classes.img} /> */}
-      </Paper>
-    </Paper>
+<Fragment>
+<Paper elevation={0} className={classes.paperContainer}>
+  <Grid container className={classes.container} alignItems="center">
+    <Grid item xs={1} sm={2} md={4} lg={4}>
+    </Grid>
+    <Grid item xs={10} sm={8} md={4} lg={4}>
+      <Grid container className={classes.textContainer} direction="column">
+        <Typography variant="h3" className={classes.text}>Thank You!</Typography>
+      <Typography variant="h4" className={classes.text}>For contacting us.</Typography>
+      <Typography variant="h5" className={classes.text}>We will get back to you soon.</Typography>
+      </Grid>
+    </Grid>
+    <Grid item xs={1} sm={2} md={4} lg={4}>
+    </Grid>
+  </Grid>
+</Paper>
+</Fragment>
   );
 };
 

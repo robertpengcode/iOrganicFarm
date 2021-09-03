@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
@@ -35,6 +34,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   textContainer: {
+    ...theme.typography.text,
     backgroundColor: "white",
     opacity: "0.75",
     height: "50vh",
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   title: {
-    fontFamily: "Playfair Display",
+    ...theme.typography.text,
     color: theme.palette.common.brown,
     textDecoration: "none",
     fontSize: "4.5rem",
@@ -71,7 +71,6 @@ export default function Home() {
 
   return (
 <Fragment>
-<Box className={classes.box}>
   <Paper elevation={0} className={classes.paperContainer}>
     <Grid container className={classes.container} alignItems="center">
       <Grid item xs={1} sm={2} md={1} lg={1}>
@@ -87,7 +86,6 @@ export default function Home() {
       </Grid>
     </Grid>
   </Paper>
-</Box>
 </Fragment>
   );
 }

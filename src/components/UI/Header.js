@@ -132,7 +132,7 @@ export default function Header(props) {
       ariaPopup: anchorEl ? "true" : undefined,
       onMouseOver: event => handleHover(event)
     },
-    { name: "CONTACT", link: "/contact", tabValue: 3 }
+    { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" }
   ];
 
   useEffect(() => {
@@ -163,6 +163,7 @@ export default function Header(props) {
             aria-owns={route.ariaOwns}
             aria-haspopup={route.ariaPopup}
             onMouseOver={route.onMouseOver}
+            target={route.target}
           />
         ))}
       </Tabs>
@@ -219,6 +220,7 @@ export default function Header(props) {
               component={Link}
               to={route.link}
               selected={props.tabValue === route.tabValue}
+              target={route.target}
             >
               <ListItemText
                 className={
