@@ -8,10 +8,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import EmailIcon from '@material-ui/icons/Email';
-// import FormControl from "@material-ui/core/FormControl";
-// import FormGroup from "@material-ui/core/FormGroup";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Checkbox from "@material-ui/core/Checkbox";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const serviceID = process.env.REACT_APP_SERVICE_ID;
 const templateID = process.env.REACT_APP_TEMPLATE_ID;
@@ -66,6 +66,15 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bold",
     color: theme.palette.common.armyGreen,
   },
+  selectMenu: {
+    width: "80%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: "0.75rem",
+  },
+  formControl: {
+    width: "100%",
+  },
 }));
 
 export default function ContactUs() {
@@ -77,6 +86,7 @@ export default function ContactUs() {
     email: "",
     phone: "",
     message: "",
+    iWantTo: "",
   };
 
   const [emailValues, setEmailValues] = useState(initialEmailValues);
@@ -107,13 +117,13 @@ export default function ContactUs() {
     });
   }
 
-  // function handleChangeCheck(e) {
-  //   const { name, checked } = e.target;
-  //   setEmailValues({
-  //     ...emailValues,
-  //     [name]: checked,
-  //   });
-  // }
+  function handleChangeSelect(e) {
+    const { name, value } = e.target;
+    setEmailValues({
+      ...emailValues,
+      [name]: value,
+    });
+  }
 
   useEffect(() => {
     setEmailValues(emailValues);
@@ -125,6 +135,22 @@ export default function ContactUs() {
     }
   }, [emailSent]);
 
+  const selectMenu = (
+    <FormControl className={classes.formControl}>
+        <InputLabel id="iWantTo">I want to...</InputLabel>
+        <Select
+          name="iWantTo"
+          value={emailValues.iWantTo}
+          onChange={handleChangeSelect}
+        >
+          <MenuItem value="beVendor">become an organic produce vendor.</MenuItem>
+          <MenuItem value="beShopper">become an organic produce shopper.</MenuItem>
+          <MenuItem value="askQuestions">ask questions.</MenuItem>
+          <MenuItem value="">leave blank.</MenuItem>
+        </Select>
+      </FormControl>
+  )
+
   const emailForm = (
     <Paper className={classes.paper}>
       <form className={classes.contactform} onSubmit={sendEmail}>
@@ -135,9 +161,6 @@ export default function ContactUs() {
               <Grid item><Typography className={classes.emailTitle}>Email Us</Typography></Grid>
             </Grid>
           </Grid>
-          {/* <Grid item className={classes.checkBoxes}>
-            {checkBoxes}
-          </Grid> */}
           <Grid item>
             <TextField
               id="subject"
@@ -147,6 +170,9 @@ export default function ContactUs() {
               onChange={handleChange}
               className={classes.emailItem}
             />
+          </Grid>
+          <Grid item className={classes.selectMenu}>
+            {selectMenu}
           </Grid>
           <Grid item>
             <TextField
