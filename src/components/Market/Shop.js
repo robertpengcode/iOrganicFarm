@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Products from "./../Products";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
+  productsBox: {
+    border: "solid green",
+    padding: "0.3rem",
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
+  productsContainer: {
+    border: "solid brown",
+    //padding: "0.3rem",
+    width: "98%",
   },
-  paragraph: {
-    fontSize: "2rem",
-    fontFamily: "Playfair Display",
-    color: theme.palette.common.brown,
-  }
+  shopTitle: {
+    ...theme.typography.text,
+    fontSize: "1.8rem",
+    color: theme.palette.common.armyGreen,
+  },
 }));
 
 export default function Shop() {
@@ -25,9 +28,12 @@ export default function Shop() {
 
   return (
     <Container>
-      <Typography className={classes.paragraph}>
-        Shopping
+      <Typography className={classes.shopTitle}>
+        Shop Our Organic Products
       </Typography>
+      <Box className={classes.productsBox}>
+        <Products className={classes.productsContainer}/>
+      </Box>
     </Container>
   );
 }
