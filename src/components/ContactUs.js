@@ -35,16 +35,13 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     height: "100%",
-    //border: "solid",
   },
   sub: {
-    //border: "solid",
     height: "85%",
   },
   paper: {
     backgroundColor: "white",
     opacity: "0.85",
-    //border: "solid",
   },
   contactform: {
     textAlign: "Center",

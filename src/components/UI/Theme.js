@@ -1,11 +1,12 @@
 import { createTheme } from "@material-ui/core/styles";
-import { brown } from "@material-ui/core/colors";
+//import { brown } from "@material-ui/core/colors";
 
 const green = "#bada55";
 const blue = "#7fe5f0";
 const gray = "#696969";
 const latte = "#fff9e3";
 const armyGreen ="#454B1B";
+const brown ="#4b3621";
 
 export default createTheme({
   palette: {
@@ -13,12 +14,12 @@ export default createTheme({
       main: green
     },
     secondary: {
-      main: brown[500]
+      main: brown
     },
     common: {
       gray: gray,
       latte: latte,
-      brown: brown[500],
+      brown: brown,
       blue: blue,
       armyGreen: armyGreen
     }

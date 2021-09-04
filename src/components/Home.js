@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   paperContainer: {
@@ -11,6 +13,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     backgroundSize: "cover",
     opacity: "0.9",
+    //border: "solid black",
     [theme.breakpoints.down("md")]: {
       height: "81vh",
     },
@@ -21,32 +24,39 @@ const useStyles = makeStyles(theme => ({
       height: "82vh",
     }
   },
-  container: {
-    height: "70vh",
+  titleContainer: {
+    height: "55vh",
+    //border: "solid red",
     [theme.breakpoints.down("md")]: {
-      height: "60vh",
+      height: "50vh",
     },
     [theme.breakpoints.down("sm")]: {
-      height: "58vh",
+      height: "42vh",
     },
     [theme.breakpoints.down("xs")]: {
-      height: "55vh",
+      height: "42vh",
     }
+  },
+  filled: {
+    //border: "solid purple",
+    height: "2rem",
   },
   textContainer: {
     ...theme.typography.text,
     backgroundColor: "white",
     opacity: "0.75",
-    height: "50vh",
+    height: "42vh",
     padding: "1.5rem",
+    borderRadius: "0.5rem",
+    //border: "solid blue",
     [theme.breakpoints.down("md")]: {
-      height: "42vh",
-    },
-    [theme.breakpoints.down("sm")]: {
       height: "38vh",
     },
+    [theme.breakpoints.down("sm")]: {
+      height: "35vh",
+    },
     [theme.breakpoints.down("xs")]: {
-      height: "36vh",
+      height: "35vh",
     }
   },
   title: {
@@ -55,15 +65,36 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none",
     fontSize: "4.5rem",
     [theme.breakpoints.down("md")]: {
-      fontSize: "3.6rem"
+      fontSize: "3.5rem"
     },
     [theme.breakpoints.down("sm")]: {
-      fontSize: "3.2rem"
+      fontSize: "2.9rem"
     },
     [theme.breakpoints.down("xs")]: {
       fontSize: "2.7rem"
     }
-  }
+  },
+  buttonContainer: {
+    height: "12vh",
+    //border: "solid brown",
+    [theme.breakpoints.down("md")]: {
+      height: "15vh",
+    },
+    [theme.breakpoints.down("sm")]: {
+      height: "18vh",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "18vh",
+    }
+  },
+  homeButton: {
+    ...theme.typography.text,
+    marginBottom: "1rem",
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
+  },
 }));
 
 export default function Home() {
@@ -72,17 +103,49 @@ export default function Home() {
   return (
 <Fragment>
   <Paper elevation={0} className={classes.paperContainer}>
-    <Grid container className={classes.container} alignItems="center">
-      <Grid item xs={1} sm={2} md={1} lg={1}>
-      </Grid>
-      <Grid item xs={10} sm={8} md={7} lg={7}>
-        <Grid container className={classes.textContainer}>
-          <Typography variant="h1" className={classes.title}>
-            Grow and share organic produce with the community.
-          </Typography>
+    <Grid container direction="column">
+      <Grid item>
+        <Grid container className={classes.titleContainer} alignItems="center">
+          <Grid item xs={1} sm={2} md={1} lg={1} className={classes.filled}></Grid>
+          <Grid item xs={10} sm={8} md={7} lg={7}>
+            <Grid container className={classes.textContainer}>
+              <Typography variant="h1" className={classes.title}>
+                Grow and share organic produce with the community.
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={1} sm={2} md={4} lg={4} className={classes.filled}></Grid>
         </Grid>
       </Grid>
-      <Grid item xs={1} sm={2} md={4} lg={4}>
+      <Grid item>
+        <Grid container className={classes.buttonContainer} justify="center" alignItems="center">
+          <Grid item xs={1} sm={2} md={1} lg={1} className={classes.filled}></Grid>
+          <Grid item xs={10} sm={8} md={7} lg={7}>
+            <Grid container justify="space-around">
+              <Button
+                variant="contained"
+                size="medium"
+                color="primary"
+                className={classes.homeButton}
+                component={Link}
+                to="/shop"
+              >
+              Shop Organic Products
+              </Button>
+              <Button
+                variant="contained"
+                size="medium"
+                color="primary"
+                className={classes.homeButton}
+                component={Link}
+                to="/exchange"
+              >
+              Exchange Products
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={1} sm={2} md={4} lg={4} className={classes.filled}></Grid>
+        </Grid>
       </Grid>
     </Grid>
   </Paper>
