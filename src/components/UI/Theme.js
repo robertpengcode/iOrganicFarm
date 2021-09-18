@@ -1,5 +1,4 @@
 import { createTheme } from "@material-ui/core/styles";
-//import { brown } from "@material-ui/core/colors";
 
 const green = "#bada55";
 const blue = "#7fe5f0";

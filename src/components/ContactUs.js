@@ -20,7 +20,7 @@ const userID = process.env.REACT_APP_USER_ID;
 const useStyles = makeStyles(theme => ({
   paperContainer: {
     backgroundImage: `url(contactImg.jpg)`,
-    height: "72vh",
+    height: "78vh",
     width: "100%",
     backgroundSize: "cover",
     [theme.breakpoints.down("md")]: {

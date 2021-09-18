@@ -17,10 +17,12 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+//import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
@@ -30,58 +32,58 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.brown,
     textDecoration: "none",
     [theme.breakpoints.down("md")]: {
-      fontSize: "2rem"
+      fontSize: "2rem",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "1.5rem"
-    }
+      fontSize: "1.5rem",
+    },
   },
   tabContainer: {
-    marginLeft: "auto"
+    marginLeft: "auto",
   },
   tab: {
-    ...theme.typography.tab
+    ...theme.typography.tab,
   },
   menu: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   menuItem: {
     ...theme.typography.tab,
     opacity: 0.7,
     "&:hover": {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
   drawerIconContainer: {
-    marginLeft: "auto"
+    marginLeft: "auto",
   },
   drawerIcon: {
     height: "2rem",
-    width: "2rem"
+    width: "2rem",
   },
   drawer: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   drawerItem: {
     ...theme.typography.tab,
     opacity: 0.7,
     "&:hover": {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
   drawerItemSelected: {
-    opacity: 1
-  }
+    opacity: 1,
+  },
 }));
 
 function ElevationScroll(props) {
   const { children } = props;
   const trigger = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 0
+    threshold: 0,
   });
   return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0
+    elevation: trigger ? 4 : 0,
   });
 }
 
@@ -98,7 +100,7 @@ export default function Header(props) {
     props.setTabValue(tabValue);
   };
 
-  const handleHover = e => {
+  const handleHover = (e) => {
     setAnchorEl(e.currentTarget);
     setOpen(true);
   };
@@ -109,7 +111,7 @@ export default function Header(props) {
     props.setSelectedIndex(i);
   };
 
-  const handleClose = e => {
+  const handleClose = (e) => {
     setAnchorEl(null);
     setOpen(false);
   };
@@ -117,7 +119,7 @@ export default function Header(props) {
   const menuOptions = [
     { name: "MARKET", link: "/market", tabValue: 2 },
     { name: "SHOP NOW", link: "/shop", tabValue: 2 },
-    { name: "EXCHANGE", link: "/exchange", tabValue: 2 }
+    { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
   ];
 
   const routes = [
@@ -129,13 +131,13 @@ export default function Header(props) {
       tabValue: 2,
       ariaOwns: anchorEl ? "simple-menu" : undefined,
       ariaPopup: anchorEl ? "true" : undefined,
-      onMouseOver: event => handleHover(event)
+      onMouseOver: (event) => handleHover(event),
     },
-    { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" }
+    { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
   ];
 
   useEffect(() => {
-    [...routes, ...menuOptions].forEach(route => {
+    [...routes, ...menuOptions].forEach((route) => {
       if (
         window.location.pathname === route.link &&
         props.tabValue !== route.tabValue
@@ -144,6 +146,16 @@ export default function Header(props) {
       }
     });
   }, [props.tabValue, menuOptions, routes, props]);
+
+  const cartIcon = (
+    <Fragment>
+      <IconButton target="_blank" component={Link}
+        to="/cart">
+        <ShoppingCartIcon />
+      </IconButton>
+      <Typography>3</Typography>
+    </Fragment>
+  );
 
   const tabs = (
     <Fragment>
@@ -179,7 +191,7 @@ export default function Header(props) {
         {menuOptions.map((option, i) => (
           <MenuItem
             key={i}
-            onClick={event => {
+            onClick={(event) => {
               handleMenuItemClick(event, i);
               handleClose();
               props.setTabValue(2);
@@ -193,6 +205,7 @@ export default function Header(props) {
           </MenuItem>
         ))}
       </Menu>
+      
     </Fragment>
   );
 
@@ -258,6 +271,7 @@ export default function Header(props) {
               iOrganicFarm
             </Typography>
             {matches ? drawer : tabs}
+            {cartIcon}
           </Toolbar>
         </AppBar>
       </ElevationScroll>

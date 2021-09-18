@@ -10,11 +10,11 @@ const useStyles = makeStyles(theme => ({
   productsBox: {
     border: "solid green",
     padding: "0.3rem",
+    width: "100%",
   },
   productsContainer: {
     border: "solid brown",
-    //padding: "0.3rem",
-    width: "98%",
+    width: "100%",
   },
   shopTitle: {
     ...theme.typography.text,
