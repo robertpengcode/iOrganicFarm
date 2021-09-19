@@ -14,7 +14,6 @@ import Image from "material-ui-image";
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
-    
     border: "solid green",
     padding: "0.3rem",
     width: "100%",
@@ -58,11 +57,11 @@ const useStyles = makeStyles((theme) => ({
   },
   cartItemLeft: {
     width: "60%",
-    border: "solid yellow",  
+    border: "solid yellow",
   },
   cartItemRight: {
     width: "30%",
-    border: "solid yellow",   
+    border: "solid yellow",
   },
   cartCheckOutButton: {
     ...theme.typography.text,
@@ -113,7 +112,11 @@ const ShoppingCart = () => {
             <Grid item key={id} className={classes.cartItem}>
               <Grid container justifyContent="space-between">
                 <Grid item className={classes.cartItemLeft}>
-                  <Grid container justifyContent="space-between" alignItems="center" >
+                  <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
                     <Grid item className={classes.cartItemPic}>
                       <Image src={cartItem.imgUrl} />
                     </Grid>
@@ -152,7 +155,13 @@ const ShoppingCart = () => {
                 Cart Total ${totalPrice}
               </Grid>
               <Grid item className={classes.cartItem2}>
-                <Button variant="contained" color="primary" className={classes.cartCheckOutButton}>Check Out</Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.cartCheckOutButton}
+                >
+                  Check Out
+                </Button>
               </Grid>
             </Grid>
           </Grid>

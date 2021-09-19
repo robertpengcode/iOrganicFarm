@@ -1,5 +1,8 @@
 import React from 'react';
-import homeImg from "./../../src/pics/homeImg.jpg";
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {actionCreators} from "./../store";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -15,7 +18,6 @@ const useStyles = makeStyles(theme => ({
       height: "100%",
       width: "100%",
       border: "solid red",
-      //margin: "auto",
     },
     cardPic: {
         height: "55%",
@@ -33,6 +35,9 @@ const useStyles = makeStyles(theme => ({
 
 const Card = (props) => {
     const classes = useStyles();
+    const cartItems = useSelector((state)=>state.cardItems);
+    const dispatch = useDispatch();
+    const {increase} = bindActionCreators(actionCreators);
 
     return (
         <Paper className={classes.cardPaper}>
