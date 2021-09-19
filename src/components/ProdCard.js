@@ -36,13 +36,13 @@ const Card = (props) => {
 
     return (
         <Paper className={classes.cardPaper}>
-            <Grid container direction="column" alignItems="center" justify="center" className={classes.cardContainer}>
+            <Grid container direction="column" alignItems="center" justifyContent="center" className={classes.cardContainer}>
                 <Grid item className={classes.cardPic}>
-                    <Image src={homeImg} className={classes.img} />
+                    <Image src={props.imgUrl} />
                 </Grid>
                 <Grid item className={classes.cardItem}>{props.name}</Grid>
                 <Grid item className={classes.cardItem}>{props.vendor}</Grid>
-                <Grid item className={classes.cardItem}>{props.price}</Grid>
+                <Grid item className={classes.cardItem}>Price ${props.price}</Grid>
                 <Grid item className={classes.cardItem}>
                     <Button
                         variant="contained"

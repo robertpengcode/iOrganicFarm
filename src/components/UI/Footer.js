@@ -55,7 +55,7 @@ export default function Footer(props) {
 
   const siteLinks = (
     <Hidden mdDown>
-      <Grid container direction="row" justify="center">
+      <Grid container direction="row" justifyContent="center">
         <Grid item className={classes.gridItem}>
           <Grid container direction="column">
             <Grid
@@ -173,7 +173,7 @@ export default function Footer(props) {
 
   const iconButtons = (
     <Fragment>
-      <Grid container direction="row" justify="center">
+      <Grid container direction="row" justifyContent="center">
         <IconButton target="_blank" href="https://www.facebook.com">
           <FacebookIcon />
         </IconButton>
