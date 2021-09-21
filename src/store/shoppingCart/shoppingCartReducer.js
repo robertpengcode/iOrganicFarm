@@ -1,46 +1,34 @@
+const ADD = "ADD";
 const INCREASE = "INCREASE";
 const DECREASE = "DECREASE";
 const REMOVE = "REMOVE";
 
 const shoppingCartReducer = (state = [], action) => {
   switch (action.type) {
-    case INCREASE:
+    case ADD:
       return [...state, action.payload];
 
-    // return {
-    //   ...state,
-    //   cartItems: state.cartItems.filter((item) => item.id !== action.id),
-    // };
-    // case DECREASE:
-    //   return {
-    //     ...state,
-    //     cartItems: state.cartItems.filter((item) => item.id !== action.id),
-    //   };
+    case INCREASE:
+      let iState = state.map((item) => {
+        if (item.id === action.payload.id) {
+          return {...item, quantity: item.quantity + 1};
+        }
+        return item;
+      });
+      return iState;
+
+    case DECREASE:
+      let dState = state.map((item) => {
+        if (item.id === action.payload.id) {
+          return {...item, quantity: item.quantity - 1};
+        }
+        return item;
+      });
+      return dState;
+
     case REMOVE:
-      // return {
-      //   ...state,
-      //   cartItems: state.cartItems.filter((item) => item.id !== action.id),
-      // };
       return state.filter((item) => item.name !== action.payload.name);
 
-    //   case READ_CART:
-    //     return action.cart
-    //   case ADD_ITEM:
-    //     return {...state, orderProducts: [...state.orderProducts, action.item]}
-
-    //   case UPDATE_ITEM:
-    //     return {
-    //       ...state,
-    //       orderProducts: state.orderProducts.map(item => {
-    //         if (item.id === action.item.id) {
-    //           item.quantity = action.item.quantity
-    //           if (item.product) {
-    //             item.totalPrice = item.product.price * item.quantity
-    //           }
-    //         }
-    //         return {...item}
-    //       })
-    //     }
     default:
       return state;
   }

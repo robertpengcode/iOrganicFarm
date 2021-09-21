@@ -1,7 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators } from "./../store";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -73,51 +71,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const cartItems = [
-//   {
-//     name: "Tomato",
-//     imgUrl: "https://picsum.photos/200",
-//     vendor: "Max's farm",
-//     price: 1,
-//     quantity: 2,
-//   },
-//   {
-//     name: "Sweet potato",
-//     imgUrl: "https://picsum.photos/200",
-//     vendor: "Zoey's home farm",
-//     price: 2,
-//     quantity: 2,
-//   },
-//   {
-//     name: "Eggplant",
-//     imgUrl: "https://picsum.photos/200",
-//     vendor: "Max's farm",
-//     price: 3,
-//     quantity: 2,
-//   },
-// ];
-
 const ShoppingCart = () => {
   const classes = useStyles();
-  //const cartItems = useSelector((state) => {console.log('state', state); return state.cartItems});
   const cartItems = useSelector((state) => state.cartItems);
   const dispatch = useDispatch();
-  const { increase } = bindActionCreators(actionCreators);
 
-  console.log('ck', cartItems);
-//   const totalPrice = cartItems.reduce((total, item) => {
-//     return (total += item.price * item.quantity);
-//   }, 0);
-  //console.log("ck", totalPrice);
+  console.log("ck", cartItems);
+  const totalPrice = cartItems.reduce((total, item) => {
+    return (total += item.price * item.quantity);
+  }, 0);
+  console.log("ck", totalPrice);
 
   return (
     <Container>
       <Typography className={classes.cartTitle}>Shopping Cart</Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
-           
-          {cartItems && cartItems.map((cartItem, id) => (
-            <Grid item key={id} className={classes.cartItem}>
+          {cartItems.map((cartItem, i) => (
+            <Grid item key={cartItem.id} className={classes.cartItem}>
               <Grid container justifyContent="space-between">
                 <Grid item className={classes.cartItemLeft}>
                   <Grid
@@ -137,17 +108,29 @@ const ShoppingCart = () => {
                 <Grid item className={classes.cartItemRight}>
                   <Grid container justifyContent="flex-end">
                     <Grid item>
-                      <IconButton>
+                      <IconButton
+                        onClick={() =>
+                          dispatch({ type: "INCREASE", payload: cartItem })
+                        }
+                      >
                         <AddIcon />
                       </IconButton>
                     </Grid>
                     <Grid item>
-                      <IconButton>
+                      <IconButton
+                        onClick={() =>
+                          dispatch({ type: "DECREASE", payload: cartItem })
+                        }
+                      >
                         <RemoveIcon />
                       </IconButton>
                     </Grid>
                     <Grid item>
-                      <IconButton onClick={() => dispatch({type: "REMOVE", payload: cartItem})}>
+                      <IconButton
+                        onClick={() =>
+                          dispatch({ type: "REMOVE", payload: cartItem })
+                        }
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </Grid>
@@ -156,22 +139,28 @@ const ShoppingCart = () => {
               </Grid>
             </Grid>
           ))}
-    
+
           <Grid item className={classes.cartItem}>
-            <Grid container justifyContent="center" alignItems="center">
-              <Grid item className={classes.cartItem2}>
-                {/* Cart Total ${totalPrice} */}
+            {cartItems.length ? (
+              <Grid container justifyContent="center" alignItems="center">
+                <Grid item className={classes.cartItem2}>
+                  Cart Total ${totalPrice}
+                </Grid>
+                <Grid item className={classes.cartItem2}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.cartCheckOutButton}
+                  >
+                    Check Out
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item className={classes.cartItem2}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.cartCheckOutButton}
-                >
-                  Check Out
-                </Button>
-              </Grid>
-            </Grid>
+            ) : (
+              <Typography className={classes.cartItem2}>
+                Cart is Empty...
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </Box>

@@ -1,7 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-//import { bindActionCreators } from "redux";
-//import { actionCreators } from "./../store";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -38,7 +36,6 @@ const Card = (props) => {
   const cartItems = useSelector((state) => state.cartItems);
   console.log('ck', cartItems);
   const dispatch = useDispatch();
-  //const { increase } = bindActionCreators(actionCreators);
 
   return (
     <Paper className={classes.cardPaper}>
@@ -67,8 +64,7 @@ const Card = (props) => {
             size="small"
             color="primary"
             className={classes.homeButton}
-            //onClick={() => increase(props)}
-            onClick={() => dispatch({type: "INCREASE", payload: props})}
+            onClick={() => dispatch({type: "ADD", payload: props})}
           >
             Add To Cart
           </Button>

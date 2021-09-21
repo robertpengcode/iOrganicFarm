@@ -118,10 +118,10 @@ export default function Home() {
         </Grid>
       </Grid>
       <Grid item>
-        <Grid container className={classes.buttonContainer} justify="center" alignItems="center">
+        <Grid container className={classes.buttonContainer} justifyContent="center" alignItems="center">
           <Grid item xs={1} sm={2} md={1} lg={1} className={classes.filled}></Grid>
           <Grid item xs={10} sm={8} md={7} lg={7}>
-            <Grid container justify="space-around">
+            <Grid container justifyContent="space-around">
               <Button
                 variant="contained"
                 size="medium"
