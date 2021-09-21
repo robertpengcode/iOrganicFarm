@@ -1,13 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ProdCard from "./ProdCard";
-import { makeStyles } from "@material-ui/core/styles";
+//import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({}));
+//const useStyles = makeStyles((theme) => ({}));
 
 const Products = () => {
-  const classes = useStyles();
+  //const classes = useStyles();
 
   const products = [
       {

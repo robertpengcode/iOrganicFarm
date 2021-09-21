@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -17,7 +18,6 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-//import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const useStyles = makeStyles((theme) => ({
@@ -89,6 +89,7 @@ function ElevationScroll(props) {
 
 export default function Header(props) {
   const classes = useStyles();
+  const cartItems = useSelector((state) => state.cartItems);
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -149,11 +150,10 @@ export default function Header(props) {
 
   const cartIcon = (
     <Fragment>
-      <IconButton target="_blank" component={Link}
-        to="/cart">
+      <IconButton component={Link} to="/cart">
         <ShoppingCartIcon />
       </IconButton>
-      <Typography>3</Typography>
+      <Typography>{cartItems.length}</Typography>
     </Fragment>
   );
 
@@ -205,7 +205,6 @@ export default function Header(props) {
           </MenuItem>
         ))}
       </Menu>
-      
     </Fragment>
   );
 

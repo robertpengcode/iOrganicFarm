@@ -1,6 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "./../store";
+
 import { makeStyles } from "@material-ui/core/styles";
-//import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -46,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
   cartItem2: {
     ...theme.typography.text,
     border: "solid red",
-    //height: "100%",
     width: "20%",
     textAlign: "center",
   },
@@ -65,50 +67,56 @@ const useStyles = makeStyles((theme) => ({
   },
   cartCheckOutButton: {
     ...theme.typography.text,
-    //marginBottom: "1rem",
     fontSize: "1.2rem",
     fontWeight: "bold",
     color: theme.palette.common.armyGreen,
   },
 }));
 
-const cartItems = [
-  {
-    name: "Tomato",
-    imgUrl: "https://picsum.photos/200",
-    vendor: "Max's farm",
-    price: 1,
-    quantity: 2,
-  },
-  {
-    name: "Sweet potato",
-    imgUrl: "https://picsum.photos/200",
-    vendor: "Zoey's home farm",
-    price: 2,
-    quantity: 2,
-  },
-  {
-    name: "Eggplant",
-    imgUrl: "https://picsum.photos/200",
-    vendor: "Max's farm",
-    price: 3,
-    quantity: 2,
-  },
-];
+// const cartItems = [
+//   {
+//     name: "Tomato",
+//     imgUrl: "https://picsum.photos/200",
+//     vendor: "Max's farm",
+//     price: 1,
+//     quantity: 2,
+//   },
+//   {
+//     name: "Sweet potato",
+//     imgUrl: "https://picsum.photos/200",
+//     vendor: "Zoey's home farm",
+//     price: 2,
+//     quantity: 2,
+//   },
+//   {
+//     name: "Eggplant",
+//     imgUrl: "https://picsum.photos/200",
+//     vendor: "Max's farm",
+//     price: 3,
+//     quantity: 2,
+//   },
+// ];
 
 const ShoppingCart = () => {
   const classes = useStyles();
-  const totalPrice = cartItems.reduce((total, item) => {
-    return (total += item.price * item.quantity);
-  }, 0);
-  console.log("ck", totalPrice);
+  //const cartItems = useSelector((state) => {console.log('state', state); return state.cartItems});
+  const cartItems = useSelector((state) => state.cartItems);
+  const dispatch = useDispatch();
+  const { increase } = bindActionCreators(actionCreators);
+
+  console.log('ck', cartItems);
+//   const totalPrice = cartItems.reduce((total, item) => {
+//     return (total += item.price * item.quantity);
+//   }, 0);
+  //console.log("ck", totalPrice);
 
   return (
     <Container>
       <Typography className={classes.cartTitle}>Shopping Cart</Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
-          {cartItems.map((cartItem, id) => (
+           
+          {cartItems && cartItems.map((cartItem, id) => (
             <Grid item key={id} className={classes.cartItem}>
               <Grid container justifyContent="space-between">
                 <Grid item className={classes.cartItemLeft}>
@@ -139,7 +147,7 @@ const ShoppingCart = () => {
                       </IconButton>
                     </Grid>
                     <Grid item>
-                      <IconButton>
+                      <IconButton onClick={() => dispatch({type: "REMOVE", payload: cartItem})}>
                         <DeleteIcon />
                       </IconButton>
                     </Grid>
@@ -148,11 +156,11 @@ const ShoppingCart = () => {
               </Grid>
             </Grid>
           ))}
-
+    
           <Grid item className={classes.cartItem}>
             <Grid container justifyContent="center" alignItems="center">
               <Grid item className={classes.cartItem2}>
-                Cart Total ${totalPrice}
+                {/* Cart Total ${totalPrice} */}
               </Grid>
               <Grid item className={classes.cartItem2}>
                 <Button
