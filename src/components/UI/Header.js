@@ -148,12 +148,18 @@ export default function Header(props) {
     });
   }, [props.tabValue, menuOptions, routes, props]);
 
+  //console.log("ck", cartItems);
+  const totalItems = cartItems.reduce((totalItems, item) => {
+    return (totalItems += item.quantity);
+  }, 0);
+  //console.log("ck", totalItems);
+
   const cartIcon = (
     <Fragment>
       <IconButton component={Link} to="/cart">
         <ShoppingCartIcon />
       </IconButton>
-      <Typography>{cartItems.length}</Typography>
+      <Typography>{totalItems}</Typography>
     </Fragment>
   );
 

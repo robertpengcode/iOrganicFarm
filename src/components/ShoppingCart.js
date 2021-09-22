@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,12 +16,12 @@ import Image from "material-ui-image";
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
-    border: "solid green",
+    //border: "solid green",
     padding: "0.3rem",
     width: "100%",
   },
   cartContainer: {
-    border: "solid brown",
+    //border: "solid brown",
     marginLeft: "auto",
     marginRight: "auto",
     width: "70%",
@@ -50,6 +51,14 @@ const useStyles = makeStyles((theme) => ({
     width: "20%",
     textAlign: "center",
   },
+  cartItem3: {
+    ...theme.typography.text,
+    border: "solid blue",
+    height: "7rem",
+  },
+  cartItem4: {
+    marginTop: "2rem",
+  },
   cartItemPic: {
     height: "5rem",
     aspectRatio: "1",
@@ -63,11 +72,20 @@ const useStyles = makeStyles((theme) => ({
     width: "30%",
     border: "solid yellow",
   },
-  cartCheckOutButton: {
+  cartButton: {
     ...theme.typography.text,
-    fontSize: "1.2rem",
+    //fontSize: "1.2rem",
     fontWeight: "bold",
     color: theme.palette.common.armyGreen,
+  },
+  cartEmptyText: {
+    ...theme.typography.text,
+    textAlign: "center",
+    fontSize: "1.5rem",
+    //width: "60%",
+    //border: "solid red",
+    color: theme.palette.secondary.main,
+    marginBottom: "1.2rem",
   },
 }));
 
@@ -118,9 +136,13 @@ const ShoppingCart = () => {
                     </Grid>
                     <Grid item>
                       <IconButton
-                        onClick={() =>
-                          dispatch({ type: "DECREASE", payload: cartItem })
-                        }
+                        onClick={() => {
+                          if (cartItem.quantity > 1) {
+                            dispatch({ type: "DECREASE", payload: cartItem });
+                          } else {
+                            dispatch({ type: "REMOVE", payload: cartItem });
+                          }
+                        }}
                       >
                         <RemoveIcon />
                       </IconButton>
@@ -140,9 +162,9 @@ const ShoppingCart = () => {
             </Grid>
           ))}
 
-          <Grid item className={classes.cartItem}>
+          <Grid item className={classes.cartItem3}>
             {cartItems.length ? (
-              <Grid container justifyContent="center" alignItems="center">
+              <Grid container justifyContent="center" alignItems="center" className={classes.cartItem4}>
                 <Grid item className={classes.cartItem2}>
                   Cart Total ${totalPrice}
                 </Grid>
@@ -150,16 +172,45 @@ const ShoppingCart = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    className={classes.cartCheckOutButton}
+                    size="medium"
+                    className={classes.cartButton}
                   >
                     Check Out
                   </Button>
                 </Grid>
+                <Grid item className={classes.cartItem2}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    className={classes.cartButton}
+                    component={Link}
+                    to="/shop"
+                  >
+                    Back To Shop
+                  </Button>
+                </Grid>
               </Grid>
             ) : (
-              <Typography className={classes.cartItem2}>
-                Cart is Empty...
-              </Typography>
+              <Grid container direction="column" justifyContent="center" alignItems="center">
+                <Grid item>
+                  <Typography className={classes.cartEmptyText}>
+                    Shopping Cart is Empty...
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    className={classes.cartButton}
+                    component={Link}
+                    to="/shop"
+                  >
+                    Back To Shop
+                  </Button>
+                </Grid>
+              </Grid>
             )}
           </Grid>
         </Grid>

@@ -16,6 +16,7 @@ const Products = () => {
           price: 1,
           quantity: 1,
           id: '001',
+          unit: 'lb',
       },
       {
           name: 'Sweet potato',
@@ -24,6 +25,7 @@ const Products = () => {
           price: 2,
           quantity: 1,
           id: '002',
+          unit: 'lb',
       },
       {
           name: 'Eggplant',
@@ -32,6 +34,7 @@ const Products = () => {
           price: 3,
           quantity: 1,
           id: '003',
+          unit: 'lb',
       },
       {
           name: 'Cucumber',
@@ -40,6 +43,7 @@ const Products = () => {
           price: 4,
           quantity: 1,
           id: '004',
+          unit: 'lb',
       },
       {
           name: 'Tomato',
@@ -48,6 +52,7 @@ const Products = () => {
           price: 5,
           quantity: 1,
           id: '005',
+          unit: 'lb',
       },
       {
           name: 'Sweet Potato',
@@ -56,6 +61,7 @@ const Products = () => {
           price: 6,
           quantity: 1,
           id: '006',
+          unit: 'lb',
       },
       {
           name: 'Blueberry',
@@ -64,6 +70,7 @@ const Products = () => {
           price: 7,
           quantity: 1,
           id: '007',
+          unit: 'lb',
       },
       {
           name: 'Celery',
@@ -72,6 +79,7 @@ const Products = () => {
           price: 8,
           quantity: 1,
           id: '008',
+          unit: 'lb',
       },
   ]
 
@@ -86,6 +94,7 @@ const Products = () => {
             price={product.price}
             quantity={product.quantity}
             id={product.id}
+            unit={product.unit}
           />
         </Grid>
       ))}

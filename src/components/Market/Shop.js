@@ -8,12 +8,11 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   productsBox: {
-    border: "solid green",
-    padding: "0.3rem",
-    width: "100%",
+    //border: "solid green",
+    padding: "0.5rem",
+    width: "98%",
   },
   productsContainer: {
-    border: "solid brown",
     width: "100%",
   },
   shopTitle: {
