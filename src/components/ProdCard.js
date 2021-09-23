@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     ...theme.typography.text,
     color: theme.palette.common.armyGreen,
-    fontSize: "0.8rem",
+    fontSize: "1rem",
     textAlign: "left",
     marginTop: "0.5rem",
   },
   cardProdName: {
     width: "95%",
     ...theme.typography.text,
-    fontSize: "1rem",
+    fontSize: "1.2rem",
     textAlign: "left",
     fontWeight: "bold",
     color: theme.palette.secondary.main,
@@ -41,36 +41,25 @@ const useStyles = makeStyles((theme) => ({
   cardPrice: {
     width: "95%",
     ...theme.typography.text,
-    fontSize: "0.8rem",
+    fontSize: "1rem",
     textAlign: "left",
     fontWeight: "bold",
     color: theme.palette.secondary.main,
     marginTop: "0.5rem",
   },
-//   cardItem: {
-//     width: "90%",
-//     border: "dotted blue",
-//     ...theme.typography.text,
-//     fontSize: "1rem",
-//     textAlign: "left",
-//     fontWeight: "bold",
-//     color: theme.palette.secondary.main,
-//   },
   button: {
     ...theme.typography.text,
-    //marginBottom: "1rem",
-    //fontSize: "1.2rem",
     fontWeight: "bold",
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.secondary.main,
-    marginTop: "1rem",
+    marginTop: "0.8rem",
   },
 }));
 
 const Card = (props) => {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cartItems);
-  console.log('ck', cartItems);
+  console.log("ck", cartItems);
   const dispatch = useDispatch();
 
   return (
@@ -93,13 +82,19 @@ const Card = (props) => {
         <Grid item className={classes.cardPrice}>
           ${props.price}/{props.unit}
         </Grid>
-        <Grid item className={classes.cardItem}>
+        <Grid item>
           <Button
             variant="contained"
             size="small"
             color="primary"
             className={classes.button}
-            onClick={() => dispatch({type: "ADD", payload: props})}
+            onClick={() => {
+              if (cartItems.find((item) => item.id === props.id)) {
+                dispatch({ type: "INCREASE", payload: props });
+              } else {
+                dispatch({ type: "ADD", payload: props });
+              }
+            }}
           >
             Add To Cart
           </Button>

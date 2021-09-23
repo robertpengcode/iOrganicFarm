@@ -11,25 +11,24 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import DeleteIcon from "@material-ui/icons/Delete";
+import ClearIcon from "@material-ui/icons/Clear";
 import Image from "material-ui-image";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
-    //border: "solid green",
     padding: "0.3rem",
     width: "100%",
   },
   cartContainer: {
-    //border: "solid brown",
     marginLeft: "auto",
     marginRight: "auto",
-    width: "70%",
+    width: "75%",
     [theme.breakpoints.down("md")]: {
-      width: "80%",
+      width: "85%",
     },
     [theme.breakpoints.down("sm")]: {
-      width: "90%",
+      width: "95%",
     },
     [theme.breakpoints.down("xs")]: {
       width: "100%",
@@ -39,42 +38,77 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.text,
     fontSize: "1.8rem",
     color: theme.palette.common.armyGreen,
+    [theme.breakpoints.down("sm")]: {
+        fontSize: "1.5rem",
+      },
+  },
+  cartPaper: {
+    height: "7rem",
+    marginBottom: "0.5rem",
+    [theme.breakpoints.down("sm")]: {
+      height: "5rem",
+    },
   },
   cartItem: {
     ...theme.typography.text,
-    border: "solid blue",
-    height: "5rem",
+    height: "100%",
   },
   cartItem2: {
     ...theme.typography.text,
-    border: "solid red",
-    width: "20%",
     textAlign: "center",
+    fontSize: "1.5rem",
+    color: theme.palette.secondary.main,
   },
   cartItem3: {
     ...theme.typography.text,
-    border: "solid blue",
     height: "7rem",
+    [theme.breakpoints.down("sm")]: {
+        height: "5rem",
+      },
   },
   cartItem4: {
     marginTop: "2rem",
+    [theme.breakpoints.down("sm")]: {
+        marginTop: "1rem",
+      },
   },
   cartItemPic: {
-    height: "5rem",
+    marginTop: "0.25rem",
+    marginLeft: "0.25rem",
+    height: "6.5rem",
     aspectRatio: "1",
-    border: "dotted purple",
+    [theme.breakpoints.down("sm")]: {
+        height: "4.5rem",
+      },
   },
   cartItemLeft: {
-    width: "60%",
-    border: "solid yellow",
+    width: "75%",
+    height: "7rem",
+    [theme.breakpoints.down("sm")]: {
+      height: "5rem",
+    },
   },
   cartItemRight: {
-    width: "30%",
-    border: "solid yellow",
+    width: "25%",
+    height: "7rem",
+    [theme.breakpoints.down("sm")]: {
+      height: "5rem",
+    },
+  },
+  cartIconButton: {
+    marginTop: "2rem",
+    [theme.breakpoints.down("sm")]: {
+        marginTop: "1.3rem",
+      },
+  },
+  cartIcon: {
+    fontSize: "large",
+    [theme.breakpoints.down("sm")]: {
+        fontSize: "small",
+      },
   },
   cartButton: {
     ...theme.typography.text,
-    //fontSize: "1.2rem",
     fontWeight: "bold",
     color: theme.palette.common.armyGreen,
   },
@@ -82,10 +116,34 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.text,
     textAlign: "center",
     fontSize: "1.5rem",
-    //width: "60%",
-    //border: "solid red",
     color: theme.palette.secondary.main,
     marginBottom: "1.2rem",
+  },
+  cartVendor: {
+    ...theme.typography.text,
+    color: theme.palette.common.armyGreen,
+    fontSize: "1rem",
+    [theme.breakpoints.down("sm")]: {
+        fontSize: "0.8rem",
+      },
+  },
+  cartProdName: {
+    ...theme.typography.text,
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    color: theme.palette.secondary.main,
+    [theme.breakpoints.down("sm")]: {
+        fontSize: "0.8rem",
+      },
+  },
+  cartPrice: {
+    ...theme.typography.text,
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    color: theme.palette.secondary.main,
+    [theme.breakpoints.down("sm")]: {
+        fontSize: "0.8rem",
+      },
   },
 }));
 
@@ -106,65 +164,81 @@ const ShoppingCart = () => {
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
           {cartItems.map((cartItem, i) => (
-            <Grid item key={cartItem.id} className={classes.cartItem}>
-              <Grid container justifyContent="space-between">
-                <Grid item className={classes.cartItemLeft}>
-                  <Grid
-                    container
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Grid item className={classes.cartItemPic}>
-                      <Image src={cartItem.imgUrl} />
+            <Paper className={classes.cartPaper}>
+              <Grid item key={cartItem.id} className={classes.cartItem}>
+                <Grid container justifyContent="space-between">
+                  <Grid item className={classes.cartItemLeft}>
+                    <Grid
+                      container
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item className={classes.cartItemPic}>
+                        <Image src={cartItem.imgUrl} />
+                      </Grid>
+                      <Grid item className={classes.cartVendor}>
+                        {cartItem.vendor}
+                      </Grid>
+                      <Grid item className={classes.cartProdName}>
+                        {cartItem.name}
+                      </Grid>
+                      <Grid item className={classes.cartPrice}>
+                        ${cartItem.price}/{cartItem.unit}
+                      </Grid>
+                      <Grid item className={classes.cartPrice}>
+                        Qty: {cartItem.quantity}
+                      </Grid>
                     </Grid>
-                    <Grid item>{cartItem.name}</Grid>
-                    <Grid item>{cartItem.vendor}</Grid>
-                    <Grid item>Price: ${cartItem.price}</Grid>
-                    <Grid item>Quantity: {cartItem.quantity}</Grid>
                   </Grid>
-                </Grid>
-                <Grid item className={classes.cartItemRight}>
-                  <Grid container justifyContent="flex-end">
-                    <Grid item>
-                      <IconButton
-                        onClick={() =>
-                          dispatch({ type: "INCREASE", payload: cartItem })
-                        }
-                      >
-                        <AddIcon />
-                      </IconButton>
-                    </Grid>
-                    <Grid item>
-                      <IconButton
-                        onClick={() => {
-                          if (cartItem.quantity > 1) {
-                            dispatch({ type: "DECREASE", payload: cartItem });
-                          } else {
-                            dispatch({ type: "REMOVE", payload: cartItem });
+                  <Grid item className={classes.cartItemRight} >
+                    <Grid container justifyContent="center" alignContent="center">
+                      <Grid item className={classes.cartIconButton}>
+                        <IconButton
+                          onClick={() =>
+                            dispatch({ type: "INCREASE", payload: cartItem })
                           }
-                        }}
-                      >
-                        <RemoveIcon />
-                      </IconButton>
-                    </Grid>
-                    <Grid item>
-                      <IconButton
-                        onClick={() =>
-                          dispatch({ type: "REMOVE", payload: cartItem })
-                        }
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                        >
+                          <AddIcon className={classes.cartIcon}/>
+                        </IconButton>
+                      </Grid>
+                      <Grid item className={classes.cartIconButton}>
+                        <IconButton
+                          onClick={() => {
+                            if (cartItem.quantity > 1) {
+                              dispatch({ type: "DECREASE", payload: cartItem });
+                            } else {
+                              dispatch({ type: "REMOVE", payload: cartItem });
+                            }
+                          }}
+                        >
+                          <RemoveIcon className={classes.cartIcon}/>
+                        </IconButton>
+                      </Grid>
+                      <Grid item className={classes.cartIconButton}>
+                        <IconButton
+                          onClick={() =>
+                            dispatch({ type: "REMOVE", payload: cartItem })
+                          }
+                        >
+                          <ClearIcon className={classes.cartIcon}/>
+                        </IconButton>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            </Paper>
           ))}
 
           <Grid item className={classes.cartItem3}>
             {cartItems.length ? (
-              <Grid container justifyContent="center" alignItems="center" className={classes.cartItem4}>
+              <Grid
+                container
+                justifyContent="center"
+                spacing={2}
+                alignItems="center"
+                className={classes.cartItem4}
+              >
                 <Grid item className={classes.cartItem2}>
                   Cart Total ${totalPrice}
                 </Grid>
@@ -175,7 +249,7 @@ const ShoppingCart = () => {
                     size="medium"
                     className={classes.cartButton}
                   >
-                    Check Out
+                    Checkout
                   </Button>
                 </Grid>
                 <Grid item className={classes.cartItem2}>
@@ -192,7 +266,12 @@ const ShoppingCart = () => {
                 </Grid>
               </Grid>
             ) : (
-              <Grid container direction="column" justifyContent="center" alignItems="center">
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
                 <Grid item>
                   <Typography className={classes.cartEmptyText}>
                     Shopping Cart is Empty...
