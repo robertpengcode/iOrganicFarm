@@ -118,6 +118,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.5rem",
     color: theme.palette.secondary.main,
     marginBottom: "1.2rem",
+    [theme.breakpoints.down("sm")]: {
+        fontSize: "1.2rem",
+        marginBottom: "0.5rem",
+      },
   },
   cartVendor: {
     ...theme.typography.text,
@@ -155,7 +159,7 @@ const ShoppingCart = () => {
   console.log("ck", cartItems);
   const totalPrice = cartItems.reduce((total, item) => {
     return (total += item.price * item.quantity);
-  }, 0);
+  }, 0).toFixed(2);
   console.log("ck", totalPrice);
 
   return (
