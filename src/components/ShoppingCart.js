@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.8rem",
     color: theme.palette.common.armyGreen,
     [theme.breakpoints.down("sm")]: {
-        fontSize: "1.5rem",
-      },
+      fontSize: "1.5rem",
+    },
   },
   cartPaper: {
     height: "7rem",
@@ -63,14 +63,14 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.text,
     height: "7rem",
     [theme.breakpoints.down("sm")]: {
-        height: "5rem",
-      },
+      height: "5rem",
+    },
   },
   cartItem4: {
     marginTop: "2rem",
     [theme.breakpoints.down("sm")]: {
-        marginTop: "1rem",
-      },
+      marginTop: "1rem",
+    },
   },
   cartItemPic: {
     marginTop: "0.25rem",
@@ -78,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
     height: "6.5rem",
     aspectRatio: "1",
     [theme.breakpoints.down("sm")]: {
-        height: "4.5rem",
-      },
+      height: "4.5rem",
+    },
   },
   cartItemLeft: {
     width: "75%",
@@ -98,14 +98,14 @@ const useStyles = makeStyles((theme) => ({
   cartIconButton: {
     marginTop: "2rem",
     [theme.breakpoints.down("sm")]: {
-        marginTop: "1.3rem",
-      },
+      marginTop: "1.3rem",
+    },
   },
   cartIcon: {
     fontSize: "large",
     [theme.breakpoints.down("sm")]: {
-        fontSize: "small",
-      },
+      fontSize: "small",
+    },
   },
   cartButton: {
     ...theme.typography.text,
@@ -124,8 +124,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.armyGreen,
     fontSize: "1rem",
     [theme.breakpoints.down("sm")]: {
-        fontSize: "0.8rem",
-      },
+      fontSize: "0.8rem",
+    },
   },
   cartProdName: {
     ...theme.typography.text,
@@ -133,8 +133,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: theme.palette.secondary.main,
     [theme.breakpoints.down("sm")]: {
-        fontSize: "0.8rem",
-      },
+      fontSize: "0.8rem",
+    },
   },
   cartPrice: {
     ...theme.typography.text,
@@ -142,8 +142,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: theme.palette.secondary.main,
     [theme.breakpoints.down("sm")]: {
-        fontSize: "0.8rem",
-      },
+      fontSize: "0.8rem",
+    },
   },
 }));
 
@@ -160,12 +160,12 @@ const ShoppingCart = () => {
 
   return (
     <Container>
-      <Typography className={classes.cartTitle}>Shopping Cart</Typography>
+      <Typography className={classes.cartTitle}>My Shopping Cart</Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
           {cartItems.map((cartItem, i) => (
-            <Paper className={classes.cartPaper}>
-              <Grid item key={cartItem.id} className={classes.cartItem}>
+            <Paper key={cartItem.id} className={classes.cartPaper}>
+              <Grid item className={classes.cartItem}>
                 <Grid container justifyContent="space-between">
                   <Grid item className={classes.cartItemLeft}>
                     <Grid
@@ -190,15 +190,19 @@ const ShoppingCart = () => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item className={classes.cartItemRight} >
-                    <Grid container justifyContent="center" alignContent="center">
+                  <Grid item className={classes.cartItemRight}>
+                    <Grid
+                      container
+                      justifyContent="center"
+                      alignContent="center"
+                    >
                       <Grid item className={classes.cartIconButton}>
                         <IconButton
                           onClick={() =>
                             dispatch({ type: "INCREASE", payload: cartItem })
                           }
                         >
-                          <AddIcon className={classes.cartIcon}/>
+                          <AddIcon className={classes.cartIcon} />
                         </IconButton>
                       </Grid>
                       <Grid item className={classes.cartIconButton}>
@@ -211,7 +215,7 @@ const ShoppingCart = () => {
                             }
                           }}
                         >
-                          <RemoveIcon className={classes.cartIcon}/>
+                          <RemoveIcon className={classes.cartIcon} />
                         </IconButton>
                       </Grid>
                       <Grid item className={classes.cartIconButton}>
@@ -220,7 +224,7 @@ const ShoppingCart = () => {
                             dispatch({ type: "REMOVE", payload: cartItem })
                           }
                         >
-                          <ClearIcon className={classes.cartIcon}/>
+                          <ClearIcon className={classes.cartIcon} />
                         </IconButton>
                       </Grid>
                     </Grid>
