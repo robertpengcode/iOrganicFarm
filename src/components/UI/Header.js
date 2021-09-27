@@ -72,7 +72,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawerItemSelected: {
+    ...theme.typography.tab,
     opacity: 1,
+    "&:hover": {
+      opacity: 1,
+    },
   },
 }));
 
@@ -242,7 +246,7 @@ export default function Header(props) {
               <ListItemText
                 className={
                   props.tabValue === route.tabValue
-                    ? [classes.drawerItem, classes.drawerItemSelected]
+                    ? classes.drawerItemSelected
                     : classes.drawerItem
                 }
                 disableTypography

@@ -156,13 +156,13 @@ const ShoppingCart = () => {
   const cartItems = useSelector((state) => state.cartItems);
   const dispatch = useDispatch();
 
-  console.log("ck", cartItems);
+  //console.log("ck", cartItems);
   const totalPrice = cartItems
     .reduce((total, item) => {
       return (total += item.price * item.quantity);
     }, 0)
     .toFixed(2);
-  console.log("ck", totalPrice);
+  //console.log("ck", totalPrice);
 
   function runFetch(e) {
     e.preventDefault();
@@ -177,46 +177,20 @@ const ShoppingCart = () => {
         items: cartItems,
       }),
     }).then((res) => {
-      if (res.ok) return res.json();
-      return res.json().then((json) => Promise.reject(json));
-    });
-    // .then(({url})=>{
-    //   window.location = url
-    // })
+      // if (res.ok) return res.json();
+      // return res.json().then((json) => Promise.reject(json));
+      return res.json();
+    })
+    .then(({url})=>{
+      window.location = url
+    })
     // .then(data => {
     //   setClientSecret(data.clientSecret);
     // })
-    // .catch((e) => {
-    //   console.error(e.error);
-    // });
+    .catch((e) => {
+      console.error(e.error);
+    });
   }
-
-  // useEffect(() => {
-  //   // Create PaymentIntent as soon as the page loads
-  //   window
-  //     .fetch("/create-payment-intent", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         items: [{ id: 1, quantity: 2 }],
-  //       }),
-  //     })
-  //     .then((res) => {
-  //       if (res.ok) return res.json()
-  //       return res.json().then(json => Promise.reject(json));
-  //     })
-  //     .then(({url})=>{
-  //       window.location = url
-  //     })
-  //     // .then(data => {
-  //     //   setClientSecret(data.clientSecret);
-  //     // })
-  //     .catch((e) => {
-  //       console.error(e.error);
-  //     });
-  // }, []);
 
   return (
     <Container>
