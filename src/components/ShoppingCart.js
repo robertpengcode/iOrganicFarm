@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -119,9 +119,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     marginBottom: "1.2rem",
     [theme.breakpoints.down("sm")]: {
-        fontSize: "1.2rem",
-        marginBottom: "0.5rem",
-      },
+      fontSize: "1.2rem",
+      marginBottom: "0.5rem",
+    },
   },
   cartVendor: {
     ...theme.typography.text,
@@ -157,10 +157,66 @@ const ShoppingCart = () => {
   const dispatch = useDispatch();
 
   console.log("ck", cartItems);
-  const totalPrice = cartItems.reduce((total, item) => {
-    return (total += item.price * item.quantity);
-  }, 0).toFixed(2);
+  const totalPrice = cartItems
+    .reduce((total, item) => {
+      return (total += item.price * item.quantity);
+    }, 0)
+    .toFixed(2);
   console.log("ck", totalPrice);
+
+  function runFetch(e) {
+    e.preventDefault();
+    console.log("run fetch");
+
+    fetch("http://localhost:8080/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        items: cartItems,
+      }),
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((json) => Promise.reject(json));
+    });
+    // .then(({url})=>{
+    //   window.location = url
+    // })
+    // .then(data => {
+    //   setClientSecret(data.clientSecret);
+    // })
+    // .catch((e) => {
+    //   console.error(e.error);
+    // });
+  }
+
+  // useEffect(() => {
+  //   // Create PaymentIntent as soon as the page loads
+  //   window
+  //     .fetch("/create-payment-intent", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         items: [{ id: 1, quantity: 2 }],
+  //       }),
+  //     })
+  //     .then((res) => {
+  //       if (res.ok) return res.json()
+  //       return res.json().then(json => Promise.reject(json));
+  //     })
+  //     .then(({url})=>{
+  //       window.location = url
+  //     })
+  //     // .then(data => {
+  //     //   setClientSecret(data.clientSecret);
+  //     // })
+  //     .catch((e) => {
+  //       console.error(e.error);
+  //     });
+  // }, []);
 
   return (
     <Container>
@@ -251,14 +307,36 @@ const ShoppingCart = () => {
                   Cart Total ${totalPrice}
                 </Grid>
                 <Grid item className={classes.cartItem2}>
+                  {/* <form action="/create-checkout-session" method="POST">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="medium"
+                      className={classes.cartButton}
+                      // onClick={runFetch}
+                    >
+                      Checkout
+                    </Button>
+                  </form> */}
                   <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    className={classes.cartButton}
+                    onClick={runFetch}
+                  >
+                    Checkout
+                  </Button>
+                  {/* <Button
                     variant="contained"
                     color="primary"
                     size="medium"
                     className={classes.cartButton}
                   >
                     Checkout
-                  </Button>
+                  </Button> */}
                 </Grid>
                 <Grid item className={classes.cartItem2}>
                   <Button

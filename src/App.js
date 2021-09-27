@@ -10,6 +10,8 @@ import Exchange from "./components/Market/Exchange";
 import ContactUs from "./components/ContactUs";
 import Footer from "./components/UI/Footer";
 import ThankYou from "./components/ThankYou";
+import Success from "./components/Success";
+import Canceled from "./components/Canceled";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import myTheme from "./components/UI/Theme";
@@ -36,6 +38,8 @@ function App() {
           <Route exact path="/exchange" component={Exchange} />
           <Route exact path="/contact" component={ContactUs} />
           <Route exact path="/thankyou" component={ThankYou} />
+          <Route exact path="/success" component={Success} />
+          <Route exact path="/canceled" component={Canceled} />
           <Redirect to="/" />
         </Switch>
         <Footer
