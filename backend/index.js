@@ -1,10 +1,18 @@
 require("dotenv").config();
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 8080;
+//connect to DB
+mongoose.connect(process.env.DB_CONNECT, () => console.log("connected to db!"));
+//Import Routes
+const authRoute = require("./routes/auth");
+
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+
 app.use(express.json());
-//app.use(express.static("public"));
+
 app.use(
   cors({
     //origin: "*",
@@ -13,7 +21,7 @@ app.use(
   })
 );
 
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+app.use("/api/user", authRoute);
 
 app.get("/", cors(), (req, res) => res.send("Hello!!! running..."));
 
@@ -30,7 +38,7 @@ app.post("/create-checkout-session", cors(), async (req, res) => {
       success_url: `${process.env.CLIENT_URL}/success`,
       cancel_url: `${process.env.CLIENT_URL}/canceled`,
     });
-    res.json({id: session.id, url: session.url});
+    res.json({ id: session.id, url: session.url });
     //res.redirect(303, session.url);
   } catch (e) {
     res.status(500).json({ error: e.message });
