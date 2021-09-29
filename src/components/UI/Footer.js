@@ -62,7 +62,7 @@ export default function Footer(props) {
               item
               component={Link}
               to="/"
-              className={[classes.gridItemMain, classes.gridLink]}
+              className={`${classes.gridItemMain}+${classes.gridLink}`}
               onClick={() => {
                 props.setTabValue(0);
               }}
@@ -77,7 +77,7 @@ export default function Footer(props) {
               item
               component={Link}
               to="/about"
-              className={[classes.gridItemMain, classes.gridLink]}
+              className={`${classes.gridItemMain}+${classes.gridLink}`}
               onClick={() => {
                 props.setTabValue(1);
               }}
@@ -92,7 +92,7 @@ export default function Footer(props) {
               item
               component={Link}
               to="/market"
-              className={[classes.gridItemMain, classes.gridLink]}
+              className={`${classes.gridItemMain}+${classes.gridLink}`}
               onClick={() => {
                 props.setTabValue(2);
                 props.setSelectedIndex(0);
@@ -132,7 +132,7 @@ export default function Footer(props) {
               item
               component={Link}
               to="/contact"
-              className={[classes.gridItemMain, classes.gridLink]}
+              className={`${classes.gridItemMain}+${classes.gridLink}`}
               onClick={() => {
                 props.setTabValue(3);
               }}

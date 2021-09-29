@@ -156,7 +156,7 @@ export default function ContactUs() {
       <form className={classes.contactform} onSubmit={sendEmail}>
         <Grid container direction="column">
           <Grid item>
-            <Grid container direction="row" alignItems="flex-end" justify="center" spacing={1}>
+            <Grid container direction="row" alignItems="flex-end" justifyContent="center" spacing={1}>
               <Grid item><EmailIcon fontSize="large" className={classes.emailIcon}/></Grid>
               <Grid item><Typography className={classes.emailTitle}>Email Us</Typography></Grid>
             </Grid>
