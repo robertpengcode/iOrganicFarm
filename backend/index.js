@@ -4,13 +4,17 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 8080;
-//connect to DB
-mongoose.connect(process.env.DB_CONNECT, () => console.log("connected to db!"));
+
 //Import Routes
 const authRoute = require("./routes/auth");
+const testRoute = require("./routes/test");
+
+//connect to DB
+mongoose.connect(process.env.DB_CONNECT, () => console.log("connected to db!"));
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
+//Middleware
 app.use(express.json());
 
 app.use(
@@ -21,7 +25,9 @@ app.use(
   })
 );
 
+//Route Middlewares
 app.use("/api/user", authRoute);
+app.use("/api/test", testRoute);
 
 app.get("/", cors(), (req, res) => res.send("Hello!!! running..."));
 
