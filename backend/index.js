@@ -8,11 +8,10 @@ const port = process.env.PORT || 8080;
 //Import Routes
 const authRoute = require("./routes/auth");
 const testRoute = require("./routes/test");
+const stripeRoute = require("./routes/stripe");
 
 //connect to DB
 mongoose.connect(process.env.DB_CONNECT, () => console.log("connected to db!"));
-
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 //Middleware
 app.use(express.json());
@@ -28,27 +27,8 @@ app.use(
 //Route Middlewares
 app.use("/api/user", authRoute);
 app.use("/api/test", testRoute);
+app.use("/", stripeRoute);
 
 app.get("/", cors(), (req, res) => res.send("Hello!!! running..."));
-
-app.post("/create-checkout-session", cors(), async (req, res) => {
-  const items = req.body.items.map((item) => ({
-    price: item.priceId,
-    quantity: item.quantity,
-  }));
-  try {
-    const session = await stripe.checkout.sessions.create({
-      line_items: items,
-      payment_method_types: ["card"],
-      mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/success`,
-      cancel_url: `${process.env.CLIENT_URL}/canceled`,
-    });
-    res.json({ id: session.id, url: session.url });
-    //res.redirect(303, session.url);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
 
 app.listen(port, () => console.log(`listening on ${port}...`));
