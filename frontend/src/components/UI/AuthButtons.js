@@ -1,5 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -10,17 +11,28 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.secondary.main,
-    marginTop: "0.8rem",
   },
 }));
 
 export default function AuthButtons() {
+  const auth = useContext(AuthContext);
+
   const classes = useStyles();
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    auth.signIn();
+  }
+
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    auth.signOut();
+  }
 
   const signup = (
     <Button
       variant="contained"
-      size="medium"
+      size="small"
       color="primary"
       className={classes.authButton}
       component={Link}
@@ -30,20 +42,21 @@ export default function AuthButtons() {
     </Button>
   );
 
-  const login = (
+  const signIn = (
     <Button
       variant="contained"
-      size="medium"
+      size="small"
       color="primary"
       className={classes.authButton}
       component={Link}
       to="/signin"
+      //onClick={handleSignIn}
     >
       SIGN IN
     </Button>
   );
 
-  const logout = (
+  const signOut = (
     <Button
       variant="contained"
       size="medium"
@@ -51,16 +64,16 @@ export default function AuthButtons() {
       className={classes.authButton}
       //component={Link}
       //to="/shop"
+      onClick={handleSignOut}
     >
-      LOG OUT
+      SIGN OUT
     </Button>
   );
 
   return (
     <Fragment>
-      {signup}
-      {login}
-      {logout}
+      {!auth.isSignedIn && signIn}
+      {auth.isSignedIn && signOut}
     </Fragment>
   );
 }
