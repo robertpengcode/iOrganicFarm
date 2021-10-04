@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Header from "./components/UI/Header";
 import Home from "./components/Home";
+import CreateAccount from "./components/CreateAccount";
+import Signin from "./components/Signin";
 import AboutUs from "./components/AboutUs";
 import Market from "./components/Market/Market";
 import Shop from "./components/Market/Shop";
@@ -31,6 +33,8 @@ function App() {
         />
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/create" component={CreateAccount} />
+          <Route exact path="/signin" component={Signin} />
           <Route exact path="/about" component={AboutUs} />
           <Route exact path="/market" component={Market} />
           <Route exact path="/shop" component={Shop} />

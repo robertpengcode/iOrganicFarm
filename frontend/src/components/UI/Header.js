@@ -1,6 +1,9 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+import AuthButtons from "./AuthButtons";
+
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -280,6 +283,7 @@ export default function Header(props) {
               iOrganicFarm
             </Typography>
             {matches ? drawer : tabs}
+            <AuthButtons/>
             {cartIcon}
           </Toolbar>
         </AppBar>
