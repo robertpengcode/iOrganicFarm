@@ -1,23 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
-import emailjs from "emailjs-com";
+import React, { useState, useEffect, useContext } from "react";
+import { Redirect, Link } from "react-router-dom";
+
+import { AuthContext } from "./../context/authContext";
+
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import EmailIcon from '@material-ui/icons/Email';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
-const serviceID = process.env.REACT_APP_SERVICE_ID;
-const templateID = process.env.REACT_APP_TEMPLATE_ID;
-const userID = process.env.REACT_APP_USER_ID;
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paperContainer: {
     backgroundImage: `url(contactImg.jpg)`,
     height: "78vh",
@@ -31,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.down("xs")]: {
       height: "82vh",
-    }
+    },
   },
   container: {
     height: "100%",
@@ -46,12 +39,9 @@ const useStyles = makeStyles(theme => ({
   contactform: {
     textAlign: "Center",
   },
-  emailTitle: {
+  formTitle: {
     ...theme.typography.text,
     fontSize: "2rem",
-    color: theme.palette.common.armyGreen,
-  },
-  emailIcon: {
     color: theme.palette.common.armyGreen,
   },
   emailItem: {
@@ -59,12 +49,20 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "0.75rem",
     color: "blue",
   },
-  emailButton: {
+  signinButton: {
     ...theme.typography.text,
-    marginBottom: "1rem",
+    marginBottom: "2rem",
+    marginLeft: "0.5rem",
+    marginRight: "0.5rem",
+    marginTop: "1rem",
     fontSize: "1.2rem",
     fontWeight: "bold",
     color: theme.palette.common.armyGreen,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1rem",
+      marginTop: "0.5rem",
+      marginBottom: "1rem",
+    },
   },
   selectMenu: {
     width: "80%",
@@ -77,97 +75,70 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Signin() {
+export default function SignIn() {
   const classes = useStyles();
+  const auth = useContext(AuthContext);
 
-  const initialEmailValues = {
-    subject: "",
-    name: "",
+  const initialSignInValues = {
     email: "",
-    phone: "",
-    message: "",
-    iWantTo: "",
+    password: "",
   };
 
-  const [emailValues, setEmailValues] = useState(initialEmailValues);
-  const [emailSent, setEmailSent] = useState(false);
+  const [signInValues, setSignInValues] = useState(initialSignInValues);
+  //const [emailSent, setEmailSent] = useState(false);
 
-  function redirectToThankYou() {
-    setEmailSent(true);
-  }
+  // function redirectToThankYou() {
+  //   setEmailSent(true);
+  // }
 
-  function sendEmail(e) {
-    e.preventDefault();
-    emailjs.sendForm(serviceID, templateID, e.target, userID).then(
-      (result) => {
-        redirectToThankYou();
-      },
-      (error) => {
-        console.log(error.text);
-      }
-    );
-    setEmailValues(initialEmailValues);
-  }
+  // function sendEmail(e) {
+  //   e.preventDefault();
+  //   emailjs.sendForm(serviceID, templateID, e.target, userID).then(
+  //     (result) => {
+  //       redirectToThankYou();
+  //     },
+  //     (error) => {
+  //       console.log(error.text);
+  //     }
+  //   );
+  //   setEmailValues(initialEmailValues);
+  // }
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setEmailValues({
-      ...emailValues,
-      [name]: value,
-    });
-  }
-
-  function handleChangeSelect(e) {
-    const { name, value } = e.target;
-    setEmailValues({
-      ...emailValues,
+    setSignInValues({
+      ...signInValues,
       [name]: value,
     });
   }
 
   useEffect(() => {
-    setEmailValues(emailValues);
-  }, [emailValues]);
+    setSignInValues(signInValues);
+  }, [signInValues]);
 
-  useEffect(() => {
-    if (emailSent === true) {
-      setEmailSent(false);
-    }
-  }, [emailSent]);
+  // useEffect(() => {
+  //   if (emailSent === true) {
+  //     setEmailSent(false);
+  //   }
+  // }, [emailSent]);
 
-  // const selectMenu = (
-  //   <FormControl className={classes.formControl}>
-  //       <InputLabel id="iWantTo">I want to...</InputLabel>
-  //       <Select
-  //         name="iWantTo"
-  //         value={emailValues.iWantTo}
-  //         onChange={handleChangeSelect}
-  //       >
-  //         <MenuItem value="beVendor">become an organic produce vendor.</MenuItem>
-  //         <MenuItem value="beShopper">become an organic produce shopper.</MenuItem>
-  //         <MenuItem value="askQuestions">ask questions.</MenuItem>
-  //         <MenuItem value="">leave blank.</MenuItem>
-  //       </Select>
-  //     </FormControl>
-  // )
-
-  const emailForm = (
+  const signInForm = (
     <Paper className={classes.paper}>
-      <form className={classes.contactform} onSubmit={sendEmail}>
+      <form className={classes.contactform}
+       //onSubmit={sendEmail}
+       >
         <Grid container direction="column">
           <Grid item>
-            <Grid container direction="row" alignItems="flex-end" justifyContent="center" spacing={1}>
-              <Grid item><Typography className={classes.emailTitle}>Sign In</Typography></Grid>
-            </Grid>
+            <Typography className={classes.formTitle}>Sign In</Typography>
           </Grid>
-          
           <Grid item>
             <TextField
               required
               id="email"
               label="Your Email (Required)"
               name="email"
-              value={emailValues.email}
+              //value={emailValues.email}
+              value={signInValues.email}
               onChange={handleChange}
               className={classes.emailItem}
             />
@@ -178,7 +149,7 @@ export default function Signin() {
               id="password"
               label="Password (Required)"
               name="password"
-              value={emailValues.subject}
+              value={signInValues.password}
               onChange={handleChange}
               className={classes.emailItem}
             />
@@ -190,24 +161,47 @@ export default function Signin() {
               variant="contained"
               size="medium"
               color="primary"
-              className={classes.emailButton}
+              className={classes.signinButton}
             >
               SIGN IN MY ACCOUNT
+            </Button>
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              className={classes.signinButton}
+              component={Link}
+              to="/create"
+            >
+              CREATE NEW ACCOUNT
             </Button>
           </Grid>
         </Grid>
       </form>
     </Paper>
   );
-  return emailSent === false ? 
-  <Paper className={classes.paperContainer}>
-    <Grid container className={classes.container} alignItems="center">
-      <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-      <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
-        {emailForm}
+  // return emailSent === false ? (
+  //   <Paper className={classes.paperContainer}>
+  //     <Grid container className={classes.container} alignItems="center">
+  //       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
+  //       <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
+  //         {emailForm}
+  //       </Grid>
+  //       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
+  //     </Grid>
+  //   </Paper>
+  // ) : (
+  //   <Redirect to="/thankyou" />
+  // );
+  return (
+      <Paper className={classes.paperContainer}>
+      <Grid container className={classes.container} alignItems="center">
+        <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
+        <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
+          {signInForm}
+        </Grid>
+        <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
       </Grid>
-      <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-    </Grid>
-  </Paper>
-  : <Redirect to="/thankyou" />;
+    </Paper>
+  )
 }

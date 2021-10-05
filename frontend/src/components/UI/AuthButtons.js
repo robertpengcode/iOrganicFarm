@@ -29,19 +29,6 @@ export default function AuthButtons() {
     auth.signOut();
   }
 
-  const signup = (
-    <Button
-      variant="contained"
-      size="small"
-      color="primary"
-      className={classes.authButton}
-      component={Link}
-      to="/create"
-    >
-      CREATE ACCOUNT
-    </Button>
-  );
-
   const signIn = (
     <Button
       variant="contained"
