@@ -7,6 +7,7 @@ const port = process.env.PORT || 8080;
 
 //Import Routes
 const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
 const testRoute = require("./routes/test");
 const stripeRoute = require("./routes/stripe");
 
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 
 //Route Middlewares
 app.use("/api/user", authRoute);
+app.use("/api/product", productRoute);
 app.use("/api/test", testRoute);
 app.use("/", stripeRoute);
 
