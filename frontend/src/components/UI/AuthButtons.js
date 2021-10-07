@@ -19,10 +19,10 @@ export default function AuthButtons() {
 
   const classes = useStyles();
 
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    auth.signIn();
-  }
+  // const handleSignIn = (e) => {
+  //   e.preventDefault();
+  //   auth.signIn();
+  // }
 
   const handleSignOut = (e) => {
     e.preventDefault();

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Loading from "./UI/Loading";
+import Error from "./UI/Error";
+
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -70,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateAccount() {
+
   const classes = useStyles();
 
   const initialAccountValues = {
@@ -79,23 +83,15 @@ export default function CreateAccount() {
   };
 
   const [accountValues, setAccountValues] = useState(initialAccountValues);
-  //const [emailSent, setEmailSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    setAccountValues(accountValues);
+  }, [accountValues]);
 
   // function redirectToThankYou() {
   //   setEmailSent(true);
-  // }
-
-  // function sendEmail(e) {
-  //   e.preventDefault();
-  //   emailjs.sendForm(serviceID, templateID, e.target, userID).then(
-  //     (result) => {
-  //       redirectToThankYou();
-  //     },
-  //     (error) => {
-  //       console.log(error.text);
-  //     }
-  //   );
-  //   setAccountValues(initialEmailValues);
   // }
 
   function handleChange(e) {
@@ -106,27 +102,55 @@ export default function CreateAccount() {
     });
   }
 
-  useEffect(() => {
-    setAccountValues(accountValues);
-  }, [accountValues]);
+  async function handleCreateAccount(e) {
+    e.preventDefault();
+    console.log("handle create!!");
+    setIsLoading(true);
 
-  // useEffect(() => {
-  //   if (emailSent === true) {
-  //     setEmailSent(false);
-  //   }
-  // }, [emailSent]);
+    try {
+      const response = await fetch("http://localhost:8080/api/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: accountValues.name,
+          email: accountValues.email,
+          password: accountValues.password,
+        }),
+      });
+      const responseData = await response.json();
+      console.log('ck front', responseData);
+      if (!response.ok) {
+        //throw new Error(responseData.errorMessage);
+        setErrorMessage(
+          responseData.errorMessage
+        );
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error.message);
+      setIsLoading(false);
+      setErrorMessage(
+        error.message || "Something went wrong, please try again!"
+      );
+    }
+  };
+
+  
 
   const emailForm = (
     <Paper className={classes.paper}>
-      <form
-        className={classes.contactform}
-        //onSubmit={sendEmail}
-      >
+      <form className={classes.contactform} onSubmit={handleCreateAccount}>
         <Grid container direction="column">
           <Grid item>
             <Typography className={classes.formTitle}>
               Create Account
             </Typography>
+          </Grid>
+          <Grid item>
+            {isLoading && <Loading />}
+            {errorMessage && <Error message={errorMessage} />}
           </Grid>
           <Grid item>
             <TextField
@@ -177,27 +201,14 @@ export default function CreateAccount() {
     </Paper>
   );
   return (
-  //  emailSent === false ? (
-  //   <Paper className={classes.paperContainer}>
-  //     <Grid container className={classes.container} alignItems="center">
-  //       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-  //       <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
-  //         {emailForm}
-  //       </Grid>
-  //       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-  //     </Grid>
-  //   </Paper>
-  // ) : (
-  //   <Redirect to="/thankyou" />
-  // );
-  <Paper className={classes.paperContainer}>
-    <Grid container className={classes.container} alignItems="center">
-      <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-      <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
-        {emailForm}
+    <Paper className={classes.paperContainer}>
+      <Grid container className={classes.container} alignItems="center">
+        <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
+        <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
+          {emailForm}
+        </Grid>
+        <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
       </Grid>
-      <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-    </Grid>
-  </Paper>
-  )
+    </Paper>
+  );
 }

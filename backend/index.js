@@ -16,13 +16,22 @@ mongoose.connect(process.env.DB_CONNECT, () => console.log("connected to db!"));
 //Middleware
 app.use(express.json());
 
-app.use(
-  cors({
-    //origin: "*",
-    origin: "http://localhost:3000",
-    methods: ["POST", "GET"],
-  })
-);
+// app.use(
+//   cors({
+//     //origin: "*",
+//     origin: "http://localhost:3000",
+//     methods: ["POST", "GET"],
+//   })
+// );
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  next();
+})
 
 //Route Middlewares
 app.use("/api/user", authRoute);

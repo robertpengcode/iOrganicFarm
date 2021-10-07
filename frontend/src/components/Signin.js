@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect, Link } from "react-router-dom";
+import Loading from "./UI/Loading";
+import Error from "./UI/Error";
 
 import { AuthContext } from "./../context/authContext";
 
@@ -85,23 +87,15 @@ export default function SignIn() {
   };
 
   const [signInValues, setSignInValues] = useState(initialSignInValues);
-  //const [emailSent, setEmailSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    setSignInValues(signInValues);
+  }, [signInValues]);
 
   // function redirectToThankYou() {
   //   setEmailSent(true);
-  // }
-
-  // function sendEmail(e) {
-  //   e.preventDefault();
-  //   emailjs.sendForm(serviceID, templateID, e.target, userID).then(
-  //     (result) => {
-  //       redirectToThankYou();
-  //     },
-  //     (error) => {
-  //       console.log(error.text);
-  //     }
-  //   );
-  //   setEmailValues(initialEmailValues);
   // }
 
   function handleChange(e) {
@@ -112,24 +106,56 @@ export default function SignIn() {
     });
   }
 
-  useEffect(() => {
-    setSignInValues(signInValues);
-  }, [signInValues]);
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    console.log('handle signin!!')
+    setIsLoading(true);
 
-  // useEffect(() => {
-  //   if (emailSent === true) {
-  //     setEmailSent(false);
-  //   }
-  // }, [emailSent]);
+    try {
+      const response = await fetch("http://localhost:8080/api/user/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: signInValues.email,
+          password: signInValues.password,
+        }),
+      });
+      //console.log(response);
+      const responseData = await response.json();
+      console.log('ck front', responseData);
+      if (!response.ok) {
+        setIsLoading(false);
+        setErrorMessage(
+          responseData.errorMessage
+        );
+      } else {
+        setIsLoading(false);
+        auth.signIn();
+      }
+      //setIsLoading(false);
+    } catch (error) {
+      console.log(error.message);
+      setIsLoading(false);
+      setErrorMessage(
+        `Me ${error.message}` || "Something went wrong, please try again!"
+      );
+    }
+  }
 
   const signInForm = (
     <Paper className={classes.paper}>
       <form className={classes.contactform}
-       //onSubmit={sendEmail}
+       onSubmit={handleSignIn}
        >
         <Grid container direction="column">
           <Grid item>
             <Typography className={classes.formTitle}>Sign In</Typography>
+          </Grid>
+          <Grid item>
+            {isLoading && <Loading />}
+            {errorMessage && <Error message={errorMessage} />}
           </Grid>
           <Grid item>
             <TextField

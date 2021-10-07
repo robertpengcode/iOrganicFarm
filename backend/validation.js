@@ -4,7 +4,7 @@ const Joi = require('joi');
 const signupValidation = (data) => {
     const schema = Joi.object({
         name: Joi.string()
-            .min(6)
+            .min(3)
             .max(50)
             .required(),
     
@@ -15,7 +15,7 @@ const signupValidation = (data) => {
             .required(),
     
         password: Joi.string()
-            .min(6)
+            .min(4)
             .max(1000)
             .required(),
     });
