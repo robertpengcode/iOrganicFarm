@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "0.75rem",
     color: "blue",
   },
+  messageBox: {
+    marginBottom: "1rem",
+  },
   createButton: {
     ...theme.typography.text,
     marginBottom: "2rem",
@@ -148,7 +151,7 @@ export default function CreateAccount() {
               Create Account
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item className={classes.messageBox}>
             {isLoading && <Loading />}
             {errorMessage && <Error message={errorMessage} />}
           </Grid>
@@ -156,6 +159,7 @@ export default function CreateAccount() {
             <TextField
               required
               id="name"
+              variant="outlined"
               label="Your Full Name (Required)"
               name="name"
               value={accountValues.name}
@@ -167,6 +171,7 @@ export default function CreateAccount() {
             <TextField
               required
               id="email"
+              variant="outlined"
               label="Your Email (Required)"
               name="email"
               value={accountValues.email}
@@ -178,6 +183,7 @@ export default function CreateAccount() {
             <TextField
               required
               id="password"
+              variant="outlined"
               label="Password (Required)"
               name="password"
               value={accountValues.subject}

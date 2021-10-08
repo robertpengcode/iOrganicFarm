@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "0.75rem",
     color: "blue",
   },
+  messageBox: {
+    marginBottom: "1rem",
+  },
   signinButton: {
     ...theme.typography.text,
     marginBottom: "2rem",
@@ -153,7 +156,7 @@ export default function SignIn() {
           <Grid item>
             <Typography className={classes.formTitle}>Sign In</Typography>
           </Grid>
-          <Grid item>
+          <Grid item className={classes.messageBox}>
             {isLoading && <Loading />}
             {errorMessage && <Error message={errorMessage} />}
           </Grid>
@@ -161,6 +164,7 @@ export default function SignIn() {
             <TextField
               required
               id="email"
+              variant="outlined"
               label="Your Email (Required)"
               name="email"
               //value={emailValues.email}
@@ -173,6 +177,7 @@ export default function SignIn() {
             <TextField
               required
               id="password"
+              variant="outlined"
               label="Password (Required)"
               name="password"
               value={signInValues.password}

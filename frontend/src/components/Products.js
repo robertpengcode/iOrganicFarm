@@ -1,12 +1,37 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import ProdCard from "./ProdCard";
-//import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import SearchIcon from "@material-ui/icons/Search";
+import TextField from "@material-ui/core/TextField";
 
-//const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  searchBar: {
+    height: "3rem",
+    width: "20rem",
+    //border: "solid 2px purple",
+    borderRadius: "0.3rem",
+    marginBottom: "0.5rem",
+  },
+  searchIconBox: {
+    width: "2rem",
+    height: "2rem",
+  },
+  searchBox: {
+    width: "16rem",
+    //border: "solid green",
+    height: "3rem",
+  },
+}));
 
 const Products = () => {
-  //const classes = useStyles();
+  const classes = useStyles();
+  const [searchValue, setSearchValue] = useState("");
+
+  function handleSearch(e) {
+    const { value } = e.target;
+    setSearchValue(value);
+  }
 
   const products = [
     {
@@ -161,8 +186,7 @@ const Products = () => {
     },
     {
       name: "Basil",
-      imgUrl:
-        "https://robertpengcodefarm.s3.amazonaws.com/forFarmPj/basil.jpg",
+      imgUrl: "https://robertpengcodefarm.s3.amazonaws.com/forFarmPj/basil.jpg",
       vendor: "Zoey's Home Farm",
       price: 4.99,
       quantity: 1,
@@ -173,22 +197,46 @@ const Products = () => {
   ];
 
   return (
-    <Grid container spacing={2}>
-      {products.map((product, i) => (
-        <Grid item key={product.id}>
-          <ProdCard
-            imgUrl={product.imgUrl}
-            name={product.name}
-            vendor={product.vendor}
-            price={product.price}
-            quantity={product.quantity}
-            id={product.id}
-            unit={product.unit}
-            priceId={product.priceId}
+    <Fragment>
+      <Grid
+        container
+        className={classes.searchBar}
+        justifyContent="space-evenly"
+        alignItems="center"
+      >
+        <Grid item className={classes.searchIconBox}>
+          <SearchIcon />
+        </Grid>
+        <Grid item className={classes.searchBox}>
+          <TextField
+            id="search"
+            variant="outlined"
+            size="small"
+            name="search"
+            fullWidth
+            value={searchValue}
+            onChange={handleSearch}
+            placeholder="Search..."
           />
         </Grid>
-      ))}
-    </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        {products.map((product, i) => (
+          <Grid item key={product.id}>
+            <ProdCard
+              imgUrl={product.imgUrl}
+              name={product.name}
+              vendor={product.vendor}
+              price={product.price}
+              quantity={product.quantity}
+              id={product.id}
+              unit={product.unit}
+              priceId={product.priceId}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Fragment>
     //<Typography>...No Products</Typography>
   );
 };
