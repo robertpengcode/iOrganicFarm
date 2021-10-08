@@ -4,6 +4,20 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { signupValidation } = require("./../validation");
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    if (users) {
+      res.status(200).send(users);
+    } else {
+      return res.status(400).send({ errorMessage: "User not found!" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+});
+
 router.post("/signup", async (req, res) => {
   const { error } = signupValidation(req.body);
   if (error) return res.status(400).send({errorMessage: error.details[0].message});

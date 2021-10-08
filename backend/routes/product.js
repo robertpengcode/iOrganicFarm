@@ -1,10 +1,21 @@
 const router = require("express").Router();
 const Product = require("../model/ProductModel");
 
-router.post("/createProduct", async (req, res) => {
-  // const { error } = signupValidation(req.body);
-  // if (error) return res.status(400).send({errorMessage: error.details[0].message});
+router.get("/", async (req, res) => {
+  try {
+    const products = await Product.find();
+    if (products) {
+      res.status(200).send(products);
+    } else {
+      return res.status(400).send({ errorMessage: "Product not found!" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+});
 
+router.post("/createProduct", async (req, res) => {
   try {
     const productExist = await Product.findOne({
       name: req.body.name,
