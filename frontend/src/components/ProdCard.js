@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 const Card = (props) => {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cartItems);
-  console.log("ck", cartItems);
+  //console.log("ck", cartItems);
   const dispatch = useDispatch();
 
   return (
