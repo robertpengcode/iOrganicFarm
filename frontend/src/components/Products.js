@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import ProdCard from "./ProdCard";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
   searchBar: {
     height: "3rem",
     width: "20rem",
-    //border: "solid 2px purple",
     borderRadius: "0.3rem",
     marginBottom: "0.5rem",
   },
@@ -19,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
   },
   searchBox: {
     width: "16rem",
-    //border: "solid green",
     height: "3rem",
   },
 }));
@@ -54,7 +52,7 @@ const initialProducts = [
     vendor: "Zoey's Home Farm",
     price: 1.99,
     quantity: 1,
-    id: "003",
+    id: "prod_KIZlCQBo9qcg4g",
     unit: "lb",
     priceId: "price_1JdybXK6cEl29YLIGPJZQvgE",
   },
@@ -189,8 +187,36 @@ const initialProducts = [
 
 const Products = () => {
   const classes = useStyles();
-  const [productsState, setProductState] = useState(initialProducts);
+  const [productsState, setProductState] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    fetchProducts()
+  },[]);
+
+  async function fetchProducts() {
+    console.log("fetch products!!");
+    //setIsLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/product/");
+      const responseData = await response.json();
+      console.log('ck front', responseData);
+      setProductState(responseData);
+      // if (!response.ok) {
+      //   setErrorMessage(
+      //     responseData.errorMessage
+      //   );
+      // }
+      //setIsLoading(false);
+    } catch (error) {
+      console.log(error.message);
+      // setIsLoading(false);
+      // setErrorMessage(
+      //   error.message || "Something went wrong, please try again!"
+      // );
+    }
+  };
 
   function handleSearch(e) {
     const { value } = e.target;
