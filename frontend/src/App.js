@@ -82,6 +82,7 @@ function App() {
         <Route exact path="/thankyou" component={ThankYou} />
         {/* <Route exact path="/success" component={Success} />
         <Route exact path="/canceled" component={Canceled} /> */}
+        <Route exact path="/admin" component={Admin} />
         <Redirect to="/signin" />
       </Switch>
     );

@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.secondary.main,
+    marginLeft: "0.5rem",
   },
 }));
 
@@ -18,11 +19,6 @@ export default function AuthButtons() {
   const auth = useContext(AuthContext);
 
   const classes = useStyles();
-
-  // const handleSignIn = (e) => {
-  //   e.preventDefault();
-  //   auth.signIn();
-  // }
 
   const handleSignOut = (e) => {
     e.preventDefault();
@@ -37,7 +33,6 @@ export default function AuthButtons() {
       className={classes.authButton}
       component={Link}
       to="/signin"
-      //onClick={handleSignIn}
     >
       SIGN IN
     </Button>
@@ -49,17 +44,29 @@ export default function AuthButtons() {
       size="medium"
       color="primary"
       className={classes.authButton}
-      //component={Link}
-      //to="/shop"
       onClick={handleSignOut}
     >
       SIGN OUT
     </Button>
   );
 
+  const admin = (
+    <Button
+      variant="contained"
+      size="small"
+      color="primary"
+      className={classes.authButton}
+      component={Link}
+      to="/admin"
+    >
+      Admin
+    </Button>
+  );
+
   return (
     <Fragment>
       {!auth.isSignedIn && signIn}
+      {admin}
       {auth.isSignedIn && signOut}
     </Fragment>
   );
