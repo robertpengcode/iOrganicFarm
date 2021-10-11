@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ProductsContext } from "./../context/productsContext";
+import EditProducts from "./EditProducts";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -15,23 +16,14 @@ import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   adminContainer: {
-    height: "78vh",
-    width: "100%",
-    [theme.breakpoints.down("md")]: {
-      height: "81vh",
-    },
-    [theme.breakpoints.down("sm")]: {
-      height: "81vh",
-    },
-    [theme.breakpoints.down("xs")]: {
-      height: "82vh",
-    },
-  },
-  adminCreateProdContainer: {
     width: "100%",
   },
+  //   adminCreateProdContainer: {
+  //     width: "100%",
+  //   },
   adminEditProdContainer: {
     width: "100%",
+    marginBottom: "1rem",
   },
   adminBox: {
     padding: "0.5rem",
@@ -95,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 const Admin = () => {
   const classes = useStyles();
   const { products } = useContext(ProductsContext);
-  const {updateProducts} = useContext(ProductsContext);
+  const { updateProducts } = useContext(ProductsContext);
   const vendorsArray = products.map((product) => product.vendor);
   const vendors = [...new Set(vendorsArray)];
   const productNamesArray = products.map((product) => product.name);
@@ -326,18 +318,19 @@ const Admin = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              
             </Grid>
           </Paper>
         </Grid>
-        <Grid item>
+        <Grid item className={classes.adminEditProdContainer}>
           <Paper>
             <Grid container direction="column" alignItems="center">
               <Grid item>
                 <Typography className={classes.adminSubTitle}>
                   Edit Products
                 </Typography>
-                <div>Edit Products Here</div>
+              </Grid>
+              <Grid item>
+                <EditProducts></EditProducts>
               </Grid>
             </Grid>
           </Paper>
