@@ -28,10 +28,15 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [productsState, setProductState] = useState([]);
+  const [downloadAgain, setDownloadAgain] = useState(false);
 
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [downloadAgain]);
 
   async function fetchProducts() {
     console.log("fetch products!!");
@@ -63,6 +68,10 @@ function App() {
 
   const signOut = useCallback(() => {
     setIsSignedIn(false);
+  }, []);
+
+  const updateProducts = useCallback(() => {
+    setDownloadAgain(!downloadAgain);
   }, []);
 
   let routes;
@@ -111,7 +120,7 @@ function App() {
     <AuthContext.Provider
       value={{ isSignedIn: isSignedIn, signIn: signIn, signOut: signOut }}
     >
-      <ProductsContext.Provider value={{products: productsState}}>
+      <ProductsContext.Provider value={{products: productsState, updateProducts: updateProducts}}>
       <ThemeProvider theme={myTheme}>
         <BrowserRouter>
           <Header

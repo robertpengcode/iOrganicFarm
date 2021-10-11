@@ -95,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
 const Admin = () => {
   const classes = useStyles();
   const { products } = useContext(ProductsContext);
+  const {updateProducts} = useContext(ProductsContext);
   const vendorsArray = products.map((product) => product.vendor);
   const vendors = [...new Set(vendorsArray)];
   const productNamesArray = products.map((product) => product.name);
@@ -167,6 +168,7 @@ const Admin = () => {
       //     );
       //   }
       //   setIsLoading(false);
+      updateProducts();
     } catch (error) {
       console.log(error.message);
       //setIsLoading(false);
