@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
-import { ProductsContext } from "./../context/productsContext";
+import { ProductsContext } from "../../context/productsContext";
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
@@ -25,37 +25,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Products = () => {
   const classes = useStyles();
-  //const [productsState, setProductState] = useState([]);
   const {products} = useContext(ProductsContext);
   const [searchValue, setSearchValue] = useState("");
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
-
-  // async function fetchProducts() {
-  //   console.log("fetch products!!");
-  //   //setIsLoading(true);
-
-  //   try {
-  //     const response = await fetch("http://localhost:8080/api/product/");
-  //     const responseData = await response.json();
-  //     console.log("ck front", responseData);
-  //     setProductState(responseData);
-  //     // if (!response.ok) {
-  //     //   setErrorMessage(
-  //     //     responseData.errorMessage
-  //     //   );
-  //     // }
-  //     //setIsLoading(false);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     // setIsLoading(false);
-  //     // setErrorMessage(
-  //     //   error.message || "Something went wrong, please try again!"
-  //     // );
-  //   }
-  // }
 
   function handleSearch(e) {
     const { value } = e.target;

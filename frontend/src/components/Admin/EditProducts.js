@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext, useState } from "react";
-import { ProductsContext } from "./../context/productsContext";
+import { ProductsContext } from "../../context/productsContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect, Link } from "react-router-dom";
-import Loading from "./UI/Loading";
-import Error from "./UI/Error";
+import Loading from "../UI/Loading";
+import Error from "../UI/Error";
 
-import { AuthContext } from "./../context/authContext";
+import { AuthContext } from "../../context/authContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";

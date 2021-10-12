@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Loading from "./UI/Loading";
-import Error from "./UI/Error";
+import Loading from "../UI/Loading";
+import Error from "../UI/Error";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";

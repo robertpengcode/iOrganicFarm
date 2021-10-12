@@ -125,7 +125,7 @@ export default function Header(props) {
   };
 
   const menuOptions = [
-    { name: "MARKET", link: "/market", tabValue: 2 },
+    // { name: "MARKET", link: "/market", tabValue: 2 },
     { name: "SHOP NOW", link: "/shop", tabValue: 2 },
     { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
   ];
@@ -151,15 +151,13 @@ export default function Header(props) {
         props.tabValue !== route.tabValue
       ) {
         props.setTabValue(route.tabValue);
-      }
+      } 
     });
   }, [props.tabValue, menuOptions, routes, props]);
 
-  //console.log("ck", cartItems);
   const totalItems = cartItems.reduce((totalItems, item) => {
     return (totalItems += item.quantity);
   }, 0);
-  //console.log("ck", totalItems);
 
   const cartIcon = (
     <Fragment>
