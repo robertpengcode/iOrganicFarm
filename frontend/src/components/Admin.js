@@ -13,16 +13,17 @@ import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   adminContainer: {
     width: "100%",
   },
-  //   adminCreateProdContainer: {
-  //     width: "100%",
-  //   },
+  adminCreateProdContainer: {
+    width: "95%",
+  },
   adminEditProdContainer: {
-    width: "100%",
+    width: "95%",
     marginBottom: "1rem",
   },
   adminBox: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       fontSize: "1.5rem",
     },
+    marginLeft: "1rem",
   },
   adminSubTitle: {
     ...theme.typography.text,
@@ -234,10 +236,10 @@ const Admin = () => {
   );
 
   return (
-    <Container className={classes.adminContainer}>
+    <Box className={classes.adminContainer}>
       <Typography className={classes.adminTitle}>Admin Page</Typography>
-      <Grid container direction={"column"} spacing={2}>
-        <Grid item>
+      <Grid container direction={"column"} spacing={2} alignItems="center">
+        <Grid item className={classes.adminEditProdContainer}>
           <Paper>
             <Grid
               container
@@ -336,7 +338,7 @@ const Admin = () => {
           </Paper>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 
