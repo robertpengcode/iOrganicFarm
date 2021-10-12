@@ -2,7 +2,7 @@ import * as React from "react";
 import { useContext, useState } from "react";
 import { ProductsContext } from "../../context/productsContext";
 
-import { makeStyles } from "@material-ui/core/styles";
+//import { makeStyles } from "@material-ui/core/styles";
 
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -18,17 +18,26 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
+//import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
+//import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { visuallyHidden } from "@mui/utils";
 
-const useStyles = makeStyles((theme) => ({}));
+// const useStyles = makeStyles((theme) => ({
+//   adminSubTitle: {
+//     ...theme.typography.text,
+//     fontSize: "1.5rem",
+//     color: theme.palette.common.armyGreen,
+//     [theme.breakpoints.down("sm")]: {
+//       fontSize: "1.2rem",
+//     },
+//   },
+// }));
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -121,8 +130,12 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          {/* <Checkbox
+        <TableCell>
+          {/* <DeleteIcon /> */}
+          Delete
+        </TableCell>
+        {/* <TableCell padding="checkbox">
+          <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
@@ -130,8 +143,8 @@ function EnhancedTableHead(props) {
             inputProps={{
               "aria-label": "select all desserts",
             }}
-          /> */}
-        </TableCell>
+          />
+        </TableCell> */}
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -163,7 +176,7 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
+  //onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -171,6 +184,7 @@ EnhancedTableHead.propTypes = {
 
 const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
+  //const classes = useStyles();
 
   return (
     <Toolbar
@@ -186,7 +200,7 @@ const EnhancedTableToolbar = (props) => {
         }),
       }}
     >
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Typography
           sx={{ flex: "1 1 100%" }}
           color="inherit"
@@ -202,13 +216,15 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          {/* Nutrition */}
+          Nutrition
         </Typography>
-      )}
+      )} */}
 
-      {numSelected > 0 ? (
+      <Typography >Edit Products</Typography>
+
+      {/* {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={props.handleDeleteProduct}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -218,23 +234,22 @@ const EnhancedTableToolbar = (props) => {
             <FilterListIcon />
           </IconButton>
         </Tooltip>
-      )}
+      )} */}
     </Toolbar>
   );
 };
 
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
+// EnhancedTableToolbar.propTypes = {
+//   numSelected: PropTypes.number.isRequired,
+// };
 
 export default function EditProducts() {
-  const classes = useStyles();
+  //const classes = useStyles();
 
   const { products } = useContext(ProductsContext);
-const rows = products;
-console.log('rows', rows);
-//   const { products } = useContext(ProductsContext);
-//   const { updateProducts } = useContext(ProductsContext);
+  const rows = products;
+  console.log("rows", rows);
+  const { updateProducts } = useContext(ProductsContext);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -243,40 +258,74 @@ console.log('rows', rows);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  //console.log("ck selected", selected);
+
+  async function handleDeleteProduct(prodId) {
+    //e.preventDefault();
+    console.log("delete product!!");
+    //setIsLoading(true);
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/product/delete/" + `${prodId}`,
+        {
+          method: "DELETE",
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+          //body: selected,
+        }
+      );
+      // const responseData = await response.json();
+      // console.log("ck front", responseData);
+      //   if (!response.ok) {
+      //     //throw new Error(responseData.errorMessage);
+      //     setErrorMessage(
+      //       responseData.errorMessage
+      //     );
+      //   }
+      //   setIsLoading(false);
+      updateProducts();
+    } catch (error) {
+      console.log(error);
+      //setIsLoading(false);
+      //   setErrorMessage(
+      //     error.message || "Something went wrong, please try again!"
+      //   );
+    }
+  }
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
+  // const handleSelectAllClick = (event) => {
+  //   if (event.target.checked) {
+  //     const newSelecteds = rows.map((n) => n.id);
+  //     setSelected(newSelecteds);
+  //     return;
+  //   }
+  //   setSelected([]);
+  // };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
+  // const handleClick = (event, name) => {
+  //   const selectedIndex = selected.indexOf(name);
+  //   let newSelected = [];
+  //   if (selectedIndex === -1) {
+  //     newSelected = newSelected.concat(selected, name);
+  //   } else if (selectedIndex === 0) {
+  //     newSelected = newSelected.concat(selected.slice(1));
+  //   } else if (selectedIndex === selected.length - 1) {
+  //     newSelected = newSelected.concat(selected.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelected = newSelected.concat(
+  //       selected.slice(0, selectedIndex),
+  //       selected.slice(selectedIndex + 1)
+  //     );
+  //   }
+  //   setSelected(newSelected);
+  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -300,7 +349,10 @@ console.log('rows', rows);
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          //handleDeleteProduct={handleDeleteProduct}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -311,7 +363,7 @@ console.log('rows', rows);
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              //onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
@@ -319,20 +371,20 @@ console.log('rows', rows);
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
+                      // onClick={(event) => handleClick(event, row.id)}
+                      // role="checkbox"
+                      // aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.id}
-                      selected={isItemSelected}
+                      // selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      {/* <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
@@ -340,6 +392,11 @@ console.log('rows', rows);
                             "aria-labelledby": labelId,
                           }}
                         />
+                      </TableCell> */}
+                      <TableCell>
+                        <IconButton onClick={()=>handleDeleteProduct(row.id)}>
+                          <DeleteIcon />
+                        </IconButton>
                       </TableCell>
                       <TableCell
                         component="th"
@@ -388,3 +445,15 @@ console.log('rows', rows);
     </Box>
   );
 }
+
+//   {
+//     name: "Sweet Potatoes",
+//     imgUrl:
+//       "https://robertpengcodefarm.s3.amazonaws.com/forFarmPj/sweetpotato2.jpg",
+//     vendor: "Noah's Oak Farm",
+//     price: 1.99,
+//     quantity: 1,
+//     id: "prod_KIi4vKVVxrRUCg",
+//     unit: "lb",
+//     priceId: "price_1Je6epK6cEl29YLIgE0m5BVS",
+//   },

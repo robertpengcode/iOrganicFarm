@@ -39,13 +39,16 @@ const useStyles = makeStyles((theme) => ({
     },
     marginLeft: "1rem",
   },
+  // adminSubTitle: {
+  //   ...theme.typography.text,
+  //   fontSize: "1.5rem",
+  //   color: theme.palette.common.armyGreen,
+  //   [theme.breakpoints.down("sm")]: {
+  //     fontSize: "1.2rem",
+  //   },
+  // },
   adminSubTitle: {
-    ...theme.typography.text,
-    fontSize: "1.5rem",
-    color: theme.palette.common.armyGreen,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "1.2rem",
-    },
+    marginLeft: "0.5rem",
   },
   formControl: {
     width: "11rem",
@@ -54,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
   createContainer: {
     width: "100%",
-    //border: "solid green",
     borderRadius: "0.5rem",
   },
   productId: {
@@ -96,8 +98,8 @@ const Admin = () => {
   const productNames = [...new Set(productNamesArray)];
   const productUnitsArray = products.map((product) => product.unit);
   const productUnits = [...new Set(productUnitsArray)];
-  console.log(vendors);
-  console.log(productNames);
+  //console.log(vendors);
+  //console.log(productNames);
 
   const initialProductValues = {
     id: "",
@@ -244,7 +246,7 @@ const Admin = () => {
             <Grid
               container
               direction="column"
-              alignItems="center"
+              //alignItems="center"
               className={classes.adminBox}
             >
               <Grid item>
@@ -326,11 +328,11 @@ const Admin = () => {
         <Grid item className={classes.adminEditProdContainer}>
           <Paper>
             <Grid container direction="column" alignItems="center">
-              <Grid item>
+              {/* <Grid item>
                 <Typography className={classes.adminSubTitle}>
                   Edit Products
                 </Typography>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <EditProducts></EditProducts>
               </Grid>

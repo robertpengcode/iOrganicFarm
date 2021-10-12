@@ -80,7 +80,6 @@ function App() {
         <Route exact path="/create" component={CreateAccount} />
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/about" component={AboutUs} />
-        {/* <Route exact path="/market" component={Market} /> */}
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={ShoppingCart} />
         {/* <Route exact path="/exchange" component={Exchange} /> */}
@@ -99,7 +98,6 @@ function App() {
         {/* <Route exact path="/create" component={CreateAccount} />
         <Route exact path="/signin" component={Signin} /> */}
         <Route exact path="/about" component={AboutUs} />
-        {/* <Route exact path="/market" component={Market} /> */}
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={ShoppingCart} />
         <Route exact path="/exchange" component={Exchange} />
