@@ -24,6 +24,7 @@ import IconButton from "@mui/material/IconButton";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from '@material-ui/icons/Edit';
 
 import { visuallyHidden } from "@mui/utils";
 
@@ -132,7 +133,10 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell>Delete</TableCell>
+      <TableCell align="center" padding="none"
+            ><EditIcon /></TableCell>
+        <TableCell align="center" padding="none"
+            ><DeleteIcon /></TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -196,16 +200,47 @@ export default function EditProducts() {
   const rows = products;
   console.log("rows", rows);
   const { updateProducts } = useContext(ProductsContext);
-  //console.log("ck", updateProducts);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
+  const [selectedIndex, setSelectedIndex] = React.useState(-1);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const [editMessage, setEditMessage] = useState("");
+
+  async function handleEditProduct(prodId, index) {
+    //e.preventDefault();
+    console.log("Editing product!!", 'prodId', prodId, 'index', index);
+    setEditMessage("Editing Product...");
+    setSelectedIndex(index);
+    // try {
+    //   const response = await fetch(
+    //     "http://localhost:8080/api/product/delete/" + `${prodId}`,
+    //     {
+    //       method: "DELETE",
+    //     }
+    //   );
+      // const responseData = await response.json();
+      // console.log("ck front", responseData);
+      //   if (!response.ok) {
+      //     //throw new Error(responseData.errorMessage);
+      //     setErrorMessage(
+      //       responseData.errorMessage
+      //     );
+      //   }
+    //   if (response.ok) {
+    //     updateProducts();
+    //     setEditMessage("Product Deleted!");
+    //     setTimeout(() => {
+    //       setEditMessage("");
+    //     }, 5000);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  }
 
   async function handleDeleteProduct(prodId) {
     //e.preventDefault();
@@ -257,7 +292,7 @@ export default function EditProducts() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  //const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -276,15 +311,15 @@ export default function EditProducts() {
         <Paper>
           <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
-              <EnhancedTableToolbar numSelected={selected.length} />
+              <EnhancedTableToolbar  />
               <TableContainer>
                 <Table
-                  sx={{ minWidth: 750 }}
+                  sx={{ minWidth: 750}}
                   aria-labelledby="tableTitle"
                   size={dense ? "small" : "medium"}
                 >
                   <EnhancedTableHead
-                    numSelected={selected.length}
+                    //numSelected={selected.length}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
@@ -297,12 +332,19 @@ export default function EditProducts() {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((row, index) => {
-                        const isItemSelected = isSelected(row.id);
+                        const isSelected = index === selectedIndex;
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
-                          <TableRow hover tabIndex={-1} key={row.id}>
-                            <TableCell>
+                          <TableRow hover tabIndex={-1} key={row.id} selected={isSelected}>
+                            <TableCell padding="none">
+                              <IconButton
+                                onClick={() => handleEditProduct(row.id, index)}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </TableCell>
+                            <TableCell padding="none">
                               <IconButton
                                 onClick={() => handleDeleteProduct(row.id)}
                               >
