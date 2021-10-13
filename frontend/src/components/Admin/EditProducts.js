@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useContext, useState } from "react";
+import { useContext, useState, Fragment } from "react";
 import { ProductsContext } from "../../context/productsContext";
 
-//import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -18,26 +18,28 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-//import Checkbox from "@mui/material/Checkbox";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
+//import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
-//import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { visuallyHidden } from "@mui/utils";
 
-// const useStyles = makeStyles((theme) => ({
-//   adminSubTitle: {
-//     ...theme.typography.text,
-//     fontSize: "1.5rem",
-//     color: theme.palette.common.armyGreen,
-//     [theme.breakpoints.down("sm")]: {
-//       fontSize: "1.2rem",
-//     },
-//   },
-// }));
+const useStyles = makeStyles((theme) => ({
+  adminEditProdContainer: {
+    width: "95%",
+    marginBottom: "1rem",
+  },
+  adminMessageBox: {
+    width: "94%",
+  },
+  adminMessage: {
+    ...theme.typography.text,
+    color: "red",
+  },
+}));
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -130,27 +132,11 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell>
-          {/* <DeleteIcon /> */}
-          Delete
-        </TableCell>
-        {/* <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell> */}
+        <TableCell>Delete</TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            //align={headCell.numeric ? "right" : "left"}
             align="left"
-            //padding={headCell.disablePadding ? "none" : "normal"}
             padding="none"
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -176,7 +162,6 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  //onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -184,7 +169,6 @@ EnhancedTableHead.propTypes = {
 
 const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
-  //const classes = useStyles();
 
   return (
     <Toolbar
@@ -200,51 +184,13 @@ const EnhancedTableToolbar = (props) => {
         }),
       }}
     >
-      {/* {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Nutrition
-        </Typography>
-      )} */}
-
-      <Typography >Edit Products</Typography>
-
-      {/* {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton onClick={props.handleDeleteProduct}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )} */}
+      <Typography>Edit Products</Typography>
     </Toolbar>
   );
 };
 
-// EnhancedTableToolbar.propTypes = {
-//   numSelected: PropTypes.number.isRequired,
-// };
-
-export default function EditProducts() {
-  //const classes = useStyles();
+export default function EditProducts(props) {
+  const classes = useStyles();
 
   const { products } = useContext(ProductsContext);
   const rows = products;
@@ -258,21 +204,17 @@ export default function EditProducts() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  //console.log("ck selected", selected);
+  const [editMessage, setEditMessage] = useState("");
 
   async function handleDeleteProduct(prodId) {
     //e.preventDefault();
-    console.log("delete product!!");
-    //setIsLoading(true);
+    console.log("deleting product!!");
+    setEditMessage("Deleting Product...");
     try {
       const response = await fetch(
         "http://localhost:8080/api/product/delete/" + `${prodId}`,
         {
           method: "DELETE",
-          // headers: {
-          //   "Content-Type": "application/json",
-          // },
-          //body: selected,
         }
       );
       // const responseData = await response.json();
@@ -283,14 +225,13 @@ export default function EditProducts() {
       //       responseData.errorMessage
       //     );
       //   }
-      //   setIsLoading(false);
       updateProducts();
+      setEditMessage("Product Deleted!");
+      setTimeout(() => {
+        setEditMessage("");
+      }, 5000);
     } catch (error) {
       console.log(error);
-      //setIsLoading(false);
-      //   setErrorMessage(
-      //     error.message || "Something went wrong, please try again!"
-      //   );
     }
   }
 
@@ -299,33 +240,6 @@ export default function EditProducts() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = rows.map((n) => n.id);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
-
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-  //   setSelected(newSelected);
-  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -346,103 +260,100 @@ export default function EditProducts() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          //handleDeleteProduct={handleDeleteProduct}
-        />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              //onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+  const editMessageBox = (
+    <Grid item className={classes.adminMessageBox}>
+      <Typography className={classes.adminMessage}>{editMessage}</Typography>
+    </Grid>
+  );
 
-                  return (
-                    <TableRow
-                      hover
-                      // onClick={(event) => handleClick(event, row.id)}
-                      // role="checkbox"
-                      // aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      // selected={isItemSelected}
-                    >
-                      {/* <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell> */}
-                      <TableCell>
-                        <IconButton onClick={()=>handleDeleteProduct(row.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        align="left"
-                      >
-                        {row.vendor}
-                      </TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="left">{row.unit}</TableCell>
-                      <TableCell align="left">{row.id}</TableCell>
-                      <TableCell align="left">{row.priceId}</TableCell>
-                      <TableCell align="left">{row.price}</TableCell>
-                      <TableCell align="left">{row.imgUrl}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
+  return (
+    <Fragment>
+      {editMessage ? editMessageBox : null}
+      <Grid item className={classes.adminEditProdContainer}>
+        <Paper>
+          <Box sx={{ width: "100%" }}>
+            <Paper sx={{ width: "100%", mb: 2 }}>
+              <EnhancedTableToolbar numSelected={selected.length} />
+              <TableContainer>
+                <Table
+                  sx={{ minWidth: 750 }}
+                  aria-labelledby="tableTitle"
+                  size={dense ? "small" : "medium"}
                 >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
-    </Box>
+                  <EnhancedTableHead
+                    numSelected={selected.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={rows.length}
+                  />
+                  <TableBody>
+                    {stableSort(rows, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        const isItemSelected = isSelected(row.id);
+                        const labelId = `enhanced-table-checkbox-${index}`;
+
+                        return (
+                          <TableRow hover tabIndex={-1} key={row.id}>
+                            <TableCell>
+                              <IconButton
+                                onClick={() => handleDeleteProduct(row.id)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </TableCell>
+                            <TableCell
+                              component="th"
+                              id={labelId}
+                              scope="row"
+                              padding="none"
+                              align="left"
+                            >
+                              {row.vendor}
+                            </TableCell>
+                            <TableCell align="left">{row.name}</TableCell>
+                            <TableCell align="left">{row.unit}</TableCell>
+                            <TableCell align="left">{row.id}</TableCell>
+                            <TableCell align="left">{row.priceId}</TableCell>
+                            <TableCell align="left">{row.price}</TableCell>
+                            <TableCell align="left">{row.imgUrl}</TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                        style={{
+                          height: (dense ? 33 : 53) * emptyRows,
+                        }}
+                      >
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+            <FormControlLabel
+              control={<Switch checked={dense} onChange={handleChangeDense} />}
+              label="Dense padding"
+            />
+          </Box>
+        </Paper>
+      </Grid>
+    </Fragment>
   );
 }
 

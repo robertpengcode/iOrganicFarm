@@ -4,7 +4,7 @@ import EditProducts from "./EditProducts";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Container from "@material-ui/core/Container";
+//import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -39,14 +39,13 @@ const useStyles = makeStyles((theme) => ({
     },
     marginLeft: "1rem",
   },
-  // adminSubTitle: {
-  //   ...theme.typography.text,
-  //   fontSize: "1.5rem",
-  //   color: theme.palette.common.armyGreen,
-  //   [theme.breakpoints.down("sm")]: {
-  //     fontSize: "1.2rem",
-  //   },
-  // },
+  adminMessageBox: {
+    width: "94%",
+  },
+  adminMessage: {
+    ...theme.typography.text,
+    color: "red",
+  },
   adminSubTitle: {
     marginLeft: "0.5rem",
   },
@@ -98,8 +97,6 @@ const Admin = () => {
   const productNames = [...new Set(productNamesArray)];
   const productUnitsArray = products.map((product) => product.unit);
   const productUnits = [...new Set(productUnitsArray)];
-  //console.log(vendors);
-  //console.log(productNames);
 
   const initialProductValues = {
     id: "",
@@ -113,7 +110,8 @@ const Admin = () => {
   };
 
   const [productValues, setProductValues] = useState(initialProductValues);
-
+  const [adminMessage, setAdminMessage] = useState("");
+  
   function handleChange(e) {
     const { name, value } = e.target;
     setProductValues({
@@ -132,8 +130,8 @@ const Admin = () => {
 
   async function handleCreateProduct(e) {
     e.preventDefault();
-    console.log("create product!!");
-    //setIsLoading(true);
+    console.log("creating product!!");
+    setAdminMessage("Creating New Product...");
 
     try {
       const response = await fetch(
@@ -165,6 +163,11 @@ const Admin = () => {
       //   }
       //   setIsLoading(false);
       updateProducts();
+      setAdminMessage("New Product Created!");
+      setTimeout(() => {
+        setAdminMessage("");
+        setProductValues(initialProductValues);
+      }, 5000);
     } catch (error) {
       console.log(error.message);
       //setIsLoading(false);
@@ -237,16 +240,22 @@ const Admin = () => {
     </FormControl>
   );
 
+  const adminMessageBox = (
+    <Grid item className={classes.adminMessageBox}>
+      <Typography className={classes.adminMessage}>{adminMessage}</Typography>
+    </Grid>
+  );
+
   return (
     <Box className={classes.adminContainer}>
       <Typography className={classes.adminTitle}>Admin Page</Typography>
       <Grid container direction={"column"} spacing={2} alignItems="center">
+        {adminMessage ? adminMessageBox : null}
         <Grid item className={classes.adminEditProdContainer}>
           <Paper>
             <Grid
               container
               direction="column"
-              //alignItems="center"
               className={classes.adminBox}
             >
               <Grid item>
@@ -325,20 +334,7 @@ const Admin = () => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item className={classes.adminEditProdContainer}>
-          <Paper>
-            <Grid container direction="column" alignItems="center">
-              {/* <Grid item>
-                <Typography className={classes.adminSubTitle}>
-                  Edit Products
-                </Typography>
-              </Grid> */}
-              <Grid item>
-                <EditProducts></EditProducts>
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
+        <EditProducts></EditProducts>
       </Grid>
     </Box>
   );
