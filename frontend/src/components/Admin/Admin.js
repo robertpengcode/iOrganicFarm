@@ -111,7 +111,7 @@ const Admin = () => {
 
   const [productValues, setProductValues] = useState(initialProductValues);
   const [adminMessage, setAdminMessage] = useState("");
-  
+
   function handleChange(e) {
     const { name, value } = e.target;
     setProductValues({
@@ -129,7 +129,7 @@ const Admin = () => {
   }
 
   async function handleCreateProduct(e) {
-    e.preventDefault();
+    //e.preventDefault();
     console.log("creating product!!");
     setAdminMessage("Creating New Product...");
 
@@ -154,7 +154,7 @@ const Admin = () => {
         }
       );
       const responseData = await response.json();
-      console.log("ck front", responseData);
+      console.log("from create res", responseData);
       //   if (!response.ok) {
       //     //throw new Error(responseData.errorMessage);
       //     setErrorMessage(
@@ -162,12 +162,14 @@ const Admin = () => {
       //     );
       //   }
       //   setIsLoading(false);
-      updateProducts();
-      setAdminMessage("New Product Created!");
-      setTimeout(() => {
-        setAdminMessage("");
-        setProductValues(initialProductValues);
-      }, 5000);
+      if (response.ok) {
+        updateProducts();
+        setAdminMessage("New Product Created!");
+        setTimeout(() => {
+          setAdminMessage("");
+          setProductValues(initialProductValues);
+        }, 5000);
+      }
     } catch (error) {
       console.log(error.message);
       //setIsLoading(false);
@@ -253,11 +255,7 @@ const Admin = () => {
         {adminMessage ? adminMessageBox : null}
         <Grid item className={classes.adminEditProdContainer}>
           <Paper>
-            <Grid
-              container
-              direction="column"
-              className={classes.adminBox}
-            >
+            <Grid container direction="column" className={classes.adminBox}>
               <Grid item>
                 <Typography className={classes.adminSubTitle}>
                   Create Products

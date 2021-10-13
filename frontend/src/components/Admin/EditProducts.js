@@ -189,13 +189,14 @@ const EnhancedTableToolbar = (props) => {
   );
 };
 
-export default function EditProducts(props) {
+export default function EditProducts() {
   const classes = useStyles();
 
   const { products } = useContext(ProductsContext);
   const rows = products;
   console.log("rows", rows);
   const { updateProducts } = useContext(ProductsContext);
+  //console.log("ck", updateProducts);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -225,11 +226,13 @@ export default function EditProducts(props) {
       //       responseData.errorMessage
       //     );
       //   }
-      updateProducts();
-      setEditMessage("Product Deleted!");
-      setTimeout(() => {
-        setEditMessage("");
-      }, 5000);
+      if (response.ok) {
+        updateProducts();
+        setEditMessage("Product Deleted!");
+        setTimeout(() => {
+          setEditMessage("");
+        }, 5000);
+      }
     } catch (error) {
       console.log(error);
     }

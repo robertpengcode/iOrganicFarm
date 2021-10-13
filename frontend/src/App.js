@@ -27,12 +27,15 @@ function App() {
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
 
+  console.log('hi downloadAgain', downloadAgain);
+
   useEffect(() => {
     fetchProducts();
   }, []);
 
   useEffect(() => {
     fetchProducts();
+    console.log('haha download!!!');
   }, [downloadAgain]);
 
   async function fetchProducts() {
@@ -42,7 +45,7 @@ function App() {
     try {
       const response = await fetch("http://localhost:8080/api/product/");
       const responseData = await response.json();
-      console.log("ck front", responseData);
+      console.log("download", responseData);
       setProductState(responseData);
       // if (!response.ok) {
       //   setErrorMessage(
@@ -67,9 +70,11 @@ function App() {
     setIsSignedIn(false);
   }, []);
 
-  const updateProducts = useCallback(() => {
-    setDownloadAgain(!downloadAgain);
-  }, []);
+  // const updateProducts = useCallback(() => {
+  //   setDownloadAgain(downloadAgain+1);
+  // }, []);
+
+  const updateProducts = () => {setDownloadAgain(!downloadAgain)}
 
   let routes;
 
