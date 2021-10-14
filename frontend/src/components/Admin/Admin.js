@@ -4,7 +4,6 @@ import EditProducts from "./EditProducts";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-//import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -130,8 +129,7 @@ const Admin = () => {
     });
   }
 
-  async function handleCreateProduct(e) {
-    //e.preventDefault();
+  async function handleCreateProduct() {
     console.log("creating product!!");
     setAdminMessage("Creating New Product...");
 
@@ -182,54 +180,52 @@ const Admin = () => {
   }
 
   async function handleUpdateProduct() {
-    //e.preventDefault();
     console.log("Updating product!!");
     setAdminMessage("Updating Product...");
-
-    // try {
-    //   const response = await fetch(
-    //     "http://localhost:8080/api/product/createProduct",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         id: productValues.id,
-    //         imgUrl: productValues.imgUrl,
-    //         name: productValues.name,
-    //         price: productValues.price,
-    //         priceId: productValues.priceId,
-    //         quantity: productValues.quantity,
-    //         unit: productValues.unit,
-    //         vendor: productValues.vendor,
-    //       }),
-    //     }
-    //   );
-    // const responseData = await response.json();
-    // console.log("from create res", responseData);
-    //   if (!response.ok) {
-    //     //throw new Error(responseData.errorMessage);
-    //     setErrorMessage(
-    //       responseData.errorMessage
-    //     );
-    //   }
-    //   setIsLoading(false);
-    // if (response.ok) {
-    //   updateProducts();
-    //   setAdminMessage("New Product Created!");
-    //   setTimeout(() => {
-    //     setAdminMessage("");
-    //     setProductValues(initialProductValues);
-    //   }, 5000);
-    // }
-    // } catch (error) {
-    //   console.log(error.message);
-    //setIsLoading(false);
-    //   setErrorMessage(
-    //     error.message || "Something went wrong, please try again!"
-    //   );
-    //}
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/product/updateProduct",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: productValues.id,
+            imgUrl: productValues.imgUrl,
+            name: productValues.name,
+            price: productValues.price,
+            priceId: productValues.priceId,
+            quantity: productValues.quantity,
+            unit: productValues.unit,
+            vendor: productValues.vendor,
+          }),
+        }
+      );
+      // const responseData = await response.json();
+      // console.log("from create res", responseData);
+      //   if (!response.ok) {
+      //     //throw new Error(responseData.errorMessage);
+      //     setErrorMessage(
+      //       responseData.errorMessage
+      //     );
+      //   }
+      //   setIsLoading(false);
+      if (response.ok) {
+        updateProducts();
+        setAdminMessage("Product Updated!");
+        setTimeout(() => {
+          setAdminMessage("");
+          setProductValues(initialProductValues);
+        }, 5000);
+      }
+    } catch (error) {
+      console.log(error.message);
+      // setIsLoading(false);
+      //   setErrorMessage(
+      //     error.message || "Something went wrong, please try again!"
+      //   );
+    }
   }
 
   const selectVendorMenu = (
