@@ -110,8 +110,9 @@ const Admin = () => {
 
   const [productValues, setProductValues] = useState(initialProductValues);
   const [adminMessage, setAdminMessage] = useState("");
-  const [isEditing, setIsEditing] = React.useState(false);
-  console.log("ck isediting", isEditing);
+  const [isEditing, setIsEditing] = useState(false);
+  const [updateId, setUpdateId] = useState("");
+  const [editMessage, setEditMessage] = useState("");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -134,34 +135,24 @@ const Admin = () => {
     setAdminMessage("Creating New Product...");
 
     try {
-      const response = await fetch(
-        "http://localhost:8080/api/product/createProduct",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: productValues.id,
-            imgUrl: productValues.imgUrl,
-            name: productValues.name,
-            price: productValues.price,
-            priceId: productValues.priceId,
-            quantity: productValues.quantity,
-            unit: productValues.unit,
-            vendor: productValues.vendor,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/product/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: productValues.id,
+          imgUrl: productValues.imgUrl,
+          name: productValues.name,
+          price: productValues.price,
+          priceId: productValues.priceId,
+          quantity: productValues.quantity,
+          unit: productValues.unit,
+          vendor: productValues.vendor,
+        }),
+      });
       const responseData = await response.json();
       console.log("from create res", responseData);
-      //   if (!response.ok) {
-      //     //throw new Error(responseData.errorMessage);
-      //     setErrorMessage(
-      //       responseData.errorMessage
-      //     );
-      //   }
-      //   setIsLoading(false);
       if (response.ok) {
         updateProducts();
         setAdminMessage("New Product Created!");
@@ -172,10 +163,6 @@ const Admin = () => {
       }
     } catch (error) {
       console.log(error.message);
-      //setIsLoading(false);
-      //   setErrorMessage(
-      //     error.message || "Something went wrong, please try again!"
-      //   );
     }
   }
 
@@ -184,14 +171,14 @@ const Admin = () => {
     setAdminMessage("Updating Product...");
     try {
       const response = await fetch(
-        "http://localhost:8080/api/product/updateProduct",
+        `http://localhost:8080/api/product/update/${updateId}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: productValues.id,
+            //id: productValues.id,
             imgUrl: productValues.imgUrl,
             name: productValues.name,
             price: productValues.price,
@@ -202,29 +189,19 @@ const Admin = () => {
           }),
         }
       );
-      // const responseData = await response.json();
-      // console.log("from create res", responseData);
-      //   if (!response.ok) {
-      //     //throw new Error(responseData.errorMessage);
-      //     setErrorMessage(
-      //       responseData.errorMessage
-      //     );
-      //   }
-      //   setIsLoading(false);
       if (response.ok) {
         updateProducts();
         setAdminMessage("Product Updated!");
         setTimeout(() => {
           setAdminMessage("");
           setProductValues(initialProductValues);
+          setIsEditing(false);
+          setUpdateId("");
+          setEditMessage("");
         }, 5000);
       }
     } catch (error) {
       console.log(error.message);
-      // setIsLoading(false);
-      //   setErrorMessage(
-      //     error.message || "Something went wrong, please try again!"
-      //   );
     }
   }
 
@@ -385,6 +362,10 @@ const Admin = () => {
         <EditProducts
           setProductValues={setProductValues}
           setIsEditing={setIsEditing}
+          setUpdateId={setUpdateId}
+          //isEditing={isEditing}
+          setEditMessage={setEditMessage}
+          editMessage={editMessage}
         ></EditProducts>
       </Grid>
     </Box>

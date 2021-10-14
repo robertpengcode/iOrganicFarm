@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext, useState, Fragment } from "react";
+import { useContext, Fragment } from "react";
 import { ProductsContext } from "../../context/productsContext";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,7 +20,6 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@mui/material/IconButton";
-//import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -119,11 +118,8 @@ const headCells = [
 
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -166,7 +162,6 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  //numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -195,15 +190,20 @@ const EnhancedTableToolbar = (props) => {
   );
 };
 
-export default function EditProducts({ setProductValues, setIsEditing }) {
+export default function EditProducts({
+  setProductValues,
+  setIsEditing,
+  setUpdateId,
+  setEditMessage,
+  editMessage,
+}) {
   const classes = useStyles();
 
   const { products } = useContext(ProductsContext);
   const rows = products;
-  console.log("rows", rows);
+  //console.log("rows", rows);
   const { updateProducts } = useContext(ProductsContext);
-  //console.log('edit props', props)
-  console.log(setProductValues);
+  //console.log(setProductValues);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -213,16 +213,14 @@ export default function EditProducts({ setProductValues, setIsEditing }) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const [editMessage, setEditMessage] = useState("");
-
-  async function handleEditProduct(prodId, index) {
-    //e.preventDefault();
-    console.log("Editing product!!", "prodId", prodId, "index", index);
+  function handleEditProduct(prodId, index) {
+    //console.log("Editing product!!", "prodId", prodId, "index", index);
     setEditMessage("Editing Product...");
     setSelectedIndex(index);
     setIsEditing(true);
     const editingProduct = products.find((product) => product.id === prodId);
-    console.log("pd", editingProduct);
+    //console.log("pd", editingProduct);
+    setUpdateId(prodId);
     setProductValues({
       id: editingProduct.id,
       imgUrl: editingProduct.imgUrl,
@@ -233,52 +231,18 @@ export default function EditProducts({ setProductValues, setIsEditing }) {
       unit: editingProduct.unit,
       vendor: editingProduct.vendor,
     });
-    // try {
-    //   const response = await fetch(
-    //     "http://localhost:8080/api/product/delete/" + `${prodId}`,
-    //     {
-    //       method: "DELETE",
-    //     }
-    //   );
-    // const responseData = await response.json();
-    // console.log("ck front", responseData);
-    //   if (!response.ok) {
-    //     //throw new Error(responseData.errorMessage);
-    //     setErrorMessage(
-    //       responseData.errorMessage
-    //     );
-    //   }
-    //   if (response.ok) {
-    //     updateProducts();
-    //     setEditMessage("Product Deleted!");
-    //     setTimeout(() => {
-    //       setEditMessage("");
-    //     }, 5000);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   }
 
   async function handleDeleteProduct(prodId) {
-    //e.preventDefault();
     console.log("deleting product!!");
     setEditMessage("Deleting Product...");
     try {
       const response = await fetch(
-        "http://localhost:8080/api/product/delete/" + `${prodId}`,
+        `http://localhost:8080/api/product/delete/${prodId}`,
         {
           method: "DELETE",
         }
       );
-      // const responseData = await response.json();
-      // console.log("ck front", responseData);
-      //   if (!response.ok) {
-      //     //throw new Error(responseData.errorMessage);
-      //     setErrorMessage(
-      //       responseData.errorMessage
-      //     );
-      //   }
       if (response.ok) {
         updateProducts();
         setEditMessage("Product Deleted!");
@@ -322,8 +286,6 @@ export default function EditProducts({ setProductValues, setIsEditing }) {
     setDense(event.target.checked);
   };
 
-  //const isSelected = (name) => selected.indexOf(name) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -349,7 +311,6 @@ export default function EditProducts({ setProductValues, setIsEditing }) {
                   size={dense ? "small" : "medium"}
                 >
                   <EnhancedTableHead
-                    //numSelected={selected.length}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}

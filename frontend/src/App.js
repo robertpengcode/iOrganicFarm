@@ -27,7 +27,7 @@ function App() {
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
 
-  console.log('hi downloadAgain', downloadAgain);
+  //console.log("hi downloadAgain", downloadAgain);
 
   useEffect(() => {
     fetchProducts();
@@ -35,30 +35,18 @@ function App() {
 
   useEffect(() => {
     fetchProducts();
-    console.log('haha download!!!');
+    //console.log("haha download!!!");
   }, [downloadAgain]);
 
   async function fetchProducts() {
-    console.log("fetch products!!");
-    //setIsLoading(true);
-
+    //console.log("fetch products!!");
     try {
       const response = await fetch("http://localhost:8080/api/product/");
       const responseData = await response.json();
-      console.log("download", responseData);
+      //console.log("download", responseData);
       setProductState(responseData);
-      // if (!response.ok) {
-      //   setErrorMessage(
-      //     responseData.errorMessage
-      //   );
-      // }
-      //setIsLoading(false);
     } catch (error) {
       console.log(error.message);
-      // setIsLoading(false);
-      // setErrorMessage(
-      //   error.message || "Something went wrong, please try again!"
-      // );
     }
   }
 
@@ -70,11 +58,9 @@ function App() {
     setIsSignedIn(false);
   }, []);
 
-  // const updateProducts = useCallback(() => {
-  //   setDownloadAgain(downloadAgain+1);
-  // }, []);
-
-  const updateProducts = () => {setDownloadAgain(!downloadAgain)}
+  const updateProducts = () => {
+    setDownloadAgain(!downloadAgain);
+  };
 
   let routes;
 
@@ -120,17 +106,19 @@ function App() {
     <AuthContext.Provider
       value={{ isSignedIn: isSignedIn, signIn: signIn, signOut: signOut }}
     >
-      <ProductsContext.Provider value={{products: productsState, updateProducts: updateProducts}}>
-      <ThemeProvider theme={myTheme}>
-        <BrowserRouter>
-          <Header
-            tabValue={tabValue}
-            setTabValue={setTabValue}
-            selectedIndex={selectedIndex}
-            setSelectedIndex={setSelectedIndex}
-          />
-          {routes}
-          {/* <Switch>
+      <ProductsContext.Provider
+        value={{ products: productsState, updateProducts: updateProducts }}
+      >
+        <ThemeProvider theme={myTheme}>
+          <BrowserRouter>
+            <Header
+              tabValue={tabValue}
+              setTabValue={setTabValue}
+              selectedIndex={selectedIndex}
+              setSelectedIndex={setSelectedIndex}
+            />
+            {routes}
+            {/* <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/create" component={CreateAccount} />
             <Route exact path="/signin" component={Signin} />
@@ -145,14 +133,14 @@ function App() {
             <Route exact path="/canceled" component={Canceled} />
             <Redirect to="/" />
           </Switch> */}
-          <Footer
-            tabValue={tabValue}
-            setTabValue={setTabValue}
-            selectedIndex={selectedIndex}
-            setSelectedIndex={setSelectedIndex}
-          />
-        </BrowserRouter>
-      </ThemeProvider>
+            <Footer
+              tabValue={tabValue}
+              setTabValue={setTabValue}
+              selectedIndex={selectedIndex}
+              setSelectedIndex={setSelectedIndex}
+            />
+          </BrowserRouter>
+        </ThemeProvider>
       </ProductsContext.Provider>
     </AuthContext.Provider>
   );

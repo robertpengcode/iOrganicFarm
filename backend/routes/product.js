@@ -29,7 +29,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.put("/updateProduct/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   console.log("ck", req.params.id);
   const updateId = req.params.id;
   console.log("updateId", updateId);
@@ -54,7 +54,7 @@ router.put("/updateProduct/:id", async (req, res) => {
   }
 });
 
-router.post("/createProduct", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const productExist = await Product.findOne({
       name: req.body.name,
