@@ -111,6 +111,8 @@ const Admin = () => {
 
   const [productValues, setProductValues] = useState(initialProductValues);
   const [adminMessage, setAdminMessage] = useState("");
+  const [isEditing, setIsEditing] = React.useState(false);
+  console.log("ck isediting", isEditing);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -177,6 +179,57 @@ const Admin = () => {
       //     error.message || "Something went wrong, please try again!"
       //   );
     }
+  }
+
+  async function handleUpdateProduct() {
+    //e.preventDefault();
+    console.log("Updating product!!");
+    setAdminMessage("Updating Product...");
+
+    // try {
+    //   const response = await fetch(
+    //     "http://localhost:8080/api/product/createProduct",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         id: productValues.id,
+    //         imgUrl: productValues.imgUrl,
+    //         name: productValues.name,
+    //         price: productValues.price,
+    //         priceId: productValues.priceId,
+    //         quantity: productValues.quantity,
+    //         unit: productValues.unit,
+    //         vendor: productValues.vendor,
+    //       }),
+    //     }
+    //   );
+    // const responseData = await response.json();
+    // console.log("from create res", responseData);
+    //   if (!response.ok) {
+    //     //throw new Error(responseData.errorMessage);
+    //     setErrorMessage(
+    //       responseData.errorMessage
+    //     );
+    //   }
+    //   setIsLoading(false);
+    // if (response.ok) {
+    //   updateProducts();
+    //   setAdminMessage("New Product Created!");
+    //   setTimeout(() => {
+    //     setAdminMessage("");
+    //     setProductValues(initialProductValues);
+    //   }, 5000);
+    // }
+    // } catch (error) {
+    //   console.log(error.message);
+    //setIsLoading(false);
+    //   setErrorMessage(
+    //     error.message || "Something went wrong, please try again!"
+    //   );
+    //}
   }
 
   const selectVendorMenu = (
@@ -258,7 +311,7 @@ const Admin = () => {
             <Grid container direction="column" className={classes.adminBox}>
               <Grid item>
                 <Typography className={classes.adminSubTitle}>
-                  Create Products
+                  {!isEditing ? "Create Products" : "Editing Products"}
                 </Typography>
               </Grid>
               <Grid item>
@@ -319,12 +372,13 @@ const Admin = () => {
                     <Button
                       type="submit"
                       variant="contained"
-                      //size="medium"
                       color="primary"
                       className={classes.createProdButton}
-                      onClick={handleCreateProduct}
+                      onClick={
+                        !isEditing ? handleCreateProduct : handleUpdateProduct
+                      }
                     >
-                      CREATE PRODUCT
+                      {!isEditing ? "Create Product" : "Update Product"}
                     </Button>
                   </Grid>
                 </Grid>
@@ -332,7 +386,10 @@ const Admin = () => {
             </Grid>
           </Paper>
         </Grid>
-        <EditProducts></EditProducts>
+        <EditProducts
+          setProductValues={setProductValues}
+          setIsEditing={setIsEditing}
+        ></EditProducts>
       </Grid>
     </Box>
   );

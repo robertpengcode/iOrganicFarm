@@ -24,7 +24,7 @@ import IconButton from "@mui/material/IconButton";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from '@material-ui/icons/Edit';
+import EditIcon from "@material-ui/icons/Edit";
 
 import { visuallyHidden } from "@mui/utils";
 
@@ -133,10 +133,12 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-      <TableCell align="center" padding="none"
-            ><EditIcon /></TableCell>
-        <TableCell align="center" padding="none"
-            ><DeleteIcon /></TableCell>
+        <TableCell align="center" padding="none">
+          <EditIcon />
+        </TableCell>
+        <TableCell align="center" padding="none">
+          <DeleteIcon />
+        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -164,7 +166,7 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
+  //numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -193,17 +195,20 @@ const EnhancedTableToolbar = (props) => {
   );
 };
 
-export default function EditProducts() {
+export default function EditProducts({ setProductValues, setIsEditing }) {
   const classes = useStyles();
 
   const { products } = useContext(ProductsContext);
   const rows = products;
   console.log("rows", rows);
   const { updateProducts } = useContext(ProductsContext);
+  //console.log('edit props', props)
+  console.log(setProductValues);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
+
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -212,9 +217,22 @@ export default function EditProducts() {
 
   async function handleEditProduct(prodId, index) {
     //e.preventDefault();
-    console.log("Editing product!!", 'prodId', prodId, 'index', index);
+    console.log("Editing product!!", "prodId", prodId, "index", index);
     setEditMessage("Editing Product...");
     setSelectedIndex(index);
+    setIsEditing(true);
+    const editingProduct = products.find((product) => product.id === prodId);
+    console.log("pd", editingProduct);
+    setProductValues({
+      id: editingProduct.id,
+      imgUrl: editingProduct.imgUrl,
+      name: editingProduct.name,
+      price: editingProduct.price,
+      priceId: editingProduct.priceId,
+      quantity: 1,
+      unit: editingProduct.unit,
+      vendor: editingProduct.vendor,
+    });
     // try {
     //   const response = await fetch(
     //     "http://localhost:8080/api/product/delete/" + `${prodId}`,
@@ -222,14 +240,14 @@ export default function EditProducts() {
     //       method: "DELETE",
     //     }
     //   );
-      // const responseData = await response.json();
-      // console.log("ck front", responseData);
-      //   if (!response.ok) {
-      //     //throw new Error(responseData.errorMessage);
-      //     setErrorMessage(
-      //       responseData.errorMessage
-      //     );
-      //   }
+    // const responseData = await response.json();
+    // console.log("ck front", responseData);
+    //   if (!response.ok) {
+    //     //throw new Error(responseData.errorMessage);
+    //     setErrorMessage(
+    //       responseData.errorMessage
+    //     );
+    //   }
     //   if (response.ok) {
     //     updateProducts();
     //     setEditMessage("Product Deleted!");
@@ -280,6 +298,18 @@ export default function EditProducts() {
   };
 
   const handleChangePage = (event, newPage) => {
+    setSelectedIndex(-1);
+    setIsEditing(false);
+    setProductValues({
+      id: "",
+      imgUrl: "",
+      name: "",
+      price: "",
+      priceId: "",
+      quantity: 1,
+      unit: "",
+      vendor: "",
+    });
     setPage(newPage);
   };
 
@@ -311,10 +341,10 @@ export default function EditProducts() {
         <Paper>
           <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
-              <EnhancedTableToolbar  />
+              <EnhancedTableToolbar />
               <TableContainer>
                 <Table
-                  sx={{ minWidth: 750}}
+                  sx={{ minWidth: 750 }}
                   aria-labelledby="tableTitle"
                   size={dense ? "small" : "medium"}
                 >
@@ -336,7 +366,12 @@ export default function EditProducts() {
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
-                          <TableRow hover tabIndex={-1} key={row.id} selected={isSelected}>
+                          <TableRow
+                            hover
+                            tabIndex={-1}
+                            key={row.id}
+                            selected={isSelected}
+                          >
                             <TableCell padding="none">
                               <IconButton
                                 onClick={() => handleEditProduct(row.id, index)}
