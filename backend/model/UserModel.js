@@ -19,6 +19,16 @@ const userSchema = new mongoose.Schema({
         min: 4,
         max: 1000,
     },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    farmId: {
+        type: String,
+        required: false,
+        default: ""
+    },
     date: {
         type: Date,
         default: Date.now

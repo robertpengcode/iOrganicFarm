@@ -264,6 +264,7 @@ export default function EditProducts({
   const handleChangePage = (event, newPage) => {
     setSelectedIndex(-1);
     setIsEditing(false);
+    setEditMessage("");
     setProductValues({
       id: "",
       imgUrl: "",

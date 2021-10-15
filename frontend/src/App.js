@@ -310,3 +310,12 @@ export default App;
 //     priceId: "price_1Je6gVK6cEl29YLIeot4WTQ2",
 //   },
 // ];
+
+// const vendorsList = [
+//   {name: "Max's Fun Farm", farmId: "F001"},
+//   {name: "Madison Rose Farm", farmId: "F002"},
+//   {name: "Noah's Oak Farm", farmId: "F003"},
+//   {name: "Zoey's Home Farm", farmId: "F004"},
+//   {name: "Summit Hill Farm", farmId: "F005"},
+//   {name: "Morris Family Farm", farmId: "F006"},
+// ];
