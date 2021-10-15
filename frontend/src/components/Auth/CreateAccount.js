@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import Loading from "../UI/Loading";
 import Error from "../UI/Error";
 
@@ -76,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateAccount() {
-
   const classes = useStyles();
 
   const initialAccountValues = {
@@ -87,15 +87,21 @@ export default function CreateAccount() {
 
   const [accountValues, setAccountValues] = useState(initialAccountValues);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [createAccountMessage, setCreateAccountMessage] = useState("");
+  const [isAccountCreated, setIsAccountCreated] = useState(false);
+  console.log("cckk", isAccountCreated);
 
   useEffect(() => {
     setAccountValues(accountValues);
   }, [accountValues]);
 
-  // function redirectToThankYou() {
-  //   setEmailSent(true);
-  // }
+  function handleAfterCreated() {
+    setCreateAccountMessage("Your Account Is Created!");
+    setTimeout(() => {
+      setCreateAccountMessage("");
+      setIsAccountCreated(true);
+    }, 3000);
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -123,24 +129,21 @@ export default function CreateAccount() {
         }),
       });
       const responseData = await response.json();
-      console.log('ck front', responseData);
+      console.log("ck front", responseData);
       if (!response.ok) {
-        //throw new Error(responseData.errorMessage);
-        setErrorMessage(
-          responseData.errorMessage
-        );
+        setCreateAccountMessage(responseData.errorMessage);
+      } else {
+        handleAfterCreated();
       }
       setIsLoading(false);
     } catch (error) {
       console.log(error.message);
       setIsLoading(false);
-      setErrorMessage(
+      setCreateAccountMessage(
         error.message || "Something went wrong, please try again!"
       );
     }
-  };
-
-  
+  }
 
   const emailForm = (
     <Paper className={classes.paper}>
@@ -153,7 +156,7 @@ export default function CreateAccount() {
           </Grid>
           <Grid item className={classes.messageBox}>
             {isLoading && <Loading />}
-            {errorMessage && <Error message={errorMessage} />}
+            {createAccountMessage && <Error message={createAccountMessage} />}
           </Grid>
           <Grid item>
             <TextField
@@ -206,7 +209,7 @@ export default function CreateAccount() {
       </form>
     </Paper>
   );
-  return (
+  return isAccountCreated === false ? (
     <Paper className={classes.paperContainer}>
       <Grid container className={classes.container} alignItems="center">
         <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
@@ -216,5 +219,7 @@ export default function CreateAccount() {
         <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
       </Grid>
     </Paper>
+  ) : (
+    <Redirect to="/signin" />
   );
 }
