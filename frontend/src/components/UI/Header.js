@@ -144,6 +144,22 @@ export default function Header(props) {
     { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
   ];
 
+  const routesForDrawer = [
+    { name: "HOME", link: "/", tabValue: 0 },
+    { name: "ABOUT US", link: "/about", tabValue: 1 },
+    // {
+    //   name: "MARKET",
+    //   link: "/market",
+    //   tabValue: 2,
+    //   ariaOwns: anchorEl ? "simple-menu" : undefined,
+    //   ariaPopup: anchorEl ? "true" : undefined,
+    //   onMouseOver: (event) => handleHover(event),
+    // },
+    { name: "SHOP NOW", link: "/shop", tabValue: 2},
+    { name: "EXCHANGE", link: "/exchange", tabValue: 2},
+    { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
+  ];
+
   useEffect(() => {
     [...routes, ...menuOptions].forEach((route) => {
       if (
@@ -230,7 +246,7 @@ export default function Header(props) {
         classes={{ paper: classes.drawer }}
       >
         <List>
-          {routes.map((route, i) => (
+          {routesForDrawer.map((route, i) => (
             <ListItem
               key={i}
               onClick={() => {
