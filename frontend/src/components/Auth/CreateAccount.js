@@ -96,7 +96,7 @@ export default function CreateAccount() {
   }, [accountValues]);
 
   function handleAfterCreated() {
-    setCreateAccountMessage("Your Account Is Created!");
+    setCreateAccountMessage("Your account is created! Please sign in.");
     setTimeout(() => {
       setCreateAccountMessage("");
       setIsAccountCreated(true);
