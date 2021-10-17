@@ -16,6 +16,7 @@ import Canceled from "./components/Responses/Canceled";
 import Admin from "./components/Admin/Admin";
 import { AuthContext } from "./context/authContext";
 import { ProductsContext } from "./context/productsContext";
+import { isExchangingContext } from "./context/isExchangingContext";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import myTheme from "./components/UI/Theme";
@@ -26,6 +27,7 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
+  const [isExchanging, setIsExchanging] = useState(false);
 
   //console.log("hi downloadAgain", downloadAgain);
 
@@ -62,6 +64,10 @@ function App() {
     setDownloadAgain(!downloadAgain);
   };
 
+  const updateIsExchanging = () => {
+    setIsExchanging(!isExchanging);
+  }
+
   let routes;
 
   if (!isSignedIn) {
@@ -73,7 +79,7 @@ function App() {
         <Route exact path="/about" component={AboutUs} />
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={ShoppingCart} />
-        {/* <Route exact path="/exchange" component={Exchange} /> */}
+        <Route exact path="/exchange" component={Exchange} />
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
         {/* <Route exact path="/success" component={Success} />
@@ -109,6 +115,9 @@ function App() {
       <ProductsContext.Provider
         value={{ products: productsState, updateProducts: updateProducts }}
       >
+        <isExchangingContext.Provider
+        value={{ isExchanging: isExchanging, updateIsExchanging: updateIsExchanging }}
+      >
         <ThemeProvider theme={myTheme}>
           <BrowserRouter>
             <Header
@@ -141,6 +150,7 @@ function App() {
             />
           </BrowserRouter>
         </ThemeProvider>
+        </isExchangingContext.Provider>
       </ProductsContext.Provider>
     </AuthContext.Provider>
   );

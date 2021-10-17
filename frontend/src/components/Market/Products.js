@@ -83,7 +83,6 @@ const Products = () => {
       return byVendorName
     } 
   }
-  //console.log(compare());
 
   function priceLowToHigh( a, b ) {
     if ( a.price < b.price ){

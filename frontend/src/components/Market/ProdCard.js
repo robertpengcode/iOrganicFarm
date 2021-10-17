@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { isExchangingContext } from "./../../context/isExchangingContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -61,6 +62,8 @@ const Card = (props) => {
   const cartItems = useSelector((state) => state.cartItems);
   //console.log("ck", cartItems);
   const dispatch = useDispatch();
+  const { isExchanging } = useContext(isExchangingContext);
+  console.log('sunday', isExchanging);
 
   return (
     <Paper className={classes.cardPaper}>
@@ -83,6 +86,7 @@ const Card = (props) => {
           ${props.price}/{props.unit}
         </Grid>
         <Grid item>
+          {!isExchanging ? 
           <Button
             variant="contained"
             size="small"
@@ -98,6 +102,23 @@ const Card = (props) => {
           >
             Add To Cart
           </Button>
+          :
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            className={classes.button}
+            onClick={() => {
+              if (cartItems.find((item) => item.id === props.id)) {
+                dispatch({ type: "INCREASE", payload: props });
+              } else {
+                dispatch({ type: "ADD", payload: props });
+              }
+            }}
+          >
+            Add To Exchange
+          </Button>
+}
         </Grid>
       </Grid>
     </Paper>

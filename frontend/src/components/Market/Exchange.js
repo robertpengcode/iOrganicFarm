@@ -1,23 +1,27 @@
 import React from "react";
-//import { Link } from "react-router-dom";
+import Products from "./Products";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-//import Button from "@material-ui/core/Button";
-//import IconButton from "@material-ui/core/IconButton";
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
+  productsBox: {
+    padding: "0.5rem",
+    width: "98%",
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
+  productsContainer: {
+    width: "100%",
   },
-  paragraph: {
-    fontSize: "2rem",
-    fontFamily: "Playfair Display",
-    color: theme.palette.common.brown
-  }
+  shopTitle: {
+    ...theme.typography.text,
+    fontSize: "1.8rem",
+    color: theme.palette.common.armyGreen,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.5rem",
+    },
+  },
 }));
 
 export default function Exchange() {
@@ -25,7 +29,12 @@ export default function Exchange() {
 
   return (
     <Container>
-      <Typography className={classes.paragraph}>Exchange</Typography>
+      <Typography className={classes.shopTitle}>
+        Exchange Products
+      </Typography>
+      <Box className={classes.productsBox}>
+        <Products className={classes.productsContainer}/>
+      </Box>
     </Container>
   );
 }
