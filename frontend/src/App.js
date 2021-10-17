@@ -8,6 +8,7 @@ import AboutUs from "./components/AboutUs";
 import Shop from "./components/Market/Shop";
 import ShoppingCart from "./components/Market/ShoppingCart";
 import Exchange from "./components/Market/Exchange";
+import ExchangePlatform from "./components/Market/ExchangePlatform";
 import ContactUs from "./components/ContactUs";
 import Footer from "./components/UI/Footer";
 import ThankYou from "./components/Responses/ThankYou";
@@ -64,8 +65,8 @@ function App() {
     setDownloadAgain(!downloadAgain);
   };
 
-  const updateIsExchanging = () => {
-    setIsExchanging(!isExchanging);
+  const updateIsExchanging = (value) => {
+    setIsExchanging(value);
   }
 
   let routes;
@@ -80,6 +81,7 @@ function App() {
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={ShoppingCart} />
         <Route exact path="/exchange" component={Exchange} />
+        <Route exact path="/exchangeplatform" component={ExchangePlatform} />
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
         {/* <Route exact path="/success" component={Success} />
@@ -98,6 +100,7 @@ function App() {
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={ShoppingCart} />
         <Route exact path="/exchange" component={Exchange} />
+        <Route exact path="/exchangeplatform" component={ExchangePlatform} />
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
         <Route exact path="/success" component={Success} />

@@ -1,6 +1,7 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { isExchangingContext } from "./../../context/isExchangingContext";
 
 import AuthButtons from "./AuthButtons";
 
@@ -22,6 +23,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Button } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -103,6 +105,7 @@ export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openMenu, setOpen] = React.useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { isExchanging, updateIsExchanging } = useContext(isExchangingContext);
 
   const handleTabValue = (e, tabValue) => {
     props.setTabValue(tabValue);
@@ -180,6 +183,18 @@ export default function Header(props) {
       <IconButton component={Link} to="/cart">
         <ShoppingCartIcon />
       </IconButton>
+      <Typography>{totalItems}</Typography>
+    </Fragment>
+  );
+
+  const exchangePlatform = (
+    <Fragment>
+      {/* <IconButton component={Link} to="/cart">
+        <ShoppingCartIcon />
+      </IconButton> */}
+      <Button component={Link} to="/exchangeplatform">
+        Exchange Platform
+      </Button>
       <Typography>{totalItems}</Typography>
     </Fragment>
   );
@@ -298,7 +313,7 @@ export default function Header(props) {
             </Typography>
             {matches ? drawer : tabs}
             <AuthButtons/>
-            {cartIcon}
+            {!isExchanging ? cartIcon : exchangePlatform}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
