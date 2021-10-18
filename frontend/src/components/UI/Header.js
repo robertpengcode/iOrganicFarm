@@ -99,6 +99,7 @@ function ElevationScroll(props) {
 export default function Header(props) {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cartItems);
+  const exchangeItems = useSelector((state) => state.exchangeItems);
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -178,6 +179,10 @@ export default function Header(props) {
     return (totalItems += item.quantity);
   }, 0);
 
+  const totalExchangeItems = exchangeItems.reduce((totalItems, item) => {
+    return (totalItems += item.quantity);
+  }, 0);
+
   const cartIcon = (
     <Fragment>
       <IconButton component={Link} to="/cart">
@@ -189,13 +194,10 @@ export default function Header(props) {
 
   const exchangePlatform = (
     <Fragment>
-      {/* <IconButton component={Link} to="/cart">
-        <ShoppingCartIcon />
-      </IconButton> */}
       <Button component={Link} to="/exchangeplatform">
         Exchange Platform
       </Button>
-      <Typography>{totalItems}</Typography>
+      <Typography>{totalExchangeItems}</Typography>
     </Fragment>
   );
 

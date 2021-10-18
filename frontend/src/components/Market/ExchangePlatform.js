@@ -153,51 +153,51 @@ const useStyles = makeStyles((theme) => ({
 
 const ExchangePlatform = () => {
   const classes = useStyles();
-  const cartItems = useSelector((state) => state.cartItems);
+  const exchangeItems = useSelector((state) => state.exchangeItems);
   const dispatch = useDispatch();
 
-  //console.log("ck", cartItems);
-  const totalPrice = cartItems
+  console.log("ex items", exchangeItems);
+  const totalPrice = exchangeItems
     .reduce((total, item) => {
       return (total += item.price * item.quantity);
     }, 0)
     .toFixed(2);
-  //console.log("ck", totalPrice);
+  
 
-  function runFetch(e) {
-    e.preventDefault();
-    console.log("run fetch");
+//   function runFetch(e) {
+//     e.preventDefault();
+//     console.log("run fetch");
 
-    fetch("http://localhost:8080/create-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        items: cartItems,
-      }),
-    }).then((res) => {
-      // if (res.ok) return res.json();
-      // return res.json().then((json) => Promise.reject(json));
-      return res.json();
-    })
-    .then(({url})=>{
-      window.location = url
-    })
-    // .then(data => {
-    //   setClientSecret(data.clientSecret);
-    // })
-    .catch((e) => {
-      console.error(e.error);
-    });
-  }
+//     fetch("http://localhost:8080/create-checkout-session", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         items: cartItems,
+//       }),
+//     }).then((res) => {
+//       // if (res.ok) return res.json();
+//       // return res.json().then((json) => Promise.reject(json));
+//       return res.json();
+//     })
+//     .then(({url})=>{
+//       window.location = url
+//     })
+//     // .then(data => {
+//     //   setClientSecret(data.clientSecret);
+//     // })
+//     .catch((e) => {
+//       console.error(e.error);
+//     });
+//   }
 
   return (
     <Container>
-      <Typography className={classes.cartTitle}>My Shopping Cart</Typography>
+      <Typography className={classes.cartTitle}>My Exchange Platform</Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
-          {cartItems.map((cartItem, i) => (
+          {exchangeItems.map((cartItem, i) => (
             <Paper key={cartItem.id} className={classes.cartPaper}>
               <Grid item className={classes.cartItem}>
                 <Grid container justifyContent="space-between">
@@ -233,7 +233,7 @@ const ExchangePlatform = () => {
                       <Grid item className={classes.cartIconButton}>
                         <IconButton
                           onClick={() =>
-                            dispatch({ type: "INCREASE", payload: cartItem })
+                            dispatch({ type: "exINCREASE", payload: cartItem })
                           }
                         >
                           <AddIcon className={classes.cartIcon} />
@@ -243,9 +243,9 @@ const ExchangePlatform = () => {
                         <IconButton
                           onClick={() => {
                             if (cartItem.quantity > 1) {
-                              dispatch({ type: "DECREASE", payload: cartItem });
+                              dispatch({ type: "exDECREASE", payload: cartItem });
                             } else {
-                              dispatch({ type: "REMOVE", payload: cartItem });
+                              dispatch({ type: "exREMOVE", payload: cartItem });
                             }
                           }}
                         >
@@ -255,7 +255,7 @@ const ExchangePlatform = () => {
                       <Grid item className={classes.cartIconButton}>
                         <IconButton
                           onClick={() =>
-                            dispatch({ type: "REMOVE", payload: cartItem })
+                            dispatch({ type: "exREMOVE", payload: cartItem })
                           }
                         >
                           <ClearIcon className={classes.cartIcon} />
@@ -269,7 +269,7 @@ const ExchangePlatform = () => {
           ))}
 
           <Grid item className={classes.cartItem3}>
-            {cartItems.length ? (
+            {exchangeItems.length ? (
               <Grid
                 container
                 justifyContent="center"
@@ -281,36 +281,16 @@ const ExchangePlatform = () => {
                   Cart Total ${totalPrice}
                 </Grid>
                 <Grid item className={classes.cartItem2}>
-                  {/* <form action="/create-checkout-session" method="POST">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="medium"
-                      className={classes.cartButton}
-                      // onClick={runFetch}
-                    >
-                      Checkout
-                    </Button>
-                  </form> */}
                   <Button
                     type="submit"
                     variant="contained"
                     color="primary"
                     size="medium"
                     className={classes.cartButton}
-                    onClick={runFetch}
+                    //onClick={runFetch}
                   >
                     Checkout
                   </Button>
-                  {/* <Button
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    className={classes.cartButton}
-                  >
-                    Checkout
-                  </Button> */}
                 </Grid>
                 <Grid item className={classes.cartItem2}>
                   <Button
@@ -319,9 +299,9 @@ const ExchangePlatform = () => {
                     size="medium"
                     className={classes.cartButton}
                     component={Link}
-                    to="/shop"
+                    to="/exchange"
                   >
-                    Back To Shop
+                    Back To Exchange
                   </Button>
                 </Grid>
               </Grid>
@@ -334,7 +314,7 @@ const ExchangePlatform = () => {
               >
                 <Grid item>
                   <Typography className={classes.cartEmptyText}>
-                    Shopping Cart is Empty...
+                    Exchange Platform is Empty...
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -344,9 +324,9 @@ const ExchangePlatform = () => {
                     size="medium"
                     className={classes.cartButton}
                     component={Link}
-                    to="/shop"
+                    to="/exchange"
                   >
-                    Back To Shop
+                    Back To Exchange
                   </Button>
                 </Grid>
               </Grid>

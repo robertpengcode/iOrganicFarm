@@ -30,7 +30,7 @@ export default function Shop() {
   const { isExchanging, updateIsExchanging } = useContext(isExchangingContext);
   useEffect(() => {
     updateIsExchanging(false);
-  }, []);
+  });
   console.log('exchange?',isExchanging);
 
   return (

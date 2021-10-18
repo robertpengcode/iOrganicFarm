@@ -30,7 +30,7 @@ export default function Exchange() {
   const { isExchanging, updateIsExchanging } = useContext(isExchangingContext);
   useEffect(() => {
     updateIsExchanging(true);
-  }, []);
+  });
   console.log('exchange?',isExchanging);
 
   return (

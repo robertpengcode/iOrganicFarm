@@ -60,10 +60,11 @@ const useStyles = makeStyles((theme) => ({
 const Card = (props) => {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cartItems);
-  //console.log("ck", cartItems);
+  const exchangeItems = useSelector((state) => state.exchangeItems);
+  console.log("cart", cartItems, 'ex', exchangeItems);
   const dispatch = useDispatch();
   const { isExchanging } = useContext(isExchangingContext);
-  console.log('sunday', isExchanging);
+  //console.log('sunday', isExchanging);
 
   return (
     <Paper className={classes.cardPaper}>
@@ -109,10 +110,10 @@ const Card = (props) => {
             color="primary"
             className={classes.button}
             onClick={() => {
-              if (cartItems.find((item) => item.id === props.id)) {
-                dispatch({ type: "INCREASE", payload: props });
+              if (exchangeItems.find((item) => item.id === props.id)) {
+                dispatch({ type: "exINCREASE", payload: props });
               } else {
-                dispatch({ type: "ADD", payload: props });
+                dispatch({ type: "exADD", payload: props });
               }
             }}
           >

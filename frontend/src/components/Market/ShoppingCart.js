@@ -153,10 +153,10 @@ const useStyles = makeStyles((theme) => ({
 
 const ShoppingCart = () => {
   const classes = useStyles();
-  const cartItems = useSelector((state) => state.cartItems);
+  const cartItems = useSelector((state) => {console.log('state', state); return state.cartItems});
   const dispatch = useDispatch();
 
-  //console.log("ck", cartItems);
+  console.log("ck cart", cartItems);
   const totalPrice = cartItems
     .reduce((total, item) => {
       return (total += item.price * item.quantity);
@@ -166,7 +166,7 @@ const ShoppingCart = () => {
 
   function runFetch(e) {
     e.preventDefault();
-    console.log("run fetch");
+    //console.log("run fetch");
 
     fetch("http://localhost:8080/create-checkout-session", {
       method: "POST",
@@ -281,18 +281,6 @@ const ShoppingCart = () => {
                   Cart Total ${totalPrice}
                 </Grid>
                 <Grid item className={classes.cartItem2}>
-                  {/* <form action="/create-checkout-session" method="POST">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="medium"
-                      className={classes.cartButton}
-                      // onClick={runFetch}
-                    >
-                      Checkout
-                    </Button>
-                  </form> */}
                   <Button
                     type="submit"
                     variant="contained"
@@ -303,14 +291,6 @@ const ShoppingCart = () => {
                   >
                     Checkout
                   </Button>
-                  {/* <Button
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    className={classes.cartButton}
-                  >
-                    Checkout
-                  </Button> */}
                 </Grid>
                 <Grid item className={classes.cartItem2}>
                   <Button
