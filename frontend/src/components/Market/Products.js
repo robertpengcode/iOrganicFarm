@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import { ProductsContext } from "../../context/productsContext";
+import { IsExchangingContext } from "./../../context/isExchangingContext";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -57,13 +58,32 @@ const sortOptionsList = [
 const Products = () => {
   const classes = useStyles();
   const { products } = useContext(ProductsContext);
+  console.log('p', products);
+  const { isExchanging } = useContext(IsExchangingContext);
   const [searchValue, setSearchValue] = useState("");
   const [sortOption, setSortOption] = useState("Price: Low to High");
-  //console.log('option', sortOption);
+  const [farmOption, setFarmOption] = useState("");
+  const [currentFarm, setCurrentFarm] = useState("Zoey's Home Farm");
+  console.log('farmOption', farmOption);
+
+  const farmsList = [
+    "Max's Fun Farm",
+    "Zoey's Home Farm",
+    "Noah's Oak Farm",
+    "Madison Rose Farm",
+    "Summit Hill Farm",
+    "Morris Family Farm",
+  ].filter((farm) => farm !== currentFarm);
 
   function handleSearch(e) {
     const { value } = e.target;
     setSearchValue(value.toLowerCase());
+  }
+
+  function handleFarmOptions(e) {
+    const { value } = e.target;
+    //console.log('v', value);
+    setFarmOption(value);
   }
 
   function handleSortOptions(e) {
@@ -74,52 +94,76 @@ const Products = () => {
 
   function compare() {
     if (sortOption === "Price: Low to High") {
-      return priceLowToHigh
+      return priceLowToHigh;
     } else if (sortOption === "Price: High to Low") {
-      return priceHighToLow
+      return priceHighToLow;
     } else if (sortOption === "Product Name (A to Z)") {
-      return byProductName
+      return byProductName;
     } else if (sortOption === "Vendor Name (A to Z)") {
-      return byVendorName
-    } 
+      return byVendorName;
+    }
   }
 
-  function priceLowToHigh( a, b ) {
-    if ( a.price < b.price ){
+  function priceLowToHigh(a, b) {
+    if (a.price < b.price) {
       return -1;
     }
-    if ( a.price > b.price ){
+    if (a.price > b.price) {
       return 1;
     }
     return 0;
   }
-  function priceHighToLow( a, b ) {
-    if ( a.price > b.price ){
+  function priceHighToLow(a, b) {
+    if (a.price > b.price) {
       return -1;
     }
-    if ( a.price < b.price ){
+    if (a.price < b.price) {
       return 1;
     }
     return 0;
   }
-  function byProductName( a, b ) {
-    if ( a.name < b.name ){
+  function byProductName(a, b) {
+    if (a.name < b.name) {
       return -1;
     }
-    if ( a.name > b.name ){
+    if (a.name > b.name) {
       return 1;
     }
     return 0;
   }
-  function byVendorName( a, b ) {
-    if ( a.vendor < b.vendor ){
+  function byVendorName(a, b) {
+    if (a.vendor < b.vendor) {
       return -1;
     }
-    if ( a.vendor > b.vendor ){
+    if (a.vendor > b.vendor) {
       return 1;
     }
     return 0;
   }
+
+  const selectExchangeFarm = (
+    <FormControl
+      variant="outlined"
+      size="small"
+      className={classes.formControl}
+    >
+      <InputLabel>Exchange With...</InputLabel>
+      <Select
+        name="option"
+        //defaultValue=""
+        value={farmOption}
+        onChange={(e) => {
+          handleFarmOptions(e);
+        }}
+      >
+        {farmsList.map((farm, id) => (
+          <MenuItem key={id} value={farm}>
+            {farm}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
 
   const sortMenu = (
     <FormControl
@@ -132,7 +176,9 @@ const Products = () => {
         name="option"
         defaultValue=""
         value={sortOption}
-        onChange={(e) => {handleSortOptions(e)}}
+        onChange={(e) => {
+          handleSortOptions(e);
+        }}
       >
         {sortOptionsList.map((option, id) => (
           <MenuItem key={id} value={option}>
@@ -170,6 +216,11 @@ const Products = () => {
             </Grid>
           </Grid>
         </Grid>
+        {isExchanging ? (
+          <Grid item className={classes.sortBar}>
+            {selectExchangeFarm}
+          </Grid>
+        ) : null}
         <Grid item className={classes.sortBar}>
           {sortMenu}
         </Grid>
@@ -178,6 +229,13 @@ const Products = () => {
         {products
           .filter((product) => product.name.toLowerCase().includes(searchValue))
           .sort(compare())
+          .filter((product) => {
+            if (farmOption !== "") {
+              return product.vendor === farmOption || product.vendor === currentFarm;
+            } else {
+              return product;
+            }
+          })
           .map((product, i) => (
             <Grid item key={product.id}>
               <ProdCard
@@ -191,9 +249,7 @@ const Products = () => {
                 priceId={product.priceId}
               />
             </Grid>
-          ))
-          
-          }
+          ))}
       </Grid>
     </Fragment>
     //<Typography>...No Products</Typography>
