@@ -17,7 +17,8 @@ import Canceled from "./components/Responses/Canceled";
 import Admin from "./components/Admin/Admin";
 import { AuthContext } from "./context/authContext";
 import { ProductsContext } from "./context/productsContext";
-import { isExchangingContext } from "./context/isExchangingContext";
+import { IsExchangingContext } from "./context/isExchangingContext";
+import { ExchangesContext } from "./context/exchangesContext";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import myTheme from "./components/UI/Theme";
@@ -29,11 +30,13 @@ function App() {
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
   const [isExchanging, setIsExchanging] = useState(false);
+  const [exchangesState, setExchangesState] = useState([]);
 
   //console.log("hi downloadAgain", downloadAgain);
 
   useEffect(() => {
     fetchProducts();
+    fetchExchanges();
   }, []);
 
   useEffect(() => {
@@ -53,6 +56,18 @@ function App() {
     }
   }
 
+  async function fetchExchanges() {
+    console.log("fetch exchanges!!");
+    try {
+      const response = await fetch("http://localhost:8080/api/exchange/");
+      const responseData = await response.json();
+      console.log("ex", responseData);
+      setExchangesState(responseData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   const signIn = useCallback(() => {
     setIsSignedIn(true);
   }, []);
@@ -67,7 +82,12 @@ function App() {
 
   const updateIsExchanging = (value) => {
     setIsExchanging(value);
-  }
+  };
+
+  const updateExchanges = () => {
+    //setDownloadAgain(!downloadAgain);
+    console.log('update exchanges!!');
+  };
 
   let routes;
 
@@ -118,19 +138,24 @@ function App() {
       <ProductsContext.Provider
         value={{ products: productsState, updateProducts: updateProducts }}
       >
-        <isExchangingContext.Provider
-        value={{ isExchanging: isExchanging, updateIsExchanging: updateIsExchanging }}
-      >
-        <ThemeProvider theme={myTheme}>
-          <BrowserRouter>
-            <Header
-              tabValue={tabValue}
-              setTabValue={setTabValue}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
-            />
-            {routes}
-            {/* <Switch>
+        <IsExchangingContext.Provider
+          value={{
+            isExchanging: isExchanging,
+            updateIsExchanging: updateIsExchanging,
+          }}
+        >
+          <ExchangesContext.Provider
+          value={{ exchanges: exchangesState, updateExchanges: updateExchanges }}>
+            <ThemeProvider theme={myTheme}>
+              <BrowserRouter>
+                <Header
+                  tabValue={tabValue}
+                  setTabValue={setTabValue}
+                  selectedIndex={selectedIndex}
+                  setSelectedIndex={setSelectedIndex}
+                />
+                {routes}
+                {/* <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/create" component={CreateAccount} />
             <Route exact path="/signin" component={Signin} />
@@ -145,15 +170,16 @@ function App() {
             <Route exact path="/canceled" component={Canceled} />
             <Redirect to="/" />
           </Switch> */}
-            <Footer
-              tabValue={tabValue}
-              setTabValue={setTabValue}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
-            />
-          </BrowserRouter>
-        </ThemeProvider>
-        </isExchangingContext.Provider>
+                <Footer
+                  tabValue={tabValue}
+                  setTabValue={setTabValue}
+                  selectedIndex={selectedIndex}
+                  setSelectedIndex={setSelectedIndex}
+                />
+              </BrowserRouter>
+            </ThemeProvider>
+          </ExchangesContext.Provider>
+        </IsExchangingContext.Provider>
       </ProductsContext.Provider>
     </AuthContext.Provider>
   );

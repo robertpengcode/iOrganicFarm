@@ -22,6 +22,11 @@ const exchangeSchema = new mongoose.Schema({
     messages: {
         type: Array,
     },
+    isAccepted: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     date: {
         type: Date,
         default: Date.now

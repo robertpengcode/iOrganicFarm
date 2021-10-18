@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { isExchangingContext } from "./../../context/isExchangingContext";
+import { IsExchangingContext } from "./../../context/isExchangingContext";
 
 import AuthButtons from "./AuthButtons";
 
@@ -106,7 +106,7 @@ export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openMenu, setOpen] = React.useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const { isExchanging, updateIsExchanging } = useContext(isExchangingContext);
+  const { isExchanging, updateIsExchanging } = useContext(IsExchangingContext);
 
   const handleTabValue = (e, tabValue) => {
     props.setTabValue(tabValue);

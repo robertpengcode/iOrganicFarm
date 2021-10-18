@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import Products from "./Products";
-import { isExchangingContext } from "./../../context/isExchangingContext";
+import { IsExchangingContext } from "./../../context/isExchangingContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Exchange() {
   const classes = useStyles();
-  const { isExchanging, updateIsExchanging } = useContext(isExchangingContext);
+  const { isExchanging, updateIsExchanging } = useContext(IsExchangingContext);
   useEffect(() => {
     updateIsExchanging(true);
   });

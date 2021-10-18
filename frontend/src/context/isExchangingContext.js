@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const isExchangingContext = createContext(
+export const IsExchangingContext = createContext(
     {
         isExchanging: false,
         updateIsExchanging: ()=>{},

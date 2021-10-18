@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isExchangingContext } from "./../../context/isExchangingContext";
+import { IsExchangingContext } from "./../../context/isExchangingContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -63,7 +63,7 @@ const Card = (props) => {
   const exchangeItems = useSelector((state) => state.exchangeItems);
   console.log("cart", cartItems, 'ex', exchangeItems);
   const dispatch = useDispatch();
-  const { isExchanging } = useContext(isExchangingContext);
+  const { isExchanging } = useContext(IsExchangingContext);
   //console.log('sunday', isExchanging);
 
   return (
