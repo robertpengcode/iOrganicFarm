@@ -5,6 +5,7 @@ import { IsExchangingContext } from "./../../context/isExchangingContext";
 import { ExchangesContext } from "./../../context/exchangesContext";
 
 import AuthButtons from "./AuthButtons";
+import ExchangePlatformButton from "./ExchangePlatformButton";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -24,7 +25,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { Button } from "@mui/material";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@mui/material/Badge";
 
@@ -203,16 +203,22 @@ export default function Header(props) {
         <NotificationsIcon />
       </Badge>
     </IconButton>
-  )
-
-  const exchangePlatform = (
-    <Fragment>
-      <Button component={Link} to="/exchangeplatform">
-        Exchange Platform
-      </Button>
-      <Typography>{totalExchangeItems}</Typography>
-    </Fragment>
   );
+
+  // const exchangePlatform = (
+  //     <Button
+  //     variant="contained"
+  //     size="small"
+  //     color="primary"
+  //       component={Link}
+  //       to="/exchangeplatform"
+  //       className={classes.exbutton}
+  //     >Exchange
+  //       {/* <Badge badgeContent={totalExchangeItems} color="error">
+  //         Exchange Platform
+  //       </Badge> */}
+  //     </Button>
+  // );
 
   const tabs = (
     <Fragment>
@@ -328,8 +334,8 @@ export default function Header(props) {
             </Typography>
             {matches ? drawer : tabs}
             <AuthButtons />
+            {!isExchanging ? cartIcon : <ExchangePlatformButton totalExchangeItems={totalExchangeItems}/>}
             {notification}
-            {!isExchanging ? cartIcon : exchangePlatform}
           </Toolbar>
         </AppBar>
       </ElevationScroll>

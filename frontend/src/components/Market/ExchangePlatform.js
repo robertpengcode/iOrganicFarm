@@ -14,12 +14,13 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import ClearIcon from "@material-ui/icons/Clear";
 import Image from "material-ui-image";
 import Paper from "@material-ui/core/Paper";
+import Divider from '@mui/material/Divider';
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
     padding: "0.3rem",
     width: "100%",
-    border: "solid red 1px",
+    //border: "solid red 1px",
   },
   cartContainer: {
     marginLeft: "auto",
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
-    border: "solid blue 1px",
+    //border: "solid blue 1px",
   },
   cartTitle: {
     ...theme.typography.text,
@@ -114,6 +115,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: theme.palette.common.armyGreen,
   },
+  exchangeSubTitle: {
+    ...theme.typography.text,
+    fontSize: "1.2rem",
+    color: theme.palette.secondary.main,
+    marginTop: "0.5rem",
+    marginBottom: "0.5rem",
+  },
   cartEmptyText: {
     ...theme.typography.text,
     textAlign: "center",
@@ -173,7 +181,7 @@ const ExchangePlatform = () => {
       </Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
-          <Grid item>Other's Farm Items</Grid>
+          {exchangeItems.length ? <Grid item className={classes.exchangeSubTitle}>Other's Farm Items</Grid> : null}
           {exchangeItems
             .filter((product) => product.vendor !== currentFarm)
             .map((cartItem, i) => (
@@ -255,7 +263,10 @@ const ExchangePlatform = () => {
                 </Grid>
               </Paper>
             ))}
-          <Grid item>My Farm Items</Grid>
+
+<Divider />
+
+          {exchangeItems.length ? <Grid item className={classes.exchangeSubTitle}>My Farm Items</Grid> : null}
           {exchangeItems
             .filter((product) => product.vendor === currentFarm)
             .map((cartItem, i) => (
