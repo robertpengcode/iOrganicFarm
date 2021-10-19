@@ -58,13 +58,13 @@ const sortOptionsList = [
 const Products = () => {
   const classes = useStyles();
   const { products } = useContext(ProductsContext);
-  console.log('p', products);
+  //console.log('p', products);
   const { isExchanging } = useContext(IsExchangingContext);
   const [searchValue, setSearchValue] = useState("");
   const [sortOption, setSortOption] = useState("Price: Low to High");
   const [farmOption, setFarmOption] = useState("");
   const [currentFarm, setCurrentFarm] = useState("Zoey's Home Farm");
-  console.log('farmOption', farmOption);
+  //console.log('farmOption', farmOption);
 
   const farmsList = [
     "Max's Fun Farm",
@@ -247,6 +247,7 @@ const Products = () => {
                 id={product.id}
                 unit={product.unit}
                 priceId={product.priceId}
+                currentFarm={currentFarm}
               />
             </Grid>
           ))}

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IsExchangingContext } from "./../../context/isExchangingContext";
 
@@ -7,6 +7,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Image from "material-ui-image";
 import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
+import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   cardPaper: {
@@ -22,13 +24,26 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     aspectRatio: "1",
   },
-  cardVendor: {
+  cardVendorBox: {
     width: "95%",
-    ...theme.typography.text,
-    color: theme.palette.common.armyGreen,
+    //...theme.typography.text,
+    //color: theme.palette.common.armyGreen,
     fontSize: "1rem",
     textAlign: "left",
     marginTop: "0.5rem",
+  },
+  cardVendor: {
+    ...theme.typography.text,
+    color: theme.palette.common.armyGreen,
+  },
+  myOwn: {
+    color: "red",
+    border: "solid red 1px",
+    borderRadius: "5px",
+    fontSize: "0.8rem",
+    marginRight: "5px",
+    backgroundColor: "yellow",
+    fontWeight: "bold",
   },
   cardProdName: {
     width: "95%",
@@ -61,10 +76,16 @@ const Card = (props) => {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cartItems);
   const exchangeItems = useSelector((state) => state.exchangeItems);
-  console.log("cart", cartItems, 'ex', exchangeItems);
+  //console.log("cart", cartItems, "ex", exchangeItems);
   const dispatch = useDispatch();
   const { isExchanging } = useContext(IsExchangingContext);
   //console.log('sunday', isExchanging);
+
+  const myOwn = (
+    <Grid item className={classes.myOwn}>
+      My Own
+    </Grid>
+  );
 
   return (
     <Paper className={classes.cardPaper}>
@@ -77,8 +98,11 @@ const Card = (props) => {
         <Grid item className={classes.cardPic}>
           <Image src={props.imgUrl} />
         </Grid>
-        <Grid item className={classes.cardVendor}>
-          {props.vendor}
+        <Grid item className={classes.cardVendorBox}>
+          <Grid container alignItems="center">
+            {props.vendor === props.currentFarm ? myOwn : null}
+            <Grid item className={classes.cardVendor}>{props.vendor}</Grid>
+          </Grid>
         </Grid>
         <Grid item className={classes.cardProdName}>
           {props.name}
@@ -87,39 +111,39 @@ const Card = (props) => {
           ${props.price}/{props.unit}
         </Grid>
         <Grid item>
-          {!isExchanging ? 
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            className={classes.button}
-            onClick={() => {
-              if (cartItems.find((item) => item.id === props.id)) {
-                dispatch({ type: "INCREASE", payload: props });
-              } else {
-                dispatch({ type: "ADD", payload: props });
-              }
-            }}
-          >
-            Add To Cart
-          </Button>
-          :
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            className={classes.button}
-            onClick={() => {
-              if (exchangeItems.find((item) => item.id === props.id)) {
-                dispatch({ type: "exINCREASE", payload: props });
-              } else {
-                dispatch({ type: "exADD", payload: props });
-              }
-            }}
-          >
-            Add To Exchange
-          </Button>
-}
+          {!isExchanging ? (
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              className={classes.button}
+              onClick={() => {
+                if (cartItems.find((item) => item.id === props.id)) {
+                  dispatch({ type: "INCREASE", payload: props });
+                } else {
+                  dispatch({ type: "ADD", payload: props });
+                }
+              }}
+            >
+              Add To Cart
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              className={classes.button}
+              onClick={() => {
+                if (exchangeItems.find((item) => item.id === props.id)) {
+                  dispatch({ type: "exINCREASE", payload: props });
+                } else {
+                  dispatch({ type: "exADD", payload: props });
+                }
+              }}
+            >
+              Add To Exchange
+            </Button>
+          )}
         </Grid>
       </Grid>
     </Paper>
