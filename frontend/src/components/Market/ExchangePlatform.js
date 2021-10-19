@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   cartBox: {
     padding: "0.3rem",
     width: "100%",
+    border: "solid red 1px",
   },
   cartContainer: {
     marginLeft: "auto",
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
+    border: "solid blue 1px",
   },
   cartTitle: {
     ...theme.typography.text,
@@ -155,6 +157,7 @@ const ExchangePlatform = () => {
   const classes = useStyles();
   const exchangeItems = useSelector((state) => state.exchangeItems);
   const dispatch = useDispatch();
+  const [currentFarm, setCurrentFarm] = useState("Zoey's Home Farm");
 
   console.log("ex items", exchangeItems);
   const totalPrice = exchangeItems
@@ -162,111 +165,178 @@ const ExchangePlatform = () => {
       return (total += item.price * item.quantity);
     }, 0)
     .toFixed(2);
-  
-
-//   function runFetch(e) {
-//     e.preventDefault();
-//     console.log("run fetch");
-
-//     fetch("http://localhost:8080/create-checkout-session", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         items: cartItems,
-//       }),
-//     }).then((res) => {
-//       // if (res.ok) return res.json();
-//       // return res.json().then((json) => Promise.reject(json));
-//       return res.json();
-//     })
-//     .then(({url})=>{
-//       window.location = url
-//     })
-//     // .then(data => {
-//     //   setClientSecret(data.clientSecret);
-//     // })
-//     .catch((e) => {
-//       console.error(e.error);
-//     });
-//   }
 
   return (
     <Container>
-      <Typography className={classes.cartTitle}>My Exchange Platform</Typography>
+      <Typography className={classes.cartTitle}>
+        My Exchange Platform
+      </Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
-          {exchangeItems.map((cartItem, i) => (
-            <Paper key={cartItem.id} className={classes.cartPaper}>
-              <Grid item className={classes.cartItem}>
-                <Grid container justifyContent="space-between">
-                  <Grid item className={classes.cartItemLeft}>
-                    <Grid
-                      container
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Grid item className={classes.cartItemPic}>
-                        <Image src={cartItem.imgUrl} />
-                      </Grid>
-                      <Grid item className={classes.cartVendor}>
-                        {cartItem.vendor}
-                      </Grid>
-                      <Grid item className={classes.cartProdName}>
-                        {cartItem.name}
-                      </Grid>
-                      <Grid item className={classes.cartPrice}>
-                        ${cartItem.price}/{cartItem.unit}
-                      </Grid>
-                      <Grid item className={classes.cartPrice}>
-                        Qty: {cartItem.quantity}
+          <Grid item>Other's Farm Items</Grid>
+          {exchangeItems
+            .filter((product) => product.vendor !== currentFarm)
+            .map((cartItem, i) => (
+              <Paper key={cartItem.id} className={classes.cartPaper}>
+                <Grid item className={classes.cartItem}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item className={classes.cartItemLeft}>
+                      <Grid
+                        container
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Grid item className={classes.cartItemPic}>
+                          <Image src={cartItem.imgUrl} />
+                        </Grid>
+                        <Grid item className={classes.cartVendor}>
+                          {cartItem.vendor}
+                        </Grid>
+                        <Grid item className={classes.cartProdName}>
+                          {cartItem.name}
+                        </Grid>
+                        <Grid item className={classes.cartPrice}>
+                          ${cartItem.price}/{cartItem.unit}
+                        </Grid>
+                        <Grid item className={classes.cartPrice}>
+                          Qty: {cartItem.quantity}
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                  <Grid item className={classes.cartItemRight}>
-                    <Grid
-                      container
-                      justifyContent="center"
-                      alignContent="center"
-                    >
-                      <Grid item className={classes.cartIconButton}>
-                        <IconButton
-                          onClick={() =>
-                            dispatch({ type: "exINCREASE", payload: cartItem })
-                          }
-                        >
-                          <AddIcon className={classes.cartIcon} />
-                        </IconButton>
-                      </Grid>
-                      <Grid item className={classes.cartIconButton}>
-                        <IconButton
-                          onClick={() => {
-                            if (cartItem.quantity > 1) {
-                              dispatch({ type: "exDECREASE", payload: cartItem });
-                            } else {
-                              dispatch({ type: "exREMOVE", payload: cartItem });
+                    <Grid item className={classes.cartItemRight}>
+                      <Grid
+                        container
+                        justifyContent="center"
+                        alignContent="center"
+                      >
+                        <Grid item className={classes.cartIconButton}>
+                          <IconButton
+                            onClick={() =>
+                              dispatch({
+                                type: "exINCREASE",
+                                payload: cartItem,
+                              })
                             }
-                          }}
-                        >
-                          <RemoveIcon className={classes.cartIcon} />
-                        </IconButton>
-                      </Grid>
-                      <Grid item className={classes.cartIconButton}>
-                        <IconButton
-                          onClick={() =>
-                            dispatch({ type: "exREMOVE", payload: cartItem })
-                          }
-                        >
-                          <ClearIcon className={classes.cartIcon} />
-                        </IconButton>
+                          >
+                            <AddIcon className={classes.cartIcon} />
+                          </IconButton>
+                        </Grid>
+                        <Grid item className={classes.cartIconButton}>
+                          <IconButton
+                            onClick={() => {
+                              if (cartItem.quantity > 1) {
+                                dispatch({
+                                  type: "exDECREASE",
+                                  payload: cartItem,
+                                });
+                              } else {
+                                dispatch({
+                                  type: "exREMOVE",
+                                  payload: cartItem,
+                                });
+                              }
+                            }}
+                          >
+                            <RemoveIcon className={classes.cartIcon} />
+                          </IconButton>
+                        </Grid>
+                        <Grid item className={classes.cartIconButton}>
+                          <IconButton
+                            onClick={() =>
+                              dispatch({ type: "exREMOVE", payload: cartItem })
+                            }
+                          >
+                            <ClearIcon className={classes.cartIcon} />
+                          </IconButton>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
-          ))}
+              </Paper>
+            ))}
+          <Grid item>My Farm Items</Grid>
+          {exchangeItems
+            .filter((product) => product.vendor === currentFarm)
+            .map((cartItem, i) => (
+              <Paper key={cartItem.id} className={classes.cartPaper}>
+                <Grid item className={classes.cartItem}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item className={classes.cartItemLeft}>
+                      <Grid
+                        container
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Grid item className={classes.cartItemPic}>
+                          <Image src={cartItem.imgUrl} />
+                        </Grid>
+                        <Grid item className={classes.cartVendor}>
+                          {cartItem.vendor}
+                        </Grid>
+                        <Grid item className={classes.cartProdName}>
+                          {cartItem.name}
+                        </Grid>
+                        <Grid item className={classes.cartPrice}>
+                          ${cartItem.price}/{cartItem.unit}
+                        </Grid>
+                        <Grid item className={classes.cartPrice}>
+                          Qty: {cartItem.quantity}
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item className={classes.cartItemRight}>
+                      <Grid
+                        container
+                        justifyContent="center"
+                        alignContent="center"
+                      >
+                        <Grid item className={classes.cartIconButton}>
+                          <IconButton
+                            onClick={() =>
+                              dispatch({
+                                type: "exINCREASE",
+                                payload: cartItem,
+                              })
+                            }
+                          >
+                            <AddIcon className={classes.cartIcon} />
+                          </IconButton>
+                        </Grid>
+                        <Grid item className={classes.cartIconButton}>
+                          <IconButton
+                            onClick={() => {
+                              if (cartItem.quantity > 1) {
+                                dispatch({
+                                  type: "exDECREASE",
+                                  payload: cartItem,
+                                });
+                              } else {
+                                dispatch({
+                                  type: "exREMOVE",
+                                  payload: cartItem,
+                                });
+                              }
+                            }}
+                          >
+                            <RemoveIcon className={classes.cartIcon} />
+                          </IconButton>
+                        </Grid>
+                        <Grid item className={classes.cartIconButton}>
+                          <IconButton
+                            onClick={() =>
+                              dispatch({ type: "exREMOVE", payload: cartItem })
+                            }
+                          >
+                            <ClearIcon className={classes.cartIcon} />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Paper>
+            ))}
 
           <Grid item className={classes.cartItem3}>
             {exchangeItems.length ? (
