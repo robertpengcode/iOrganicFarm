@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IsExchangingContext } from "./../../context/isExchangingContext";
+import { ExchangesContext } from "./../../context/exchangesContext";
 
 import AuthButtons from "./AuthButtons";
 
@@ -24,6 +25,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Button } from "@mui/material";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import Badge from "@mui/material/Badge";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -106,7 +109,8 @@ export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openMenu, setOpen] = React.useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const { isExchanging, updateIsExchanging } = useContext(IsExchangingContext);
+  const { isExchanging } = useContext(IsExchangingContext);
+  const { exchanges } = useContext(ExchangesContext);
 
   const handleTabValue = (e, tabValue) => {
     props.setTabValue(tabValue);
@@ -159,8 +163,8 @@ export default function Header(props) {
     //   ariaPopup: anchorEl ? "true" : undefined,
     //   onMouseOver: (event) => handleHover(event),
     // },
-    { name: "SHOP NOW", link: "/shop", tabValue: 2},
-    { name: "EXCHANGE", link: "/exchange", tabValue: 2},
+    { name: "SHOP NOW", link: "/shop", tabValue: 2 },
+    { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
     { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
   ];
 
@@ -171,7 +175,7 @@ export default function Header(props) {
         props.tabValue !== route.tabValue
       ) {
         props.setTabValue(route.tabValue);
-      } 
+      }
     });
   }, [props.tabValue, menuOptions, routes, props]);
 
@@ -183,14 +187,23 @@ export default function Header(props) {
     return (totalItems += item.quantity);
   }, 0);
 
+  const totalExchangeRequests = exchanges.length;
+
   const cartIcon = (
-    <Fragment>
-      <IconButton component={Link} to="/cart">
+    <IconButton component={Link} to="/cart">
+      <Badge badgeContent={totalItems} color="error">
         <ShoppingCartIcon />
-      </IconButton>
-      <Typography>{totalItems}</Typography>
-    </Fragment>
+      </Badge>
+    </IconButton>
   );
+
+  const notification = (
+    <IconButton component={Link} to="/exchangeplatform">
+      <Badge badgeContent={totalExchangeRequests} color="error">
+        <NotificationsIcon />
+      </Badge>
+    </IconButton>
+  )
 
   const exchangePlatform = (
     <Fragment>
@@ -314,7 +327,8 @@ export default function Header(props) {
               iOrganicFarm
             </Typography>
             {matches ? drawer : tabs}
-            <AuthButtons/>
+            <AuthButtons />
+            {notification}
             {!isExchanging ? cartIcon : exchangePlatform}
           </Toolbar>
         </AppBar>

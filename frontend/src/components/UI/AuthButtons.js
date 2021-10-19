@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.secondary.main,
     marginLeft: "0.5rem",
+    marginRight: "0.5rem",
   },
 }));
 

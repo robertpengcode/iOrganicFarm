@@ -57,7 +57,7 @@ function App() {
   }
 
   async function fetchExchanges() {
-    console.log("fetch exchanges!!");
+    //console.log("fetch exchanges!!");
     try {
       const response = await fetch("http://localhost:8080/api/exchange/");
       const responseData = await response.json();
