@@ -120,7 +120,6 @@ const Admin = () => {
     "Blueberry",
   ];
   const productUnits = ["lb", "dozen", "box", "pint"];
-  //console.log(vendors, productNames, productUnits);
 
   const initialProductValues = {
     id: "",

@@ -2,6 +2,7 @@ const ADD = "exADD";
 const INCREASE = "exINCREASE";
 const DECREASE = "exDECREASE";
 const REMOVE = "exREMOVE";
+const EMPTY = "exEMPTY";
 
 const exchangePlatformReducer = (state = [], action) => {
   switch (action.type) {
@@ -29,6 +30,9 @@ const exchangePlatformReducer = (state = [], action) => {
     case REMOVE:
       return state.filter((item) => item.name !== action.payload.name);
 
+    case EMPTY:
+      return [];
+      
     default:
       return state;
   }

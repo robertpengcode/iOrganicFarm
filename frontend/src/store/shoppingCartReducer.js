@@ -2,6 +2,7 @@ const ADD = "ADD";
 const INCREASE = "INCREASE";
 const DECREASE = "DECREASE";
 const REMOVE = "REMOVE";
+const EMPTY = "EMPTY";
 
 const shoppingCartReducer = (state = [], action) => {
   switch (action.type) {
@@ -28,6 +29,9 @@ const shoppingCartReducer = (state = [], action) => {
 
     case REMOVE:
       return state.filter((item) => item.name !== action.payload.name);
+
+    case EMPTY:
+      return [];  
 
     default:
       return state;

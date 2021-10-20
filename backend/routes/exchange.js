@@ -73,6 +73,7 @@ router.post("/create", async (req, res) => {
     exchangeInItems: req.body.exchangeInItems,
     exchangeOutItems: req.body.exchangeOutItems,
     messages: req.body.messages,
+    status: req.body.status,
   });
   try {
     const savedExchange = await exchange.save();

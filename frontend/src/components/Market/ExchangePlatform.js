@@ -14,7 +14,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import ClearIcon from "@material-ui/icons/Clear";
 import Image from "material-ui-image";
 import Paper from "@material-ui/core/Paper";
-import Divider from "@mui/material/Divider";
+//import Divider from "@mui/material/Divider";
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
@@ -177,7 +177,7 @@ const ExchangePlatform = () => {
   const [currentFarm] = useState("Zoey's Home Farm");
   //console.log("ex items", exchangeItems);
 
-  const exchangeInItems = exchangeItems.filter(
+  let exchangeInItems = exchangeItems.filter(
     (product) => product.vendor !== currentFarm
   );
   const exchangeInTotal = exchangeInItems
@@ -186,7 +186,7 @@ const ExchangePlatform = () => {
     }, 0)
     .toFixed(2);
 
-  const exchangeOutItems = exchangeItems.filter(
+  let exchangeOutItems = exchangeItems.filter(
     (product) => product.vendor === currentFarm
   );
   const exchangeOutTotal = exchangeOutItems
@@ -199,11 +199,44 @@ const ExchangePlatform = () => {
     Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeOutTotal < 0.05 &&
     Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeInTotal < 0.05;
 
-  // const totalPrice = exchangeItems
-  //   .reduce((total, item) => {
-  //     return (total += item.price * item.quantity);
-  //   }, 0)
-  //   .toFixed(2);
+  async function handleSubmitRequest() {
+    console.log("submiting request!!");
+    //setAdminMessage("Creating New Product...");
+
+    try {
+      const response = await fetch("http://localhost:8080/api/exchange/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          requestFrom: currentFarm,
+          requestTo: exchangeInItems[0].vendor,
+          exchangeInItems: exchangeInItems,
+          exchangeOutItems: exchangeOutItems,
+          messages: "test message",
+          status: "submited"
+        }),
+      });
+      const responseData = await response.json();
+      console.log("from create res", responseData);
+      if (response.ok) {
+        dispatch({
+          type: "exEMPTY",
+        });
+      }
+      // if (response.ok) {
+      //   updateProducts();
+      //   setAdminMessage("New Product Created!");
+      //   setTimeout(() => {
+      //     setAdminMessage("");
+      //     setProductValues(initialProductValues);
+      //   }, 5000);
+      // }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <Container>
@@ -299,7 +332,7 @@ const ExchangePlatform = () => {
               </Paper>
             ))}
 
-          <Divider />
+          {/* <Divider /> */}
 
           {exchangeItems.length ? (
             <Grid item className={classes.exchangeSubTitle}>
@@ -423,7 +456,7 @@ const ExchangePlatform = () => {
                     size="medium"
                     className={classes.cartButton}
                     disabled={!isBalanced}
-                    //onClick={runFetch}
+                    onClick={handleSubmitRequest}
                   >
                     Submit Exchange Request
                   </Button>

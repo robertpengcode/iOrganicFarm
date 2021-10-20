@@ -162,11 +162,9 @@ const ShoppingCart = () => {
       return (total += item.price * item.quantity);
     }, 0)
     .toFixed(2);
-  //console.log("ck", totalPrice);
 
   function runFetch(e) {
     e.preventDefault();
-    //console.log("run fetch");
 
     fetch("http://localhost:8080/create-checkout-session", {
       method: "POST",
@@ -177,16 +175,11 @@ const ShoppingCart = () => {
         items: cartItems,
       }),
     }).then((res) => {
-      // if (res.ok) return res.json();
-      // return res.json().then((json) => Promise.reject(json));
       return res.json();
     })
     .then(({url})=>{
       window.location = url
     })
-    // .then(data => {
-    //   setClientSecret(data.clientSecret);
-    // })
     .catch((e) => {
       console.error(e.error);
     });
