@@ -198,27 +198,12 @@ export default function Header(props) {
   );
 
   const notification = (
-    <IconButton component={Link} to="/exchangeplatform">
+    <IconButton component={Link} to="/exchangeview" target="_blank">
       <Badge badgeContent={totalExchangeRequests} color="error">
         <NotificationsIcon />
       </Badge>
     </IconButton>
   );
-
-  // const exchangePlatform = (
-  //     <Button
-  //     variant="contained"
-  //     size="small"
-  //     color="primary"
-  //       component={Link}
-  //       to="/exchangeplatform"
-  //       className={classes.exbutton}
-  //     >Exchange
-  //       {/* <Badge badgeContent={totalExchangeItems} color="error">
-  //         Exchange Platform
-  //       </Badge> */}
-  //     </Button>
-  // );
 
   const tabs = (
     <Fragment>

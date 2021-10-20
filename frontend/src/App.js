@@ -9,6 +9,7 @@ import Shop from "./components/Market/Shop";
 import ShoppingCart from "./components/Market/ShoppingCart";
 import Exchange from "./components/Market/Exchange";
 import ExchangePlatform from "./components/Market/ExchangePlatform";
+import ExchangeView from "./components/Market/ExchangeView";
 import ContactUs from "./components/ContactUs";
 import Footer from "./components/UI/Footer";
 import ThankYou from "./components/Responses/ThankYou";
@@ -86,7 +87,7 @@ function App() {
 
   const updateExchanges = () => {
     //setDownloadAgain(!downloadAgain);
-    console.log('update exchanges!!');
+    console.log("update exchanges!!");
   };
 
   let routes;
@@ -102,6 +103,7 @@ function App() {
         <Route exact path="/cart" component={ShoppingCart} />
         <Route exact path="/exchange" component={Exchange} />
         <Route exact path="/exchangeplatform" component={ExchangePlatform} />
+        <Route exact path="/exchangeview" component={ExchangeView} />
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
         {/* <Route exact path="/success" component={Success} />
@@ -121,6 +123,7 @@ function App() {
         <Route exact path="/cart" component={ShoppingCart} />
         <Route exact path="/exchange" component={Exchange} />
         <Route exact path="/exchangeplatform" component={ExchangePlatform} />
+        <Route exact path="/exchangeview" component={ExchangeView} />
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
         <Route exact path="/success" component={Success} />
@@ -145,7 +148,11 @@ function App() {
           }}
         >
           <ExchangesContext.Provider
-          value={{ exchanges: exchangesState, updateExchanges: updateExchanges }}>
+            value={{
+              exchanges: exchangesState,
+              updateExchanges: updateExchanges,
+            }}
+          >
             <ThemeProvider theme={myTheme}>
               <BrowserRouter>
                 <Header

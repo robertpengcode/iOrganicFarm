@@ -14,13 +14,11 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import ClearIcon from "@material-ui/icons/Clear";
 import Image from "material-ui-image";
 import Paper from "@material-ui/core/Paper";
-//import Divider from "@mui/material/Divider";
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
     padding: "0.3rem",
     width: "100%",
-    //border: "solid red 1px",
   },
   cartContainer: {
     marginLeft: "auto",
@@ -35,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
-    //border: "solid blue 1px",
   },
   cartTitle: {
     ...theme.typography.text,
@@ -163,8 +160,6 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.text,
     fontSize: "1rem",
     color: theme.palette.common.armyGreen,
-    //marginLeft: "1rem",
-    //border: "solid green 1px",
     borderRadius: "12px",
     padding: "0.2rem",
   },
@@ -177,7 +172,7 @@ const ExchangePlatform = () => {
   const [currentFarm] = useState("Zoey's Home Farm");
   //console.log("ex items", exchangeItems);
 
-  let exchangeInItems = exchangeItems.filter(
+  const exchangeInItems = exchangeItems.filter(
     (product) => product.vendor !== currentFarm
   );
   const exchangeInTotal = exchangeInItems
@@ -186,7 +181,7 @@ const ExchangePlatform = () => {
     }, 0)
     .toFixed(2);
 
-  let exchangeOutItems = exchangeItems.filter(
+  const exchangeOutItems = exchangeItems.filter(
     (product) => product.vendor === currentFarm
   );
   const exchangeOutTotal = exchangeOutItems
@@ -425,17 +420,11 @@ const ExchangePlatform = () => {
             {exchangeItems.length ? (
               <Grid
                 container
-                justifyContent="center"
+                justifyContent="space-evenly"
                 spacing={2}
                 alignItems="center"
                 className={classes.cartItem4}
               >
-                {/* <Grid item className={classes.cartItem2}>
-                  Exchange In Total ${exchangeInTotal}
-                </Grid>
-                <Grid item className={classes.cartItem2}>
-                  Exchange Out Total ${exchangeOutTotal}
-                </Grid> */}
                 <Grid
                   item
                   className={classes.exchangeTotal}
