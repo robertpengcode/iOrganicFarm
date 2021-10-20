@@ -191,7 +191,7 @@ export default function Header(props) {
 
   const cartIcon = (
     <IconButton component={Link} to="/cart">
-      <Badge badgeContent={totalItems} color="error">
+      <Badge badgeContent={totalItems} color="success">
         <ShoppingCartIcon />
       </Badge>
     </IconButton>

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ExchangePlatformButton(props) {
   const classes = useStyles();
   const totalExchangeItems = props.totalExchangeItems;
-  
+
   return (
     <Button
       variant="contained"
@@ -29,7 +29,7 @@ export default function ExchangePlatformButton(props) {
       to="/exchangeplatform"
       className={classes.exButton}
     >
-      <Badge badgeContent={totalExchangeItems} color="error">
+      <Badge badgeContent={totalExchangeItems} color="success">
         Exchange Platform
       </Badge>
     </Button>

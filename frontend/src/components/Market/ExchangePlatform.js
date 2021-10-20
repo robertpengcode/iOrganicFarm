@@ -14,7 +14,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import ClearIcon from "@material-ui/icons/Clear";
 import Image from "material-ui-image";
 import Paper from "@material-ui/core/Paper";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
@@ -159,20 +159,51 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "0.8rem",
     },
   },
+  exchangeTotal: {
+    ...theme.typography.text,
+    fontSize: "1rem",
+    color: theme.palette.common.armyGreen,
+    //marginLeft: "1rem",
+    //border: "solid green 1px",
+    borderRadius: "12px",
+    padding: "0.2rem",
+  },
 }));
 
 const ExchangePlatform = () => {
   const classes = useStyles();
   const exchangeItems = useSelector((state) => state.exchangeItems);
   const dispatch = useDispatch();
-  const [currentFarm, setCurrentFarm] = useState("Zoey's Home Farm");
+  const [currentFarm] = useState("Zoey's Home Farm");
+  //console.log("ex items", exchangeItems);
 
-  console.log("ex items", exchangeItems);
-  const totalPrice = exchangeItems
+  const exchangeInItems = exchangeItems.filter(
+    (product) => product.vendor !== currentFarm
+  );
+  const exchangeInTotal = exchangeInItems
     .reduce((total, item) => {
       return (total += item.price * item.quantity);
     }, 0)
     .toFixed(2);
+
+  const exchangeOutItems = exchangeItems.filter(
+    (product) => product.vendor === currentFarm
+  );
+  const exchangeOutTotal = exchangeOutItems
+    .reduce((total, item) => {
+      return (total += item.price * item.quantity);
+    }, 0)
+    .toFixed(2);
+
+  const isBalanced =
+    Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeOutTotal < 0.05 &&
+    Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeInTotal < 0.05;
+
+  // const totalPrice = exchangeItems
+  //   .reduce((total, item) => {
+  //     return (total += item.price * item.quantity);
+  //   }, 0)
+  //   .toFixed(2);
 
   return (
     <Container>
@@ -181,7 +212,11 @@ const ExchangePlatform = () => {
       </Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
-          {exchangeItems.length ? <Grid item className={classes.exchangeSubTitle}>Other's Farm Items</Grid> : null}
+          {exchangeItems.length ? (
+            <Grid item className={classes.exchangeSubTitle}>
+              Other's Farm Items
+            </Grid>
+          ) : null}
           {exchangeItems
             .filter((product) => product.vendor !== currentFarm)
             .map((cartItem, i) => (
@@ -264,9 +299,13 @@ const ExchangePlatform = () => {
               </Paper>
             ))}
 
-<Divider />
+          <Divider />
 
-          {exchangeItems.length ? <Grid item className={classes.exchangeSubTitle}>My Farm Items</Grid> : null}
+          {exchangeItems.length ? (
+            <Grid item className={classes.exchangeSubTitle}>
+              My Farm Items
+            </Grid>
+          ) : null}
           {exchangeItems
             .filter((product) => product.vendor === currentFarm)
             .map((cartItem, i) => (
@@ -358,8 +397,23 @@ const ExchangePlatform = () => {
                 alignItems="center"
                 className={classes.cartItem4}
               >
+                {/* <Grid item className={classes.cartItem2}>
+                  Exchange In Total ${exchangeInTotal}
+                </Grid>
                 <Grid item className={classes.cartItem2}>
-                  Cart Total ${totalPrice}
+                  Exchange Out Total ${exchangeOutTotal}
+                </Grid> */}
+                <Grid
+                  item
+                  className={classes.exchangeTotal}
+                  style={
+                    isBalanced
+                      ? { border: "solid green 1px" }
+                      : { border: "solid red 1px" }
+                  }
+                >
+                  Exchange In: {exchangeInTotal} VS Exchange Out:{" "}
+                  {exchangeOutTotal}
                 </Grid>
                 <Grid item className={classes.cartItem2}>
                   <Button
@@ -368,9 +422,10 @@ const ExchangePlatform = () => {
                     color="primary"
                     size="medium"
                     className={classes.cartButton}
+                    disabled={!isBalanced}
                     //onClick={runFetch}
                   >
-                    Checkout
+                    Submit Exchange Request
                   </Button>
                 </Grid>
                 <Grid item className={classes.cartItem2}>
