@@ -163,15 +163,22 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "12px",
     padding: "0.2rem",
   },
+  adminMessageBox: {
+    width: "94%",
+  },
+  adminMessage: {
+    ...theme.typography.text,
+    color: "red",
+  },
 }));
 
 const ExchangePlatform = () => {
   const classes = useStyles();
   const exchangeItems = useSelector((state) => state.exchangeItems);
   const dispatch = useDispatch();
+  const [exchangeMessage, setExchangeMessage] = useState("");
   const [currentFarm] = useState("Zoey's Home Farm");
-  //console.log("ex items", exchangeItems);
-
+  
   const exchangeInItems = exchangeItems.filter(
     (product) => product.vendor !== currentFarm
   );
@@ -195,43 +202,50 @@ const ExchangePlatform = () => {
     Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeInTotal < 0.05;
 
   async function handleSubmitRequest() {
-    console.log("submiting request!!");
-    //setAdminMessage("Creating New Product...");
+    //console.log("submiting request!!");
+    setExchangeMessage("Creating New Exchange Request...");
 
     try {
-      const response = await fetch("http://localhost:8080/api/exchange/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          requestFrom: currentFarm,
-          requestTo: exchangeInItems[0].vendor,
-          exchangeInItems: exchangeInItems,
-          exchangeOutItems: exchangeOutItems,
-          messages: "test message",
-          status: "submited"
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/exchange/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            requestFrom: currentFarm,
+            requestTo: exchangeInItems[0].vendor,
+            exchangeInItems: exchangeInItems,
+            exchangeInTotal: exchangeInTotal,
+            exchangeOutItems: exchangeOutItems,
+            exchangeOutTotal: exchangeOutTotal,
+            messages: "test message",
+            status: "submited",
+          }),
+        }
+      );
       const responseData = await response.json();
       console.log("from create res", responseData);
       if (response.ok) {
-        dispatch({
-          type: "exEMPTY",
-        });
+        setExchangeMessage("New Exchange Request Created!");
+        setTimeout(() => {
+          setExchangeMessage("");
+          dispatch({
+            type: "exEMPTY",
+          });
+        }, 5000);
       }
-      // if (response.ok) {
-      //   updateProducts();
-      //   setAdminMessage("New Product Created!");
-      //   setTimeout(() => {
-      //     setAdminMessage("");
-      //     setProductValues(initialProductValues);
-      //   }, 5000);
-      // }
     } catch (error) {
       console.log(error.message);
     }
   }
+
+  const exchangeMessageBox = (
+    <Grid item className={classes.adminMessageBox}>
+      <Typography className={classes.adminMessage}>{exchangeMessage}</Typography>
+    </Grid>
+  );
 
   return (
     <Container>
@@ -240,6 +254,7 @@ const ExchangePlatform = () => {
       </Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
+        {exchangeMessage ? exchangeMessageBox : null}
           {exchangeItems.length ? (
             <Grid item className={classes.exchangeSubTitle}>
               Other's Farm Items

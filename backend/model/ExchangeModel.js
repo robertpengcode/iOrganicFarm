@@ -16,8 +16,14 @@ const exchangeSchema = new mongoose.Schema({
     exchangeInItems: {
         type: Array,
     },
+    exchangeInTotal: {
+        type: Number,
+    },
     exchangeOutItems: {
         type: Array,
+    },
+    exchangeOutTotal: {
+        type: Number,
     },
     messages: {
         type: Array,

@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1.5rem",
     },
   },
+  dateTime: {
+    marginTop: "0.5rem",
+  },
   cartPaper: {
     height: "7rem",
     marginBottom: "0.5rem",
@@ -90,13 +93,6 @@ const useStyles = makeStyles((theme) => ({
       height: "5rem",
     },
   },
-//   cartItemRight: {
-//     width: "25%",
-//     height: "7rem",
-//     [theme.breakpoints.down("sm")]: {
-//       height: "5rem",
-//     },
-//   },
   cartIconButton: {
     marginTop: "2rem",
     [theme.breakpoints.down("sm")]: {
@@ -165,6 +161,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "12px",
     padding: "0.2rem",
   },
+  noExchange: {
+      marginBottom: "1rem",
+  }
 }));
 
 const ExchangeView = () => {
@@ -240,19 +239,65 @@ const ExchangeView = () => {
     <Container>
       <Typography className={classes.cartTitle}>Exchange Requests</Typography>
       <Box className={classes.cartBox}>
-        {exchanges.map((exchange, id) => (
-          <Grid
-            container
-            key={exchange._id}
-            direction="column"
-            className={classes.cartContainer}
-          >
-            <Grid item className={classes.exchangeSubTitle}>
-              Request From: {exchange.requestFrom} (Id# {exchange._id})
-            </Grid>
-            {exchange.exchangeOutItems
-              //   .filter((product) => product.vendor !== currentFarm)
-              .map((cartItem, i) => (
+        {exchanges.length ? (
+          exchanges.map((exchange, id) => (
+            <Grid
+              container
+              key={exchange._id}
+              direction="column"
+              className={classes.cartContainer}
+            >
+              <Grid item className={classes.dateTime}>
+                <span>
+                  Date: {new Date(exchange.date).toLocaleDateString("en-US")}{" "}
+                </span>
+                <span>
+                  Time: {new Date(exchange.date).getHours()}:
+                  {new Date(exchange.date).getMinutes()}{" "}
+                </span>
+                <span>(Request ID: {exchange._id})</span>
+              </Grid>
+              <Grid item className={classes.exchangeSubTitle}>
+                {exchange.requestFrom} offered:
+              </Grid>
+              {exchange.exchangeOutItems
+                //   .filter((product) => product.vendor !== currentFarm)
+                .map((cartItem, i) => (
+                  <Paper key={cartItem.id} className={classes.cartPaper}>
+                    <Grid item className={classes.cartItem}>
+                      <Grid container justifyContent="space-between">
+                        <Grid item className={classes.cartItemLeft}>
+                          <Grid
+                            container
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Grid item className={classes.cartItemPic}>
+                              <Image src={cartItem.imgUrl} />
+                            </Grid>
+                            <Grid item className={classes.cartVendor}>
+                              {cartItem.vendor}
+                            </Grid>
+                            <Grid item className={classes.cartProdName}>
+                              {cartItem.name}
+                            </Grid>
+                            <Grid item className={classes.cartPrice}>
+                              ${cartItem.price}/{cartItem.unit}
+                            </Grid>
+                            <Grid item className={classes.cartPrice}>
+                              Qty: {cartItem.quantity}
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                ))}
+
+              <Grid item className={classes.exchangeSubTitle}>
+                For your ({exchange.requestTo}):
+              </Grid>
+              {exchange.exchangeInItems.map((cartItem, i) => (
                 <Paper key={cartItem.id} className={classes.cartPaper}>
                   <Grid item className={classes.cartItem}>
                     <Grid container justifyContent="space-between">
@@ -284,43 +329,7 @@ const ExchangeView = () => {
                 </Paper>
               ))}
 
-            <Grid item className={classes.exchangeSubTitle}>
-              Request To Me: {exchange.requestTo} (Id# {exchange._id})
-            </Grid>
-            {exchange.exchangeInItems.map((cartItem, i) => (
-              <Paper key={cartItem.id} className={classes.cartPaper}>
-                <Grid item className={classes.cartItem}>
-                  <Grid container justifyContent="space-between">
-                    <Grid item className={classes.cartItemLeft}>
-                      <Grid
-                        container
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <Grid item className={classes.cartItemPic}>
-                          <Image src={cartItem.imgUrl} />
-                        </Grid>
-                        <Grid item className={classes.cartVendor}>
-                          {cartItem.vendor}
-                        </Grid>
-                        <Grid item className={classes.cartProdName}>
-                          {cartItem.name}
-                        </Grid>
-                        <Grid item className={classes.cartPrice}>
-                          ${cartItem.price}/{cartItem.unit}
-                        </Grid>
-                        <Grid item className={classes.cartPrice}>
-                          Qty: {cartItem.quantity}
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Paper>
-            ))}
-
-            <Grid item className={classes.cartItem3}>
-              {exchanges.length ? (
+              <Grid item className={classes.cartItem3}>
                 <Grid
                   container
                   justifyContent="space-evenly"
@@ -353,32 +362,7 @@ const ExchangeView = () => {
                       Submit Exchange Request
                     </Button>
                   </Grid> */}
-                  {/* <Grid item className={classes.cartItem2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="medium"
-                      className={classes.cartButton}
-                      component={Link}
-                      to="/exchange"
-                    >
-                      Back To Exchange
-                    </Button>
-                  </Grid> */}
-                </Grid>
-              ) : (
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Grid item>
-                    <Typography className={classes.cartEmptyText}>
-                      You Don't Have Exchange Requests...
-                    </Typography>
-                  </Grid>
-                  <Grid item>
+                  <Grid item className={classes.cartItem2}>
                     <Button
                       variant="contained"
                       color="primary"
@@ -391,10 +375,36 @@ const ExchangeView = () => {
                     </Button>
                   </Grid>
                 </Grid>
-              )}
+              </Grid>
+            </Grid>
+          ))
+        ) : (
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            className={classes.noExchange}
+          >
+            <Grid item>
+              <Typography className={classes.cartEmptyText}>
+                You Don't Have Exchange Requests...
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                className={classes.cartButton}
+                component={Link}
+                to="/exchange"
+              >
+                Back To Exchange
+              </Button>
             </Grid>
           </Grid>
-        ))}
+        )}
       </Box>
     </Container>
   );

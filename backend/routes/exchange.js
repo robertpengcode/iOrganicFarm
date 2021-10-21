@@ -71,7 +71,9 @@ router.post("/create", async (req, res) => {
     requestFrom: req.body.requestFrom,
     requestTo: req.body.requestTo,
     exchangeInItems: req.body.exchangeInItems,
+    exchangeInTotal: req.body.exchangeInTotal,
     exchangeOutItems: req.body.exchangeOutItems,
+    exchangeOutTotal: req.body.exchangeOutTotal,
     messages: req.body.messages,
     status: req.body.status,
   });

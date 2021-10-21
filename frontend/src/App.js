@@ -33,8 +33,6 @@ function App() {
   const [isExchanging, setIsExchanging] = useState(false);
   const [exchangesState, setExchangesState] = useState([]);
 
-  //console.log("hi downloadAgain", downloadAgain);
-
   useEffect(() => {
     fetchProducts();
     fetchExchanges();
@@ -42,15 +40,12 @@ function App() {
 
   useEffect(() => {
     fetchProducts();
-    //console.log("haha download!!!");
   }, [downloadAgain]);
 
   async function fetchProducts() {
-    //console.log("fetch products!!");
     try {
       const response = await fetch("http://localhost:8080/api/product/");
       const responseData = await response.json();
-      //console.log("download", responseData);
       setProductState(responseData);
     } catch (error) {
       console.log(error.message);

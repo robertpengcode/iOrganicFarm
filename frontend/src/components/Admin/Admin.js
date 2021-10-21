@@ -88,14 +88,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Admin = () => {
   const classes = useStyles();
-  //const { products } = useContext(ProductsContext);
   const { updateProducts } = useContext(ProductsContext);
-  //const vendorsArray = products.map((product) => product.vendor);
-  //const vendors = [...new Set(vendorsArray)];
-  //const productNamesArray = products.map((product) => product.name);
-  //const productNames = [...new Set(productNamesArray)];
-  //const productUnitsArray = products.map((product) => product.unit);
-  //const productUnits = [...new Set(productUnitsArray)];
   const vendors = [
     "Max's Fun Farm",
     "Zoey's Home Farm",
