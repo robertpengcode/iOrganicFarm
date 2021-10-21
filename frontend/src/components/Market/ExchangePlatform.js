@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { ExchangesContext } from "../../context/exchangesContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -177,6 +178,7 @@ const ExchangePlatform = () => {
   const exchangeItems = useSelector((state) => state.exchangeItems);
   const dispatch = useDispatch();
   const [exchangeMessage, setExchangeMessage] = useState("");
+  const { updateExchanges } = useContext(ExchangesContext);
   const [currentFarm] = useState("Zoey's Home Farm");
   
   const exchangeInItems = exchangeItems.filter(
@@ -225,10 +227,11 @@ const ExchangePlatform = () => {
           }),
         }
       );
-      const responseData = await response.json();
-      console.log("from create res", responseData);
+      //const responseData = await response.json();
+      //console.log("from create res", responseData);
       if (response.ok) {
         setExchangeMessage("New Exchange Request Created!");
+        updateExchanges();
         setTimeout(() => {
           setExchangeMessage("");
           dispatch({

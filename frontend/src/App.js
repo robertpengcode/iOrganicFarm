@@ -30,6 +30,7 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
+  const [downloadExchangesAgain, setDownloadExchangesAgain] = useState(false);
   const [isExchanging, setIsExchanging] = useState(false);
   const [exchangesState, setExchangesState] = useState([]);
 
@@ -41,6 +42,10 @@ function App() {
   useEffect(() => {
     fetchProducts();
   }, [downloadAgain]);
+
+  useEffect(() => {
+    fetchExchanges();
+  }, [downloadExchangesAgain]);
 
   async function fetchProducts() {
     try {
@@ -57,7 +62,7 @@ function App() {
     try {
       const response = await fetch("http://localhost:8080/api/exchange/");
       const responseData = await response.json();
-      console.log("ex", responseData);
+      //console.log("ex", responseData);
       setExchangesState(responseData);
     } catch (error) {
       console.log(error.message);
@@ -76,13 +81,13 @@ function App() {
     setDownloadAgain(!downloadAgain);
   };
 
-  const updateIsExchanging = (value) => {
-    setIsExchanging(value);
+  const updateExchanges = () => {
+    setDownloadExchangesAgain(!downloadExchangesAgain);
+    console.log("update exchanges!!");
   };
 
-  const updateExchanges = () => {
-    //setDownloadAgain(!downloadAgain);
-    console.log("update exchanges!!");
+  const updateIsExchanging = (value) => {
+    setIsExchanging(value);
   };
 
   let routes;

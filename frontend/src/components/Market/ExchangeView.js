@@ -8,10 +8,10 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-import ClearIcon from "@material-ui/icons/Clear";
+//import IconButton from "@material-ui/core/IconButton";
+//import AddIcon from "@material-ui/icons/Add";
+//import RemoveIcon from "@material-ui/icons/Remove";
+//import ClearIcon from "@material-ui/icons/Clear";
 import Image from "material-ui-image";
 import Paper from "@material-ui/core/Paper";
 
@@ -160,10 +160,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.armyGreen,
     borderRadius: "12px",
     padding: "0.2rem",
+    borderRadius: "12px",
+    border: "solid green 1px",
   },
   noExchange: {
-      marginBottom: "1rem",
-  }
+    marginBottom: "1rem",
+  },
 }));
 
 const ExchangeView = () => {
@@ -174,66 +176,29 @@ const ExchangeView = () => {
   const [currentFarm] = useState("Zoey's Home Farm");
   console.log("ex", exchanges);
 
-  // let exchangeInItems = exchangeItems.filter(
-  //   (product) => product.vendor !== currentFarm
-  // );
-  // const exchangeInTotal = exchangeInItems
-  //   .reduce((total, item) => {
-  //     return (total += item.price * item.quantity);
-  //   }, 0)
-  //   .toFixed(2);
+  function handleUpdateRequest(exchangeId, update) {
+    console.log("update request!!", exchangeId, "chi", update);
+  }
 
-  // let exchangeOutItems = exchangeItems.filter(
-  //   (product) => product.vendor === currentFarm
-  // );
-  // const exchangeOutTotal = exchangeOutItems
-  //   .reduce((total, item) => {
-  //     return (total += item.price * item.quantity);
-  //   }, 0)
-  //   .toFixed(2);
-
-  // const isBalanced =
-  //   Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeOutTotal < 0.05 &&
-  //   Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeInTotal < 0.05;
-
-  // async function handleSubmitRequest() {
-  //   console.log("submiting request!!");
-  //   setAdminMessage("Creating New Product...");
-
-  //   try {
-  //     const response = await fetch("http://localhost:8080/api/exchange/create", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         requestFrom: currentFarm,
-  //         requestTo: exchangeInItems[0].vendor,
-  //         exchangeInItems: exchangeInItems,
-  //         exchangeOutItems: exchangeOutItems,
-  //         messages: "test message",
-  //         status: "submited"
-  //       }),
+  //   function handleEditProduct(prodId, index) {
+  //     //console.log("Editing product!!", "prodId", prodId, "index", index);
+  //     setEditMessage("Editing Product...");
+  //     setSelectedIndex(index);
+  //     setIsEditing(true);
+  //     const editingProduct = products.find((product) => product.id === prodId);
+  //     //console.log("pd", editingProduct);
+  //     setUpdateId(prodId);
+  //     setProductValues({
+  //       id: editingProduct.id,
+  //       imgUrl: editingProduct.imgUrl,
+  //       name: editingProduct.name,
+  //       price: editingProduct.price,
+  //       priceId: editingProduct.priceId,
+  //       quantity: 1,
+  //       unit: editingProduct.unit,
+  //       vendor: editingProduct.vendor,
   //     });
-  //     const responseData = await response.json();
-  //     console.log("from create res", responseData);
-  //     if (response.ok) {
-  //       dispatch({
-  //         type: "exEMPTY",
-  //       });
-  //     }
-  //     if (response.ok) {
-  //       updateProducts();
-  //       setAdminMessage("New Product Created!");
-  //       setTimeout(() => {
-  //         setAdminMessage("");
-  //         setProductValues(initialProductValues);
-  //       }, 5000);
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
   //   }
-  // }
 
   return (
     <Container>
@@ -337,31 +302,52 @@ const ExchangeView = () => {
                   alignItems="center"
                   className={classes.cartItem4}
                 >
-                  {/* <Grid
-                    item
-                    className={classes.exchangeTotal}
-                    style={
-                      isBalanced
-                        ? { border: "solid green 1px" }
-                        : { border: "solid red 1px" }
-                    }
-                  >
-                    Exchange In: {exchangeInTotal} VS Exchange Out:{" "}
-                    {exchangeOutTotal}
-                  </Grid> */}
-                  {/* <Grid item className={classes.cartItem2}>
+                  <Grid item className={classes.exchangeTotal}>
+                    Exchange In Total: ${exchange.exchangeOutTotal} VS Exchange
+                    Out Total: ${exchange.exchangeInTotal}
+                  </Grid>
+                  <Grid item className={classes.cartItem2}>
                     <Button
                       type="submit"
                       variant="contained"
                       color="primary"
                       size="medium"
                       className={classes.cartButton}
-                      disabled={!isBalanced}
-                      onClick={handleSubmitRequest}
+                      onClick={() =>
+                        handleUpdateRequest(exchange._id, "accept")
+                      }
                     >
-                      Submit Exchange Request
+                      Accept
                     </Button>
-                  </Grid> */}
+                  </Grid>
+                  <Grid item className={classes.cartItem2}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="medium"
+                      className={classes.cartButton}
+                      onClick={() =>
+                        handleUpdateRequest(exchange._id, "reject")
+                      }
+                    >
+                      Reject
+                    </Button>
+                  </Grid>
+                  <Grid item className={classes.cartItem2}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="medium"
+                      className={classes.cartButton}
+                      onClick={() =>
+                        handleUpdateRequest(exchange._id, "cancel")
+                      }
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
                   <Grid item className={classes.cartItem2}>
                     <Button
                       variant="contained"
@@ -371,7 +357,7 @@ const ExchangeView = () => {
                       component={Link}
                       to="/exchange"
                     >
-                      Back To Exchange
+                      New Exchange
                     </Button>
                   </Grid>
                 </Grid>
@@ -400,7 +386,7 @@ const ExchangeView = () => {
                 component={Link}
                 to="/exchange"
               >
-                Back To Exchange
+                New Exchange
               </Button>
             </Grid>
           </Grid>
