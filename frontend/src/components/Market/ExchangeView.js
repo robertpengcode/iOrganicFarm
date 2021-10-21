@@ -170,35 +170,70 @@ const useStyles = makeStyles((theme) => ({
 
 const ExchangeView = () => {
   const classes = useStyles();
-  const { exchanges } = useContext(ExchangesContext);
+  const { exchanges, updateExchanges } = useContext(ExchangesContext);
   //const exchangeItems = useSelector((state) => state.exchangeItems);
   //const dispatch = useDispatch();
   const [currentFarm] = useState("Zoey's Home Farm");
   console.log("ex", exchanges);
 
-  function handleUpdateRequest(exchangeId, update) {
+  async function handleUpdateRequest(exchangeId, update) {
     console.log("update request!!", exchangeId, "chi", update);
+    let newStatus = "";
+    if (update === "accept") {
+      newStatus = "accepted";
+    } else if (update === "reject") {
+      newStatus = "rejected";
+    }
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/exchange/update/${exchangeId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: newStatus,
+          }),
+        }
+      );
+      if (response.ok) {
+        updateExchanges();
+        //   setAdminMessage("Product Updated!");
+        //   setTimeout(() => {
+        //     setAdminMessage("");
+        //     setProductValues(initialProductValues);
+        //     setIsEditing(false);
+        //     setUpdateId("");
+        //     setEditMessage("");
+        //   }, 5000);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
-  //   function handleEditProduct(prodId, index) {
-  //     //console.log("Editing product!!", "prodId", prodId, "index", index);
-  //     setEditMessage("Editing Product...");
-  //     setSelectedIndex(index);
-  //     setIsEditing(true);
-  //     const editingProduct = products.find((product) => product.id === prodId);
-  //     //console.log("pd", editingProduct);
-  //     setUpdateId(prodId);
-  //     setProductValues({
-  //       id: editingProduct.id,
-  //       imgUrl: editingProduct.imgUrl,
-  //       name: editingProduct.name,
-  //       price: editingProduct.price,
-  //       priceId: editingProduct.priceId,
-  //       quantity: 1,
-  //       unit: editingProduct.unit,
-  //       vendor: editingProduct.vendor,
-  //     });
-  //   }
+  async function handleDeleteExchange(exchangeId) {
+    console.log("deleting exchange!!");
+    //setEditMessage("Deleting exchange...");
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/exchange/delete/${exchangeId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.ok) {
+        updateExchanges();
+        //     setEditMessage("Product Deleted!");
+        //     setTimeout(() => {
+        //       setEditMessage("");
+        //     }, 5000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Container>
@@ -341,9 +376,7 @@ const ExchangeView = () => {
                       color="primary"
                       size="medium"
                       className={classes.cartButton}
-                      onClick={() =>
-                        handleUpdateRequest(exchange._id, "cancel")
-                      }
+                      onClick={() => handleDeleteExchange(exchange._id)}
                     >
                       Cancel
                     </Button>

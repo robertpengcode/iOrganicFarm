@@ -16,18 +16,18 @@ router.get("/", async (req, res) => {
   }
 });
 
-// router.delete("/delete/:id", async (req, res) => {
-//   console.log("ck", req.params.id);
-//   const deleteId = req.params.id;
-//   console.log("deleteId", deleteId);
-//   try {
-//     await Product.deleteOne({ id: deleteId });
-//     res.status(200).send("items deleted!!!");
-//   } catch (err) {
-//     console.log(err);
-//     res.status(400).send(err);
-//   }
-// });
+router.delete("/delete/:id", async (req, res) => {
+  console.log("ck", req.params.id);
+  const deleteId = req.params.id;
+  console.log("deleteId", deleteId);
+  try {
+    await Exchange.deleteOne({ _id: deleteId });
+    res.status(200).send("items deleted!!!");
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+});
 
 router.put("/update/:id", async (req, res) => {
   console.log("ck", req.params.id);
@@ -37,7 +37,7 @@ router.put("/update/:id", async (req, res) => {
     await Exchange.updateOne(
       { _id: updateId },
       {
-        status: req.body.newStatus,
+        status: req.body.status,
       }
     );
     res.status(200).send("items updated!!!");

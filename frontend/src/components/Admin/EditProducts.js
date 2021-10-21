@@ -399,14 +399,3 @@ export default function EditProducts({
   );
 }
 
-//   {
-//     name: "Sweet Potatoes",
-//     imgUrl:
-//       "https://robertpengcodefarm.s3.amazonaws.com/forFarmPj/sweetpotato2.jpg",
-//     vendor: "Noah's Oak Farm",
-//     price: 1.99,
-//     quantity: 1,
-//     id: "prod_KIi4vKVVxrRUCg",
-//     unit: "lb",
-//     priceId: "price_1Je6epK6cEl29YLIgE0m5BVS",
-//   },
