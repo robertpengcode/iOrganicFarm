@@ -179,7 +179,8 @@ const ExchangePlatform = () => {
   const dispatch = useDispatch();
   const [exchangeMessage, setExchangeMessage] = useState("");
   const { updateExchanges } = useContext(ExchangesContext);
-  const [currentFarm] = useState("Zoey's Home Farm");
+  //const [currentFarm] = useState("Zoey's Home Farm");
+  const [currentFarm] = useState("Max's Fun Farm");
   
   const exchangeInItems = exchangeItems.filter(
     (product) => product.vendor !== currentFarm
@@ -204,9 +205,7 @@ const ExchangePlatform = () => {
     Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeInTotal < 0.05;
 
   async function handleSubmitRequest() {
-    //console.log("submiting request!!");
     setExchangeMessage("Creating New Exchange Request...");
-
     try {
       const response = await fetch(
         "http://localhost:8080/api/exchange/create",
@@ -223,7 +222,7 @@ const ExchangePlatform = () => {
             exchangeOutItems: exchangeOutItems,
             exchangeOutTotal: exchangeOutTotal,
             messages: "test message",
-            status: "submited",
+            status: "Pending for Accept",
           }),
         }
       );

@@ -63,7 +63,8 @@ const Products = () => {
   const [searchValue, setSearchValue] = useState("");
   const [sortOption, setSortOption] = useState("Price: Low to High");
   const [farmOption, setFarmOption] = useState("");
-  const [currentFarm, setCurrentFarm] = useState("Zoey's Home Farm");
+  //const [currentFarm, setCurrentFarm] = useState("Zoey's Home Farm");
+  const [currentFarm] = useState("Max's Fun Farm");
   //console.log('farmOption', farmOption);
 
   const farmsList = [

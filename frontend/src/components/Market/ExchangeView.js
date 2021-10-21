@@ -166,23 +166,38 @@ const useStyles = makeStyles((theme) => ({
   noExchange: {
     marginBottom: "1rem",
   },
+  adminMessageBox: {
+    width: "94%",
+  },
+  adminMessage: {
+    ...theme.typography.text,
+    color: "red",
+  },
 }));
 
 const ExchangeView = () => {
   const classes = useStyles();
   const { exchanges, updateExchanges } = useContext(ExchangesContext);
-  //const exchangeItems = useSelector((state) => state.exchangeItems);
-  //const dispatch = useDispatch();
-  const [currentFarm] = useState("Zoey's Home Farm");
-  console.log("ex", exchanges);
+  const [exchangeMessage, setExchangeMessage] = useState();
+  //const [currentFarm] = useState("Zoey's Home Farm");
+  //const [currentFarm] = useState("Max's Fun Farm");
+  const [currentFarm] = useState("Morris Family Farm");
+  
+  console.log("All Ex", exchanges);
+  const myExchanges = exchanges.filter(
+    (exchange) =>
+      exchange.requestFrom === currentFarm || exchange.requestTo === currentFarm
+  );
+  console.log('my', myExchanges);
 
   async function handleUpdateRequest(exchangeId, update) {
     console.log("update request!!", exchangeId, "chi", update);
+    setExchangeMessage(`${update} exchange...`);
     let newStatus = "";
     if (update === "accept") {
-      newStatus = "accepted";
+      newStatus = "Accepted";
     } else if (update === "reject") {
-      newStatus = "rejected";
+      newStatus = "Rejected";
     }
     try {
       const response = await fetch(
@@ -199,14 +214,10 @@ const ExchangeView = () => {
       );
       if (response.ok) {
         updateExchanges();
-        //   setAdminMessage("Product Updated!");
-        //   setTimeout(() => {
-        //     setAdminMessage("");
-        //     setProductValues(initialProductValues);
-        //     setIsEditing(false);
-        //     setUpdateId("");
-        //     setEditMessage("");
-        //   }, 5000);
+        setExchangeMessage(`Exchange ${update}ed!`);
+        setTimeout(() => {
+          setExchangeMessage("");
+        }, 5000);
       }
     } catch (error) {
       console.log(error.message);
@@ -215,7 +226,7 @@ const ExchangeView = () => {
 
   async function handleDeleteExchange(exchangeId) {
     console.log("deleting exchange!!");
-    //setEditMessage("Deleting exchange...");
+    setExchangeMessage("Deleting exchange...");
     try {
       const response = await fetch(
         `http://localhost:8080/api/exchange/delete/${exchangeId}`,
@@ -225,22 +236,31 @@ const ExchangeView = () => {
       );
       if (response.ok) {
         updateExchanges();
-        //     setEditMessage("Product Deleted!");
-        //     setTimeout(() => {
-        //       setEditMessage("");
-        //     }, 5000);
+        setExchangeMessage("Exchange Canceled!");
+        setTimeout(() => {
+          setExchangeMessage("");
+        }, 5000);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
+  const exchangeMessageBox = (
+    <Grid item className={classes.adminMessageBox}>
+      <Typography className={classes.adminMessage}>
+        {exchangeMessage}
+      </Typography>
+    </Grid>
+  );
+
   return (
     <Container>
       <Typography className={classes.cartTitle}>Exchange Requests</Typography>
       <Box className={classes.cartBox}>
-        {exchanges.length ? (
-          exchanges.map((exchange, id) => (
+        {exchangeMessage ? exchangeMessageBox : null}
+        {myExchanges.length ? (
+          myExchanges.map((exchange, id) => (
             <Grid
               container
               key={exchange._id}
@@ -255,7 +275,8 @@ const ExchangeView = () => {
                   Time: {new Date(exchange.date).getHours()}:
                   {new Date(exchange.date).getMinutes()}{" "}
                 </span>
-                <span>(Request ID: {exchange._id})</span>
+                <span>(Request ID: {exchange._id}) </span>
+                <span>Status: {exchange.status}</span>
               </Grid>
               <Grid item className={classes.exchangeSubTitle}>
                 {exchange.requestFrom} offered:
@@ -295,7 +316,7 @@ const ExchangeView = () => {
                 ))}
 
               <Grid item className={classes.exchangeSubTitle}>
-                For your ({exchange.requestTo}):
+                For {exchange.requestTo}'s Products:
               </Grid>
               {exchange.exchangeInItems.map((cartItem, i) => (
                 <Paper key={cartItem.id} className={classes.cartPaper}>
@@ -341,46 +362,52 @@ const ExchangeView = () => {
                     Exchange In Total: ${exchange.exchangeOutTotal} VS Exchange
                     Out Total: ${exchange.exchangeInTotal}
                   </Grid>
-                  <Grid item className={classes.cartItem2}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="medium"
-                      className={classes.cartButton}
-                      onClick={() =>
-                        handleUpdateRequest(exchange._id, "accept")
-                      }
-                    >
-                      Accept
-                    </Button>
-                  </Grid>
-                  <Grid item className={classes.cartItem2}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="medium"
-                      className={classes.cartButton}
-                      onClick={() =>
-                        handleUpdateRequest(exchange._id, "reject")
-                      }
-                    >
-                      Reject
-                    </Button>
-                  </Grid>
-                  <Grid item className={classes.cartItem2}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="medium"
-                      className={classes.cartButton}
-                      onClick={() => handleDeleteExchange(exchange._id)}
-                    >
-                      Cancel
-                    </Button>
-                  </Grid>
+                  {exchange.requestFrom !== currentFarm ? (
+                    <Grid item className={classes.cartItem2}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="medium"
+                        className={classes.cartButton}
+                        onClick={() =>
+                          handleUpdateRequest(exchange._id, "accept")
+                        }
+                      >
+                        Accept
+                      </Button>
+                    </Grid>
+                  ) : null}
+                  {exchange.requestFrom !== currentFarm ? (
+                    <Grid item className={classes.cartItem2}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="medium"
+                        className={classes.cartButton}
+                        onClick={() =>
+                          handleUpdateRequest(exchange._id, "reject")
+                        }
+                      >
+                        Reject
+                      </Button>
+                    </Grid>
+                  ) : null}
+                  {exchange.requestFrom === currentFarm ? (
+                    <Grid item className={classes.cartItem2}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="medium"
+                        className={classes.cartButton}
+                        onClick={() => handleDeleteExchange(exchange._id)}
+                      >
+                        Cancel
+                      </Button>
+                    </Grid>
+                  ) : null}
                   <Grid item className={classes.cartItem2}>
                     <Button
                       variant="contained"

@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-//import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 
@@ -32,8 +31,6 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.text,
     fontSize: "1rem",
     color: theme.palette.common.armyGreen,
-    //marginLeft: "1rem",
-    //border: "solid green 1px",
     borderRadius: "12px",
     padding: "0.2rem",
   },
@@ -43,8 +40,9 @@ export default function Exchange() {
   const classes = useStyles();
   const { isExchanging, updateIsExchanging } = useContext(IsExchangingContext);
   const exchangeItems = useSelector((state) => state.exchangeItems);
-  const [currentFarm] = useState("Zoey's Home Farm");
-  //console.log('ex items', exchangeItems);
+  //const [currentFarm] = useState("Zoey's Home Farm");
+  const [currentFarm] = useState("Max's Fun Farm");
+  
   useEffect(() => {
     updateIsExchanging(true);
   });
@@ -66,9 +64,6 @@ export default function Exchange() {
       return (total += item.price * item.quantity);
     }, 0)
     .toFixed(2);
-
-  //console.log("ck1", (exchangeInTotal - exchangeOutTotal) / exchangeOutTotal);
-  //console.log("ck2", (exchangeInTotal - exchangeOutTotal) / exchangeInTotal);
 
   const isBalanced =
     Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeOutTotal < 0.05 &&
