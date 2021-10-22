@@ -8,10 +8,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-//import IconButton from "@material-ui/core/IconButton";
-//import AddIcon from "@material-ui/icons/Add";
-//import RemoveIcon from "@material-ui/icons/Remove";
-//import ClearIcon from "@material-ui/icons/Clear";
 import Image from "material-ui-image";
 import Paper from "@material-ui/core/Paper";
 
@@ -25,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "auto",
     marginBottom: "1rem",
     width: "75%",
-    //border: "solid red 1px",
     [theme.breakpoints.down("md")]: {
       width: "85%",
     },
@@ -173,6 +168,23 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.text,
     color: "red",
   },
+  exchangeStatus: {
+    ...theme.typography.text,
+    fontSize: "1rem",
+    color: theme.palette.common.armyGreen,
+    borderRadius: "12px",
+    padding: "0.2rem",
+    borderRadius: "12px",
+    //border: "solid red 1px",
+  },
+  exchangeDate: {
+    ...theme.typography.text,
+    fontSize: "1rem",
+    color: theme.palette.common.armyGreen,
+    borderRadius: "12px",
+    padding: "0.2rem",
+    borderRadius: "12px",
+  },
 }));
 
 const ExchangeView = () => {
@@ -180,15 +192,15 @@ const ExchangeView = () => {
   const { exchanges, updateExchanges } = useContext(ExchangesContext);
   const [exchangeMessage, setExchangeMessage] = useState();
   //const [currentFarm] = useState("Zoey's Home Farm");
-  //const [currentFarm] = useState("Max's Fun Farm");
-  const [currentFarm] = useState("Morris Family Farm");
-  
+  const [currentFarm] = useState("Max's Fun Farm");
+  //const [currentFarm] = useState("Morris Family Farm");
+
   console.log("All Ex", exchanges);
   const myExchanges = exchanges.filter(
     (exchange) =>
       exchange.requestFrom === currentFarm || exchange.requestTo === currentFarm
   );
-  console.log('my', myExchanges);
+  console.log("my", myExchanges);
 
   async function handleUpdateRequest(exchangeId, update) {
     console.log("update request!!", exchangeId, "chi", update);
@@ -268,15 +280,28 @@ const ExchangeView = () => {
               className={classes.cartContainer}
             >
               <Grid item className={classes.dateTime}>
-                <span>
-                  Date: {new Date(exchange.date).toLocaleDateString("en-US")}{" "}
-                </span>
-                <span>
-                  Time: {new Date(exchange.date).getHours()}:
-                  {new Date(exchange.date).getMinutes()}{" "}
-                </span>
-                <span>(Request ID: {exchange._id}) </span>
-                <span>Status: {exchange.status}</span>
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Grid item className={classes.exchangeDate}>
+                    Date: {new Date(exchange.date).toLocaleDateString("en-US")}{" "}
+                    Time: {new Date(exchange.date).getHours()}:
+                    {new Date(exchange.date).getMinutes()}{" "}
+                  </Grid>
+                  <Grid
+                    item
+                    className={classes.exchangeStatus}
+                    style={
+                      exchange.status === "Accepted"
+                        ? { border: "green solid 1px" }
+                        : { border: "red solid 1px" }
+                    }
+                  >
+                    Status: {exchange.status}
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item className={classes.exchangeSubTitle}>
                 {exchange.requestFrom} offered:
