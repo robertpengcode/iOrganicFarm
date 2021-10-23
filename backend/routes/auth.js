@@ -20,11 +20,15 @@ router.get("/", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
   const { error } = signupValidation(req.body);
-  if (error) return res.status(400).send({errorMessage: error.details[0].message});
+  if (error)
+    return res.status(400).send({ errorMessage: error.details[0].message });
   //if (error) return res.status(400).send(error.details[0].message);
   try {
     const emailExist = await User.findOne({ email: req.body.email });
-    if (!!emailExist) return res.status(400).send({errorMessage: "Email already exists! Please sign in."});
+    if (!!emailExist)
+      return res
+        .status(400)
+        .send({ errorMessage: "Email already exists! Please sign in." });
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
@@ -46,26 +50,44 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/signin", async (req, res) => {
+router.post("/signin", async (req, res, next) => {
   let user = null;
   try {
     user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).send({errorMessage: "Email is wrong!"});
+    if (!user) return res.status(400).send({ errorMessage: "Email is wrong!" });
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
   }
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) {
-    return res.status(400).send({errorMessage: "Password is wrong!"});
+    return res.status(400).send({ errorMessage: "Password is wrong!" });
   }
   //res.send("sign in in");
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-    expiresIn: "1h",
-  });
+  let token;
+  try {
+    token = jwt.sign(
+      { _id: user._id, userFarm: user.userFarm, isAdmin: user.isAdmin },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
   //res.header("auth-token", token).send(token);
   console.log(token);
-  res.send({token: token});
+  //res.status(201).send({ token: token });
+  res
+    .status(201)
+    .json({
+      userId: user._id,
+      userFarm: user.userFarm,
+      isAdmin: user.isAdmin,
+      token: token,
+    });
 });
 
 module.exports = router;

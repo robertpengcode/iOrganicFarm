@@ -127,7 +127,7 @@ export default function SignIn() {
       });
       //console.log(response);
       const responseData = await response.json();
-      console.log('ck front', responseData);
+      //console.log('resData', responseData);
       if (!response.ok) {
         setIsLoading(false);
         setErrorMessage(
@@ -135,7 +135,9 @@ export default function SignIn() {
         );
       } else {
         setIsLoading(false);
-        auth.signIn();
+        const {userId, userFarm, isAdmin, token} = responseData;
+        //console.log('morning', userId, userFarm, isAdmin, token);
+        auth.signIn(token, userId, userFarm, isAdmin);
       }
       //setIsLoading(false);
     } catch (error) {

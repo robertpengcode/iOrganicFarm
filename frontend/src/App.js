@@ -27,7 +27,14 @@ import myTheme from "./components/UI/Theme";
 function App() {
   const [tabValue, setTabValue] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  //const [isSignedIn, setIsSignedIn] = useState(false);
+  //user info
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState("");
+  const [userFarm, setUserFarm] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  console.log('token', token, 'id', userId, 'currentFarm', userFarm, 'isAdmin', isAdmin);
+
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
   const [downloadExchangesAgain, setDownloadExchangesAgain] = useState(false);
@@ -60,7 +67,11 @@ function App() {
   async function fetchExchanges() {
     //console.log("fetch exchanges!!");
     try {
-      const response = await fetch("http://localhost:8080/api/exchange/");
+      const response = await fetch("http://localhost:8080/api/exchange/", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const responseData = await response.json();
       //console.log("ex", responseData);
       setExchangesState(responseData);
@@ -69,12 +80,19 @@ function App() {
     }
   }
 
-  const signIn = useCallback(() => {
-    setIsSignedIn(true);
+  const signIn = useCallback((token, userId, userFarm, isAdmin) => {
+    //setIsSignedIn(true);
+    setToken(token);
+    setUserId(userId);
+    setUserFarm(userFarm);
+    setIsAdmin(isAdmin);
   }, []);
 
   const signOut = useCallback(() => {
-    setIsSignedIn(false);
+    //setIsSignedIn(false);
+    setToken(null);
+    setUserId("");
+    setUserFarm("");
   }, []);
 
   const updateProducts = () => {
@@ -92,7 +110,7 @@ function App() {
 
   let routes;
 
-  if (!isSignedIn) {
+  if (!token) {
     routes = (
       <Switch>
         <Route exact path="/" component={Home} />
@@ -101,14 +119,14 @@ function App() {
         <Route exact path="/about" component={AboutUs} />
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={ShoppingCart} />
-        <Route exact path="/exchange" component={Exchange} />
+        {/* <Route exact path="/exchange" component={Exchange} />
         <Route exact path="/exchangeplatform" component={ExchangePlatform} />
-        <Route exact path="/exchangeview" component={ExchangeView} />
+        <Route exact path="/exchangeview" component={ExchangeView} /> */}
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
         {/* <Route exact path="/success" component={Success} />
         <Route exact path="/canceled" component={Canceled} /> */}
-        <Route exact path="/admin" component={Admin} />
+        {/* <Route exact path="/admin" component={Admin} /> */}
         <Redirect to="/signin" />
       </Switch>
     );
@@ -136,7 +154,14 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ isSignedIn: isSignedIn, signIn: signIn, signOut: signOut }}
+      value={{
+        isSignedIn: !!token,
+        signIn: signIn,
+        signOut: signOut,
+        userId: userId,
+        currentFarm: userFarm,
+        isAdmin: isAdmin,
+      }}
     >
       <ProductsContext.Provider
         value={{ products: productsState, updateProducts: updateProducts }}

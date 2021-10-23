@@ -42,7 +42,7 @@ export default function AuthButtons() {
   const signOut = (
     <Button
       variant="contained"
-      size="medium"
+      size="small"
       color="primary"
       className={classes.authButton}
       onClick={handleSignOut}
@@ -67,8 +67,9 @@ export default function AuthButtons() {
   return (
     <Fragment>
       {!auth.isSignedIn && signIn}
-      {admin}
+      {/* {admin} */}
       {auth.isSignedIn && signOut}
+      {(auth.isSignedIn && auth.isAdmin) && admin}
     </Fragment>
   );
 }

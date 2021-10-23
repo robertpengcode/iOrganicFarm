@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ExchangesContext } from "./../../context/exchangesContext";
+import { AuthContext } from "./../../context/authContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -155,7 +156,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.armyGreen,
     borderRadius: "12px",
     padding: "0.2rem",
-    borderRadius: "12px",
     border: "solid green 1px",
   },
   noExchange: {
@@ -174,8 +174,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.armyGreen,
     borderRadius: "12px",
     padding: "0.2rem",
-    borderRadius: "12px",
-    //border: "solid red 1px",
   },
   exchangeDate: {
     ...theme.typography.text,
@@ -183,16 +181,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.armyGreen,
     borderRadius: "12px",
     padding: "0.2rem",
-    borderRadius: "12px",
   },
 }));
 
 const ExchangeView = () => {
   const classes = useStyles();
   const { exchanges, updateExchanges } = useContext(ExchangesContext);
+  const { currentFarm } = useContext(AuthContext);
   const [exchangeMessage, setExchangeMessage] = useState();
   //const [currentFarm] = useState("Zoey's Home Farm");
-  const [currentFarm] = useState("Max's Fun Farm");
+  //const [currentFarm] = useState("Max's Fun Farm");
   //const [currentFarm] = useState("Morris Family Farm");
 
   console.log("All Ex", exchanges);

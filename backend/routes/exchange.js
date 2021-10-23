@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const Exchange = require("../model/ExchangeModel");
+//const verifyToken = require("./verifyToken")
+
+//router.use(verifyToken);
 
 router.get("/", async (req, res) => {
   try {
@@ -9,7 +12,6 @@ router.get("/", async (req, res) => {
     } else {
       return res.status(400).send({ errorMessage: "Exchanges not found!" });
     }
-    //res.send('hihi haha test exchange!')
   } catch (err) {
     console.log(err);
     res.status(400).send(err);

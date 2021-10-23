@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IsExchangingContext } from "./../../context/isExchangingContext";
 import { ExchangesContext } from "./../../context/exchangesContext";
+import { AuthContext } from "./../../context/authContext";
 
 import AuthButtons from "./AuthButtons";
 import ExchangePlatformButton from "./ExchangePlatformButton";
@@ -111,6 +112,7 @@ export default function Header(props) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { isExchanging } = useContext(IsExchangingContext);
   const { exchanges } = useContext(ExchangesContext);
+  const { currentFarm } = useContext(AuthContext);
 
   const handleTabValue = (e, tabValue) => {
     props.setTabValue(tabValue);
@@ -187,7 +189,12 @@ export default function Header(props) {
     return (totalItems += item.quantity);
   }, 0);
 
-  const totalExchangeRequests = exchanges.length;
+  const myExchanges = exchanges.filter(
+    (exchange) =>
+      exchange.requestFrom === currentFarm || exchange.requestTo === currentFarm
+  );
+
+  const totalExchangeRequests = myExchanges.length;
 
   const cartIcon = (
     <IconButton component={Link} to="/cart">
@@ -198,7 +205,7 @@ export default function Header(props) {
   );
 
   const notification = (
-    <IconButton component={Link} to="/exchangeview" target="_blank">
+    <IconButton component={Link} to="/exchangeview" >
       <Badge badgeContent={totalExchangeRequests} color="error">
         <NotificationsIcon />
       </Badge>

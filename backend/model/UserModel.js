@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: false
     },
-    farmId: {
+    userFarm: {
         type: String,
         required: false,
         default: ""

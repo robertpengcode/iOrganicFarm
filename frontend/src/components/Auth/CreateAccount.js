@@ -89,7 +89,7 @@ export default function CreateAccount() {
   const [isLoading, setIsLoading] = useState(false);
   const [createAccountMessage, setCreateAccountMessage] = useState("");
   const [isAccountCreated, setIsAccountCreated] = useState(false);
-  console.log("cckk", isAccountCreated);
+  //console.log("cckk", isAccountCreated);
 
   useEffect(() => {
     setAccountValues(accountValues);
