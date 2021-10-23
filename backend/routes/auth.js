@@ -22,7 +22,6 @@ router.post("/signup", async (req, res) => {
   const { error } = signupValidation(req.body);
   if (error)
     return res.status(400).send({ errorMessage: error.details[0].message });
-  //if (error) return res.status(400).send(error.details[0].message);
   try {
     const emailExist = await User.findOne({ email: req.body.email });
     if (!!emailExist)
@@ -63,11 +62,10 @@ router.post("/signin", async (req, res, next) => {
   if (!validPass) {
     return res.status(400).send({ errorMessage: "Password is wrong!" });
   }
-  //res.send("sign in in");
   let token;
   try {
     token = jwt.sign(
-      { _id: user._id, userFarm: user.userFarm, isAdmin: user.isAdmin },
+      { _id: user._id},
       process.env.TOKEN_SECRET,
       {
         expiresIn: "1h",
@@ -78,11 +76,12 @@ router.post("/signin", async (req, res, next) => {
     return next(err);
   }
   //res.header("auth-token", token).send(token);
-  console.log(token);
+  //console.log(token);
   //res.status(201).send({ token: token });
   res
     .status(201)
     .json({
+      name: user.name,
       userId: user._id,
       userFarm: user.userFarm,
       isAdmin: user.isAdmin,

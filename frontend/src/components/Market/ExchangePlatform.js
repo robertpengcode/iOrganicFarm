@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ExchangesContext } from "../../context/exchangesContext";
+import { AuthContext } from "./../../context/authContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -179,9 +180,8 @@ const ExchangePlatform = () => {
   const dispatch = useDispatch();
   const [exchangeMessage, setExchangeMessage] = useState("");
   const { updateExchanges } = useContext(ExchangesContext);
-  //const [currentFarm] = useState("Zoey's Home Farm");
-  const [currentFarm] = useState("Max's Fun Farm");
-  
+  const { currentFarm, token } = useContext(AuthContext);
+
   const exchangeInItems = exchangeItems.filter(
     (product) => product.vendor !== currentFarm
   );
@@ -213,6 +213,7 @@ const ExchangePlatform = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "authorization": token,
           },
           body: JSON.stringify({
             requestFrom: currentFarm,

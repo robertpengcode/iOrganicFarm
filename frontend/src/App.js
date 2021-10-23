@@ -29,11 +29,11 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   //const [isSignedIn, setIsSignedIn] = useState(false);
   //user info
+  const [username, setUsername] = useState("");
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState("");
   const [userFarm, setUserFarm] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-  console.log('token', token, 'id', userId, 'currentFarm', userFarm, 'isAdmin', isAdmin);
 
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
@@ -43,7 +43,7 @@ function App() {
 
   useEffect(() => {
     fetchProducts();
-    fetchExchanges();
+    //fetchExchanges();
   }, []);
 
   useEffect(() => {
@@ -67,11 +67,7 @@ function App() {
   async function fetchExchanges() {
     //console.log("fetch exchanges!!");
     try {
-      const response = await fetch("http://localhost:8080/api/exchange/", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch("http://localhost:8080/api/exchange/");
       const responseData = await response.json();
       //console.log("ex", responseData);
       setExchangesState(responseData);
@@ -80,19 +76,21 @@ function App() {
     }
   }
 
-  const signIn = useCallback((token, userId, userFarm, isAdmin) => {
-    //setIsSignedIn(true);
+  const signIn = useCallback((token, name, userId, userFarm, isAdmin) => {
+    setUsername(name)
     setToken(token);
     setUserId(userId);
     setUserFarm(userFarm);
     setIsAdmin(isAdmin);
+    fetchExchanges();
   }, []);
 
   const signOut = useCallback(() => {
-    //setIsSignedIn(false);
+    setUsername("");
     setToken(null);
     setUserId("");
     setUserFarm("");
+    setIsAdmin(false);
   }, []);
 
   const updateProducts = () => {
@@ -158,9 +156,11 @@ function App() {
         isSignedIn: !!token,
         signIn: signIn,
         signOut: signOut,
+        username: username,
         userId: userId,
         currentFarm: userFarm,
         isAdmin: isAdmin,
+        token: token,
       }}
     >
       <ProductsContext.Provider

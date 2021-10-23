@@ -112,7 +112,7 @@ export default function Header(props) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { isExchanging } = useContext(IsExchangingContext);
   const { exchanges } = useContext(ExchangesContext);
-  const { currentFarm } = useContext(AuthContext);
+  const { currentFarm, username } = useContext(AuthContext);
 
   const handleTabValue = (e, tabValue) => {
     props.setTabValue(tabValue);
@@ -325,6 +325,7 @@ export default function Header(props) {
               iOrganicFarm
             </Typography>
             {matches ? drawer : tabs}
+            {username? <Typography>{`Welcome ${username}!`}</Typography> : null}
             <AuthButtons />
             {!isExchanging ? cartIcon : <ExchangePlatformButton totalExchangeItems={totalExchangeItems}/>}
             {notification}

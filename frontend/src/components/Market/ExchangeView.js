@@ -187,21 +187,20 @@ const useStyles = makeStyles((theme) => ({
 const ExchangeView = () => {
   const classes = useStyles();
   const { exchanges, updateExchanges } = useContext(ExchangesContext);
-  const { currentFarm } = useContext(AuthContext);
+  const { currentFarm, token } = useContext(AuthContext);
   const [exchangeMessage, setExchangeMessage] = useState();
   //const [currentFarm] = useState("Zoey's Home Farm");
   //const [currentFarm] = useState("Max's Fun Farm");
   //const [currentFarm] = useState("Morris Family Farm");
 
-  console.log("All Ex", exchanges);
+  //console.log("mytoken", token);
   const myExchanges = exchanges.filter(
     (exchange) =>
       exchange.requestFrom === currentFarm || exchange.requestTo === currentFarm
   );
-  console.log("my", myExchanges);
+  //console.log("my", myExchanges);
 
   async function handleUpdateRequest(exchangeId, update) {
-    console.log("update request!!", exchangeId, "chi", update);
     setExchangeMessage(`${update} exchange...`);
     let newStatus = "";
     if (update === "accept") {
@@ -216,6 +215,7 @@ const ExchangeView = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            "authorization": token,
           },
           body: JSON.stringify({
             status: newStatus,
@@ -235,13 +235,17 @@ const ExchangeView = () => {
   }
 
   async function handleDeleteExchange(exchangeId) {
-    console.log("deleting exchange!!");
+    //console.log("deleting exchange!!");
     setExchangeMessage("Deleting exchange...");
     try {
       const response = await fetch(
         `http://localhost:8080/api/exchange/delete/${exchangeId}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": token,
+          },
         }
       );
       if (response.ok) {

@@ -1,8 +1,6 @@
 const router = require("express").Router();
 const Exchange = require("../model/ExchangeModel");
-//const verifyToken = require("./verifyToken")
-
-//router.use(verifyToken);
+const verifyToken = require("./verifyToken")
 
 router.get("/", async (req, res) => {
   try {
@@ -17,6 +15,8 @@ router.get("/", async (req, res) => {
     res.status(400).send(err);
   }
 });
+
+router.use(verifyToken);
 
 router.delete("/delete/:id", async (req, res) => {
   console.log("ck", req.params.id);

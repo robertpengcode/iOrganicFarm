@@ -111,7 +111,7 @@ export default function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    console.log('handle signin!!')
+    //console.log('handle signin!!')
     setIsLoading(true);
 
     try {
@@ -135,9 +135,9 @@ export default function SignIn() {
         );
       } else {
         setIsLoading(false);
-        const {userId, userFarm, isAdmin, token} = responseData;
+        const {userId, name, userFarm, isAdmin, token} = responseData;
         //console.log('morning', userId, userFarm, isAdmin, token);
-        auth.signIn(token, userId, userFarm, isAdmin);
+        auth.signIn(token, name, userId, userFarm, isAdmin);
       }
       //setIsLoading(false);
     } catch (error) {
