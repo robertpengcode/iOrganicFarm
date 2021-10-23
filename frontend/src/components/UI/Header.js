@@ -87,6 +87,10 @@ const useStyles = makeStyles((theme) => ({
       opacity: 1,
     },
   },
+  username: {
+    ...theme.typography.text,
+    color: theme.palette.common.armyGreen,
+  }
 }));
 
 function ElevationScroll(props) {
@@ -113,6 +117,7 @@ export default function Header(props) {
   const { isExchanging } = useContext(IsExchangingContext);
   const { exchanges } = useContext(ExchangesContext);
   const { currentFarm, username } = useContext(AuthContext);
+  const firstName = username.split(' ')[0];
 
   const handleTabValue = (e, tabValue) => {
     props.setTabValue(tabValue);
@@ -325,7 +330,7 @@ export default function Header(props) {
               iOrganicFarm
             </Typography>
             {matches ? drawer : tabs}
-            {username? <Typography>{`Welcome ${username}!`}</Typography> : null}
+            {username? <Typography className={classes.username}>{`Welcome ${firstName}!`}</Typography> : null}
             <AuthButtons />
             {!isExchanging ? cartIcon : <ExchangePlatformButton totalExchangeItems={totalExchangeItems}/>}
             {notification}

@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { request } = require("express");
 const Product = require("../model/ProductModel");
+const verifyToken = require("./verifyToken")
 
 router.get("/", async (req, res) => {
   try {
@@ -16,10 +16,12 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.use(verifyToken);
+
 router.delete("/delete/:id", async (req, res) => {
-  console.log("ck", req.params.id);
+  //console.log("ck", req.params.id);
   const deleteId = req.params.id;
-  console.log("deleteId", deleteId);
+  //console.log("deleteId", deleteId);
   try {
     await Product.deleteOne({ id: deleteId });
     res.status(200).send("items deleted!!!");
@@ -30,9 +32,9 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 router.put("/update/:id", async (req, res) => {
-  console.log("ck", req.params.id);
+  //console.log("ck", req.params.id);
   const updateId = req.params.id;
-  console.log("updateId", updateId);
+  //console.log("updateId", updateId);
   try {
     await Product.updateOne(
       { id: updateId },

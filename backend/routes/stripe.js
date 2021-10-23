@@ -16,7 +16,6 @@ router.post("/create-checkout-session", cors(), async (req, res) => {
         cancel_url: `${process.env.CLIENT_URL}/canceled`,
       });
       res.json({ id: session.id, url: session.url });
-      //res.redirect(303, session.url);
     } catch (e) {
       res.status(500).json({ error: e.message });
     }

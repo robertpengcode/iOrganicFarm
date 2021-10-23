@@ -31,7 +31,7 @@ export default function Shop() {
   useEffect(() => {
     updateIsExchanging(false);
   });
-  console.log('exchange?',isExchanging);
+  //console.log('exchange?',isExchanging);
 
   return (
     <Container>

@@ -75,9 +75,7 @@ router.post("/signin", async (req, res, next) => {
     console.log(err);
     return next(err);
   }
-  //res.header("auth-token", token).send(token);
-  //console.log(token);
-  //res.status(201).send({ token: token });
+  
   res
     .status(201)
     .json({

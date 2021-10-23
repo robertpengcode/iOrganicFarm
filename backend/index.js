@@ -39,7 +39,6 @@ app.use((req, res, next) => {
 app.use("/api/user", authRoute);
 app.use("/api/product", productRoute);
 app.use("/api/exchange", exchangeRoute);
-app.use("/api/test", testRoute);
 app.use("/", stripeRoute);
 
 app.get("/", cors(), (req, res) => res.send("Hello!!! running..."));

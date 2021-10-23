@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ProductsContext } from "../../context/productsContext";
 import EditProducts from "./EditProducts";
+import { AuthContext } from "./../../context/authContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -89,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
 const Admin = () => {
   const classes = useStyles();
   const { updateProducts } = useContext(ProductsContext);
+  const { currentFarm, token } = useContext(AuthContext);
   const vendors = [
     "Max's Fun Farm",
     "Zoey's Home Farm",
@@ -148,7 +150,7 @@ const Admin = () => {
   }
 
   async function handleCreateProduct() {
-    console.log("creating product!!");
+    //console.log("creating product!!");
     setAdminMessage("Creating New Product...");
 
     try {
@@ -156,6 +158,7 @@ const Admin = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "authorization": token,
         },
         body: JSON.stringify({
           id: productValues.id,
@@ -169,7 +172,7 @@ const Admin = () => {
         }),
       });
       const responseData = await response.json();
-      console.log("from create res", responseData);
+      //console.log("from create res", responseData);
       if (response.ok) {
         updateProducts();
         setAdminMessage("New Product Created!");
@@ -184,7 +187,7 @@ const Admin = () => {
   }
 
   async function handleUpdateProduct() {
-    console.log("Updating product!!");
+    //console.log("Updating product!!");
     setAdminMessage("Updating Product...");
     try {
       const response = await fetch(
@@ -193,6 +196,7 @@ const Admin = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            "authorization": token,
           },
           body: JSON.stringify({
             //id: productValues.id,

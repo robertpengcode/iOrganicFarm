@@ -189,16 +189,11 @@ const ExchangeView = () => {
   const { exchanges, updateExchanges } = useContext(ExchangesContext);
   const { currentFarm, token } = useContext(AuthContext);
   const [exchangeMessage, setExchangeMessage] = useState();
-  //const [currentFarm] = useState("Zoey's Home Farm");
-  //const [currentFarm] = useState("Max's Fun Farm");
-  //const [currentFarm] = useState("Morris Family Farm");
-
-  //console.log("mytoken", token);
+  
   const myExchanges = exchanges.filter(
     (exchange) =>
       exchange.requestFrom === currentFarm || exchange.requestTo === currentFarm
   );
-  //console.log("my", myExchanges);
 
   async function handleUpdateRequest(exchangeId, update) {
     setExchangeMessage(`${update} exchange...`);
@@ -389,7 +384,7 @@ const ExchangeView = () => {
                     Exchange In Total: ${exchange.exchangeOutTotal} VS Exchange
                     Out Total: ${exchange.exchangeInTotal}
                   </Grid>
-                  {exchange.requestFrom !== currentFarm ? (
+                  {exchange.requestFrom !== currentFarm && exchange.status === "Pending for Accept"? (
                     <Grid item className={classes.cartItem2}>
                       <Button
                         type="submit"
@@ -405,7 +400,7 @@ const ExchangeView = () => {
                       </Button>
                     </Grid>
                   ) : null}
-                  {exchange.requestFrom !== currentFarm ? (
+                  {exchange.requestFrom !== currentFarm && exchange.status === "Pending for Accept"? (
                     <Grid item className={classes.cartItem2}>
                       <Button
                         type="submit"
@@ -421,7 +416,7 @@ const ExchangeView = () => {
                       </Button>
                     </Grid>
                   ) : null}
-                  {exchange.requestFrom === currentFarm ? (
+                  {exchange.requestFrom === currentFarm && exchange.status === "Pending for Accept" ? (
                     <Grid item className={classes.cartItem2}>
                       <Button
                         type="submit"

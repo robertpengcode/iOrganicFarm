@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useContext, Fragment } from "react";
 import { ProductsContext } from "../../context/productsContext";
+import { AuthContext } from "./../../context/authContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -201,9 +202,8 @@ export default function EditProducts({
 
   const { products } = useContext(ProductsContext);
   const rows = products;
-  //console.log("rows", rows);
   const { updateProducts } = useContext(ProductsContext);
-  //console.log(setProductValues);
+  const { currentFarm, token } = useContext(AuthContext);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -241,6 +241,10 @@ export default function EditProducts({
         `http://localhost:8080/api/product/delete/${prodId}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": token,
+          },
         }
       );
       if (response.ok) {
