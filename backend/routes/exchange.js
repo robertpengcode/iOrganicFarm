@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Exchange = require("../model/ExchangeModel");
-const verifyToken = require("./verifyToken")
+const verifyToken = require("./verifyToken");
 
 router.get("/", async (req, res) => {
   try {
@@ -18,10 +18,18 @@ router.get("/", async (req, res) => {
 
 router.use(verifyToken);
 
-router.delete("/delete/:id", async (req, res) => {
-  //console.log("ck", req.params.id);
+router.delete("/delete/:id", async (req, res, next) => {
   const deleteId = req.params.id;
-  //console.log("deleteId", deleteId);
+  try {
+    const theExchange = await Exchange.findOne({ _id: deleteId });
+    if (theExchange.requestFrom !== req.userData.userFarm) {
+      const error = new Error("Not Allowed!", 401);
+      return next(error);
+    }
+  } catch (err) {
+    return next(err);
+  }
+
   try {
     await Exchange.deleteOne({ _id: deleteId });
     res.status(200).send("items deleted!!!");
@@ -31,10 +39,18 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
-  //console.log("ck", req.params.id);
+router.put("/update/:id", async (req, res, next) => {
   const updateId = req.params.id;
-  //console.log("updateId", updateId);
+  try {
+    const theExchange = await Exchange.findOne({ _id: updateId });
+    if (theExchange.requestTo !== req.userData.userFarm) {
+      const error = new Error("Not Allowed!", 401);
+      return next(error);
+    }
+  } catch (err) {
+    return next(err);
+  }
+
   try {
     await Exchange.updateOne(
       { _id: updateId },
@@ -49,7 +65,12 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", async (req, res, next) => {
+  if (req.body.requestFrom !== req.userData.userFarm) {
+    const error = new Error("Not Allowed!", 401);
+    return next(error);
+  }
+
   const exchange = new Exchange({
     requestFrom: req.body.requestFrom,
     requestTo: req.body.requestTo,
@@ -60,6 +81,7 @@ router.post("/create", async (req, res) => {
     messages: req.body.messages,
     status: req.body.status,
   });
+
   try {
     const savedExchange = await exchange.save();
     res.status(201).send(savedExchange);

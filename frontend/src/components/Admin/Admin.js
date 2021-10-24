@@ -103,7 +103,6 @@ const Admin = () => {
   if (currentFarm !== '*') {
     filteredVendors = vendors.filter(vendor => vendor === currentFarm);
   }
-  //console.log('ckk', filteredVendors);
    
   const productNames = [
     "Eggplant",
@@ -156,9 +155,7 @@ const Admin = () => {
   }
 
   async function handleCreateProduct() {
-    //console.log("creating product!!");
     setAdminMessage("Creating New Product...");
-
     try {
       const response = await fetch("http://localhost:8080/api/product/create", {
         method: "POST",
@@ -177,8 +174,6 @@ const Admin = () => {
           vendor: productValues.vendor,
         }),
       });
-      const responseData = await response.json();
-      //console.log("from create res", responseData);
       if (response.ok) {
         updateProducts();
         setAdminMessage("New Product Created!");
@@ -204,7 +199,6 @@ const Admin = () => {
   }
 
   async function handleUpdateProduct() {
-    //console.log("Updating product!!");
     setAdminMessage("Updating Product...");
     try {
       const response = await fetch(
@@ -216,7 +210,6 @@ const Admin = () => {
             "authorization": token,
           },
           body: JSON.stringify({
-            //id: productValues.id,
             imgUrl: productValues.imgUrl,
             name: productValues.name,
             price: productValues.price,
@@ -230,22 +223,8 @@ const Admin = () => {
       if (response.ok) {
         updateProducts();
         setAdminMessage("Product Updated!");
-        // setTimeout(() => {
-        //   setAdminMessage("");
-        //   setProductValues(initialProductValues);
-        //   setIsEditing(false);
-        //   setUpdateId("");
-        //   setEditMessage("");
-        // }, 5000);
       } else {
         setAdminMessage("Can't update. Error Accrued!");
-        // setTimeout(() => {
-        //   setAdminMessage("");
-        //   setProductValues(initialProductValues);
-        //   setIsEditing(false);
-        //   setUpdateId("");
-        //   setEditMessage("");
-        // }, 5000);
       }
       setTimeout(() => {
         setAdminMessage("");
@@ -425,7 +404,6 @@ const Admin = () => {
           setProductValues={setProductValues}
           setIsEditing={setIsEditing}
           setUpdateId={setUpdateId}
-          //isEditing={isEditing}
           setEditMessage={setEditMessage}
           editMessage={editMessage}
         ></EditProducts>
@@ -435,26 +413,3 @@ const Admin = () => {
 };
 
 export default Admin;
-
-//   {
-//     name: "Sweet Potatoes",
-//     imgUrl:
-//       "https://robertpengcodefarm.s3.amazonaws.com/forFarmPj/sweetpotato2.jpg",
-//     vendor: "Noah's Oak Farm",
-//     price: 1.99,
-//     quantity: 1,
-//     id: "prod_KIi4vKVVxrRUCg",
-//     unit: "lb",
-//     priceId: "price_1Je6epK6cEl29YLIgE0m5BVS",
-//   },
-
-//   {
-//     name: "Basil",
-//     imgUrl: "https://robertpengcodefarm.s3.amazonaws.com/forFarmPj/basil.jpg",
-//     vendor: "Zoey's Home Farm",
-//     price: 4.99,
-//     quantity: 1,
-//     id: "prod_KIi661TSYHLq9N",
-//     unit: "box",
-//     priceId: "price_1Je6gVK6cEl29YLIeot4WTQ2",
-//   },

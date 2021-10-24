@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Products from "./Products";
 import { IsExchangingContext } from "./../../context/isExchangingContext";
+import { AuthContext } from "./../../context/authContext";
 import { useSelector } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -38,10 +39,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Exchange() {
   const classes = useStyles();
-  const { isExchanging, updateIsExchanging } = useContext(IsExchangingContext);
+  const { updateIsExchanging } = useContext(IsExchangingContext);
   const exchangeItems = useSelector((state) => state.exchangeItems);
-  //const [currentFarm] = useState("Zoey's Home Farm");
-  const [currentFarm] = useState("Max's Fun Farm");
+  const { currentFarm } = useContext(AuthContext);
   
   useEffect(() => {
     updateIsExchanging(true);

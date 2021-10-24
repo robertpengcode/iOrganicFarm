@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Shop() {
   const classes = useStyles();
-  const { isExchanging, updateIsExchanging } = useContext(IsExchangingContext);
+  const { updateIsExchanging } = useContext(IsExchangingContext);
   useEffect(() => {
     updateIsExchanging(false);
   });

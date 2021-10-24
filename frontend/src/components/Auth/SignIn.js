@@ -97,10 +97,6 @@ export default function SignIn() {
     setSignInValues(signInValues);
   }, [signInValues]);
 
-  // function redirectToThankYou() {
-  //   setEmailSent(true);
-  // }
-
   function handleChange(e) {
     const { name, value } = e.target;
     setSignInValues({
@@ -111,7 +107,6 @@ export default function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    //console.log('handle signin!!')
     setIsLoading(true);
 
     try {
@@ -125,9 +120,7 @@ export default function SignIn() {
           password: signInValues.password,
         }),
       });
-      //console.log(response);
       const responseData = await response.json();
-      //console.log('resData', responseData);
       if (!response.ok) {
         setIsLoading(false);
         setErrorMessage(
@@ -136,10 +129,8 @@ export default function SignIn() {
       } else {
         setIsLoading(false);
         const {userId, name, userFarm, isAdmin, token} = responseData;
-        //console.log('morning', userId, userFarm, isAdmin, token);
         auth.signIn(token, name, userId, userFarm, isAdmin);
       }
-      //setIsLoading(false);
     } catch (error) {
       console.log(error.message);
       setIsLoading(false);
@@ -213,19 +204,7 @@ export default function SignIn() {
       </form>
     </Paper>
   );
-  // return emailSent === false ? (
-  //   <Paper className={classes.paperContainer}>
-  //     <Grid container className={classes.container} alignItems="center">
-  //       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-  //       <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
-  //         {emailForm}
-  //       </Grid>
-  //       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
-  //     </Grid>
-  //   </Paper>
-  // ) : (
-  //   <Redirect to="/thankyou" />
-  // );
+  
   return (
       <Paper className={classes.paperContainer}>
       <Grid container className={classes.container} alignItems="center">

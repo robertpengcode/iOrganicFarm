@@ -32,6 +32,9 @@ export default function AuthButtons() {
     dispatch({
       type: "EMPTY",
     });
+    dispatch({
+      type: "exEMPTY",
+    });
     history.push(path);
   }
 
