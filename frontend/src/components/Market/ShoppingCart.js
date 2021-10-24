@@ -153,10 +153,9 @@ const useStyles = makeStyles((theme) => ({
 
 const ShoppingCart = () => {
   const classes = useStyles();
-  const cartItems = useSelector((state) => {console.log('state', state); return state.cartItems});
+  const cartItems = useSelector((state) => state.cartItems);
   const dispatch = useDispatch();
 
-  console.log("ck cart", cartItems);
   const totalPrice = cartItems
     .reduce((total, item) => {
       return (total += item.price * item.quantity);

@@ -95,7 +95,6 @@ function App() {
 
   const updateExchanges = () => {
     setDownloadExchangesAgain(!downloadExchangesAgain);
-    console.log("update exchanges!!");
   };
 
   const updateIsExchanging = (value) => {

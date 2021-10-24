@@ -9,7 +9,6 @@ const port = process.env.PORT || 8080;
 const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
 const exchangeRoute = require("./routes/exchange");
-const testRoute = require("./routes/test");
 const stripeRoute = require("./routes/stripe");
 
 //connect to DB
