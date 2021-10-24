@@ -99,6 +99,10 @@ const Admin = () => {
     "Summit Hill Farm",
     "Morris Family Farm",
   ];
+  if (currentFarm !== '*') {
+    vendors.filter(vendor => vendor === currentFarm);
+  }
+   
   const productNames = [
     "Eggplant",
     "Tomato",

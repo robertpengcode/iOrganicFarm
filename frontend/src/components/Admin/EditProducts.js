@@ -201,9 +201,13 @@ export default function EditProducts({
   const classes = useStyles();
 
   const { products } = useContext(ProductsContext);
-  const rows = products;
+  let rows = products;
   const { updateProducts } = useContext(ProductsContext);
   const { currentFarm, token } = useContext(AuthContext);
+
+  if (currentFarm !== '*') {
+    rows = products.filter(product => product.vendor === currentFarm);
+  }
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -214,12 +218,10 @@ export default function EditProducts({
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   function handleEditProduct(prodId, index) {
-    //console.log("Editing product!!", "prodId", prodId, "index", index);
     setEditMessage("Editing Product...");
     setSelectedIndex(index);
     setIsEditing(true);
     const editingProduct = products.find((product) => product.id === prodId);
-    //console.log("pd", editingProduct);
     setUpdateId(prodId);
     setProductValues({
       id: editingProduct.id,
