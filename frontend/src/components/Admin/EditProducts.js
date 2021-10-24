@@ -236,7 +236,7 @@ export default function EditProducts({
   }
 
   async function handleDeleteProduct(prodId) {
-    console.log("deleting product!!");
+    //console.log("deleting product!!");
     setEditMessage("Deleting Product...");
     try {
       const response = await fetch(
@@ -255,9 +255,18 @@ export default function EditProducts({
         setTimeout(() => {
           setEditMessage("");
         }, 5000);
+      } else {
+        setEditMessage("Can't delete. Error Accrued!");
+        setTimeout(() => {
+          setEditMessage("");
+        }, 5000);
       }
     } catch (error) {
       console.log(error);
+      setEditMessage("Can't delete. Error Accrued!");
+        setTimeout(() => {
+          setEditMessage("");
+        }, 5000);
     }
   }
 

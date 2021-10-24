@@ -65,7 +65,7 @@ router.post("/signin", async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { _id: user._id},
+      { _id: user._id, userFarm: user.userFarm},
       process.env.TOKEN_SECRET,
       {
         expiresIn: "1h",

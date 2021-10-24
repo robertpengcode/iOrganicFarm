@@ -99,9 +99,11 @@ const Admin = () => {
     "Summit Hill Farm",
     "Morris Family Farm",
   ];
+  let filteredVendors = vendors;
   if (currentFarm !== '*') {
-    vendors.filter(vendor => vendor === currentFarm);
+    filteredVendors = vendors.filter(vendor => vendor === currentFarm);
   }
+  //console.log('ckk', filteredVendors);
    
   const productNames = [
     "Eggplant",
@@ -184,9 +186,20 @@ const Admin = () => {
           setAdminMessage("");
           setProductValues(initialProductValues);
         }, 5000);
+      } else {
+        setAdminMessage("Can't Creat. Error Accrued!");
+        setTimeout(() => {
+          setAdminMessage("");
+          setProductValues(initialProductValues);
+        }, 5000);
       }
     } catch (error) {
       console.log(error.message);
+      setAdminMessage("Can't Creat. Error Accrued!");
+        setTimeout(() => {
+          setAdminMessage("");
+          setProductValues(initialProductValues);
+        }, 5000);
     }
   }
 
@@ -217,6 +230,33 @@ const Admin = () => {
       if (response.ok) {
         updateProducts();
         setAdminMessage("Product Updated!");
+        // setTimeout(() => {
+        //   setAdminMessage("");
+        //   setProductValues(initialProductValues);
+        //   setIsEditing(false);
+        //   setUpdateId("");
+        //   setEditMessage("");
+        // }, 5000);
+      } else {
+        setAdminMessage("Can't update. Error Accrued!");
+        // setTimeout(() => {
+        //   setAdminMessage("");
+        //   setProductValues(initialProductValues);
+        //   setIsEditing(false);
+        //   setUpdateId("");
+        //   setEditMessage("");
+        // }, 5000);
+      }
+      setTimeout(() => {
+        setAdminMessage("");
+        setProductValues(initialProductValues);
+        setIsEditing(false);
+        setUpdateId("");
+        setEditMessage("");
+      }, 5000);
+    } catch (error) {
+      console.log(error.message);
+      setAdminMessage("Can't update. Error Accrued!");
         setTimeout(() => {
           setAdminMessage("");
           setProductValues(initialProductValues);
@@ -224,9 +264,6 @@ const Admin = () => {
           setUpdateId("");
           setEditMessage("");
         }, 5000);
-      }
-    } catch (error) {
-      console.log(error.message);
     }
   }
 
@@ -242,7 +279,7 @@ const Admin = () => {
         value={productValues.vendor}
         onChange={handleChangeSelect}
       >
-        {vendors.map((vendor, id) => (
+        {filteredVendors.map((vendor, id) => (
           <MenuItem key={id} value={vendor}>
             {vendor}
           </MenuItem>

@@ -18,23 +18,40 @@ router.get("/", async (req, res) => {
 
 router.use(verifyToken);
 
-router.delete("/delete/:id", async (req, res) => {
-  //console.log("ck", req.params.id);
+router.delete("/delete/:id", async (req, res, next) => {
   const deleteId = req.params.id;
-  //console.log("deleteId", deleteId);
+  try {
+    const theProduct = await Product.findOne({ id: deleteId });
+    if (theProduct.vendor !== req.userData.userFarm ) {
+      const error = new Error('Not Allowed!', 401);
+      return next(error)
+    }
+  } catch (err) {
+    return next(err);
+  }
+
   try {
     await Product.deleteOne({ id: deleteId });
     res.status(200).send("items deleted!!!");
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(400).send(err);
+    //return next(err);
   }
 });
 
-router.put("/update/:id", async (req, res) => {
-  //console.log("ck", req.params.id);
+router.put("/update/:id", async (req, res, next) => {
   const updateId = req.params.id;
-  //console.log("updateId", updateId);
+  try {
+    const theProduct = await Product.findOne({ id: updateId });
+    if (theProduct.vendor !== req.userData.userFarm ) {
+      const error = new Error('Not Allowed!', 401);
+      return next(error)
+    }
+  } catch (err) {
+    return next(err);
+  }
+
   try {
     await Product.updateOne(
       { id: updateId },
@@ -51,12 +68,13 @@ router.put("/update/:id", async (req, res) => {
     );
     res.status(200).send("items updated!!!");
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    // console.log(err);
+    // res.status(400).send(err);
+    return next(err);
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", async (req, res, next) => {
   try {
     const productExist = await Product.findOne({
       name: req.body.name,
@@ -65,8 +83,9 @@ router.post("/create", async (req, res) => {
     if (!!productExist)
       return res.status(400).send({ errorMessage: "Product already exists!" });
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    // console.log(err);
+    // res.status(400).send(err);
+    return next(err);
   }
 
   const product = new Product({
@@ -83,7 +102,8 @@ router.post("/create", async (req, res) => {
     const savedProduct = await product.save();
     res.status(201).send(savedProduct);
   } catch (err) {
-    res.status(400).send(err);
+    //res.status(400).send(err);
+    return next(err);
   }
 });
 
