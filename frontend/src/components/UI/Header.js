@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Fragment } from "react";
+import React, { useState, useEffect, useContext, Fragment, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IsExchangingContext } from "./../../context/isExchangingContext";
@@ -139,13 +139,18 @@ export default function Header(props) {
     setOpen(false);
   };
 
-  const menuOptions = [
-    // { name: "MARKET", link: "/market", tabValue: 2 },
+  const menuOptions = useMemo(()=> [
     { name: "SHOP NOW", link: "/shop", tabValue: 2 },
     { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
-  ];
+  ], []);
 
-  const routes = [
+  // const menuOptions = [
+  //   // { name: "MARKET", link: "/market", tabValue: 2 },
+  //   { name: "SHOP NOW", link: "/shop", tabValue: 2 },
+  //   { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
+  // ];
+
+  const routes = useMemo(() => [
     { name: "HOME", link: "/", tabValue: 0 },
     { name: "ABOUT US", link: "/about", tabValue: 1 },
     {
@@ -157,19 +162,25 @@ export default function Header(props) {
       onMouseOver: (event) => handleHover(event),
     },
     { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
-  ];
+  ], [anchorEl]);
+
+  // const routes = [
+  //   { name: "HOME", link: "/", tabValue: 0 },
+  //   { name: "ABOUT US", link: "/about", tabValue: 1 },
+  //   {
+  //     name: "MARKET",
+  //     link: "/market",
+  //     tabValue: 2,
+  //     ariaOwns: anchorEl ? "simple-menu" : undefined,
+  //     ariaPopup: anchorEl ? "true" : undefined,
+  //     onMouseOver: (event) => handleHover(event),
+  //   },
+  //   { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
+  // ];
 
   const routesForDrawer = [
     { name: "HOME", link: "/", tabValue: 0 },
     { name: "ABOUT US", link: "/about", tabValue: 1 },
-    // {
-    //   name: "MARKET",
-    //   link: "/market",
-    //   tabValue: 2,
-    //   ariaOwns: anchorEl ? "simple-menu" : undefined,
-    //   ariaPopup: anchorEl ? "true" : undefined,
-    //   onMouseOver: (event) => handleHover(event),
-    // },
     { name: "SHOP NOW", link: "/shop", tabValue: 2 },
     { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
     { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
