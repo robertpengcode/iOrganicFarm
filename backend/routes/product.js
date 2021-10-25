@@ -11,9 +11,8 @@ router.get("/", async (req, res, next) => {
       return res.status(400).send({ errorMessage: "Product not found!" });
     }
   } catch (err) {
-    // console.log(err);
     // res.status(400).send(err);
-    return next(err);
+    next(err);
   }
 });
 
@@ -38,9 +37,8 @@ router.delete("/delete/:id", async (req, res, next) => {
     await Product.deleteOne({ id: deleteId });
     res.status(200).send("items deleted!!!");
   } catch (err) {
-    // console.log(err);
     //res.status(400).send(err);
-    return next(err);
+    next(err);
   }
 });
 
@@ -75,7 +73,7 @@ router.put("/update/:id", async (req, res, next) => {
     );
     res.status(200).send("items updated!!!");
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 
@@ -96,7 +94,7 @@ router.post("/create", async (req, res, next) => {
     if (!!productExist)
       return res.status(400).send({ errorMessage: "Product already exists!" });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 
   const product = new Product({
@@ -113,7 +111,7 @@ router.post("/create", async (req, res, next) => {
     const savedProduct = await product.save();
     res.status(201).send(savedProduct);
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 

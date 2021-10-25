@@ -227,8 +227,6 @@ const ExchangePlatform = () => {
           }),
         }
       );
-      //const responseData = await response.json();
-      //console.log("from create res", responseData);
       if (response.ok) {
         setExchangeMessage("New Exchange Request Created!");
         updateExchanges();

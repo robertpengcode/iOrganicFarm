@@ -108,7 +108,6 @@ export default function SignIn() {
 
   const redirectSignIn = () => {
     let path="/"; 
-    //console.log('calling me')
     history.push(path);
   }
 
@@ -140,7 +139,6 @@ export default function SignIn() {
         redirectSignIn();
       }
     } catch (error) {
-      console.log(error.message);
       setIsLoading(false);
       setErrorMessage(
         `Error: ${error.message}` || "Something went wrong, please try again!"

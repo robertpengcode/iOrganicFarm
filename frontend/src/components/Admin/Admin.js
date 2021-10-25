@@ -234,7 +234,6 @@ const Admin = () => {
         setEditMessage("");
       }, 5000);
     } catch (error) {
-      console.log(error.message);
       setAdminMessage("Can't update. Error Accrued!");
         setTimeout(() => {
           setAdminMessage("");

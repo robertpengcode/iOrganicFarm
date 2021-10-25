@@ -74,10 +74,8 @@ const Card = (props) => {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cartItems);
   const exchangeItems = useSelector((state) => state.exchangeItems);
-  //console.log("cart", cartItems, "ex", exchangeItems);
   const dispatch = useDispatch();
   const { isExchanging } = useContext(IsExchangingContext);
-  //console.log('sunday', isExchanging);
 
   const myOwn = (
     <Grid item className={classes.myOwn}>

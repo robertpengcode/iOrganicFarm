@@ -13,7 +13,6 @@ router.get("/", async (req, res) => {
       return res.status(400).send({ errorMessage: "User not found!" });
     }
   } catch (err) {
-    console.log(err);
     res.status(400).send(err);
   }
 });
@@ -29,7 +28,6 @@ router.post("/signup", async (req, res) => {
         .status(400)
         .send({ errorMessage: "Email already exists! Please sign in." });
   } catch (err) {
-    console.log(err);
     res.status(400).send(err);
   }
   //hash passwords
@@ -55,7 +53,6 @@ router.post("/signin", async (req, res, next) => {
     user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(400).send({ errorMessage: "Email is wrong!" });
   } catch (err) {
-    console.log(err);
     res.status(400).send(err);
   }
   const validPass = await bcrypt.compare(req.body.password, user.password);
@@ -72,7 +69,6 @@ router.post("/signin", async (req, res, next) => {
       }
     );
   } catch (err) {
-    console.log(err);
     return next(err);
   }
   

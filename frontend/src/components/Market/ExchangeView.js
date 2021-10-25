@@ -230,7 +230,6 @@ const ExchangeView = () => {
   }
 
   async function handleDeleteExchange(exchangeId) {
-    //console.log("deleting exchange!!");
     setExchangeMessage("Deleting exchange...");
     try {
       const response = await fetch(

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Exchange = require("../model/ExchangeModel");
 const verifyToken = require("./verifyToken");
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const exchanges = await Exchange.find();
     if (exchanges) {
@@ -11,8 +11,8 @@ router.get("/", async (req, res) => {
       return res.status(400).send({ errorMessage: "Exchanges not found!" });
     }
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    //res.status(400).send(err);
+    next(err);
   }
 });
 
@@ -34,8 +34,8 @@ router.delete("/delete/:id", async (req, res, next) => {
     await Exchange.deleteOne({ _id: deleteId });
     res.status(200).send("items deleted!!!");
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    //res.status(400).send(err);
+    next(err);
   }
 });
 
@@ -60,8 +60,8 @@ router.put("/update/:id", async (req, res, next) => {
     );
     res.status(200).send("items updated!!!");
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    //res.status(400).send(err);
+    next(err);
   }
 });
 
@@ -86,7 +86,8 @@ router.post("/create", async (req, res, next) => {
     const savedExchange = await exchange.save();
     res.status(201).send(savedExchange);
   } catch (err) {
-    res.status(400).send(err);
+    //res.status(400).send(err);
+    next(err);
   }
 });
 

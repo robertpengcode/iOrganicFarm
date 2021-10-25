@@ -89,7 +89,6 @@ export default function CreateAccount() {
   const [isLoading, setIsLoading] = useState(false);
   const [createAccountMessage, setCreateAccountMessage] = useState("");
   const [isAccountCreated, setIsAccountCreated] = useState(false);
-  //console.log("cckk", isAccountCreated);
 
   useEffect(() => {
     setAccountValues(accountValues);
@@ -113,7 +112,6 @@ export default function CreateAccount() {
 
   async function handleCreateAccount(e) {
     e.preventDefault();
-    console.log("handle create!!");
     setIsLoading(true);
 
     try {
@@ -129,7 +127,6 @@ export default function CreateAccount() {
         }),
       });
       const responseData = await response.json();
-      console.log("ck front", responseData);
       if (!response.ok) {
         setCreateAccountMessage(responseData.errorMessage);
       } else {
@@ -137,7 +134,6 @@ export default function CreateAccount() {
       }
       setIsLoading(false);
     } catch (error) {
-      console.log(error.message);
       setIsLoading(false);
       setCreateAccountMessage(
         error.message || "Something went wrong, please try again!"
