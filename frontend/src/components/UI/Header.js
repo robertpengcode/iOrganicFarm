@@ -333,7 +333,7 @@ export default function Header(props) {
             {username? <Typography className={classes.username}>{`Welcome ${firstName}!`}</Typography> : null}
             <AuthButtons />
             {!isExchanging ? cartIcon : <ExchangePlatformButton totalExchangeItems={totalExchangeItems}/>}
-            {notification}
+            {currentFarm? notification : null}
           </Toolbar>
         </AppBar>
       </ElevationScroll>

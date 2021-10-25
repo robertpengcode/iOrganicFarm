@@ -1,5 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./../context/authContext";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -99,6 +101,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home() {
   const classes = useStyles();
+  const { currentFarm, isSignedIn } = useContext(AuthContext);
 
   return (
 <Fragment>
@@ -138,7 +141,7 @@ export default function Home() {
                 color="primary"
                 className={classes.homeButton}
                 component={Link}
-                to="/exchange"
+                to={currentFarm && isSignedIn ? "/exchange": isSignedIn? "/contact": "/signin"}
               >
               Exchange Products
               </Button>

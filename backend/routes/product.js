@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const Product = require("../model/ProductModel");
-const verifyToken = require("./verifyToken")
+const verifyToken = require("./verifyToken");
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const products = await Product.find();
     if (products) {
@@ -11,8 +11,9 @@ router.get("/", async (req, res) => {
       return res.status(400).send({ errorMessage: "Product not found!" });
     }
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    // console.log(err);
+    // res.status(400).send(err);
+    return next(err);
   }
 });
 
@@ -22,9 +23,12 @@ router.delete("/delete/:id", async (req, res, next) => {
   const deleteId = req.params.id;
   try {
     const theProduct = await Product.findOne({ id: deleteId });
-    if (theProduct.vendor !== req.userData.userFarm ) {
-      const error = new Error('Not Allowed!', 401);
-      return next(error)
+    if (
+      req.userData.userFarm !== theProduct.vendor &&
+      req.userData.userFarm !== "*"
+    ) {
+      const error = new Error("Not Allowed!", 401);
+      return next(error);
     }
   } catch (err) {
     return next(err);
@@ -35,8 +39,8 @@ router.delete("/delete/:id", async (req, res, next) => {
     res.status(200).send("items deleted!!!");
   } catch (err) {
     // console.log(err);
-    res.status(400).send(err);
-    //return next(err);
+    //res.status(400).send(err);
+    return next(err);
   }
 });
 
@@ -44,9 +48,12 @@ router.put("/update/:id", async (req, res, next) => {
   const updateId = req.params.id;
   try {
     const theProduct = await Product.findOne({ id: updateId });
-    if (theProduct.vendor !== req.userData.userFarm ) {
-      const error = new Error('Not Allowed!', 401);
-      return next(error)
+    if (
+      theProduct.vendor !== req.userData.userFarm &&
+      req.userData.userFarm !== "*"
+    ) {
+      const error = new Error("Not Allowed!", 401);
+      return next(error);
     }
   } catch (err) {
     return next(err);
@@ -68,13 +75,19 @@ router.put("/update/:id", async (req, res, next) => {
     );
     res.status(200).send("items updated!!!");
   } catch (err) {
-    // console.log(err);
-    // res.status(400).send(err);
     return next(err);
   }
 });
 
 router.post("/create", async (req, res, next) => {
+  if (
+    req.userData.userFarm !== req.body.vendor &&
+    req.userData.userFarm !== "*"
+  ) {
+    const error = new Error("Not Allowed!", 401);
+    return next(error);
+  }
+
   try {
     const productExist = await Product.findOne({
       name: req.body.name,
@@ -83,8 +96,6 @@ router.post("/create", async (req, res, next) => {
     if (!!productExist)
       return res.status(400).send({ errorMessage: "Product already exists!" });
   } catch (err) {
-    // console.log(err);
-    // res.status(400).send(err);
     return next(err);
   }
 
@@ -102,7 +113,6 @@ router.post("/create", async (req, res, next) => {
     const savedProduct = await product.save();
     res.status(201).send(savedProduct);
   } catch (err) {
-    //res.status(400).send(err);
     return next(err);
   }
 });

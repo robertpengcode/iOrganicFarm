@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Loading from "../UI/Loading";
 import Error from "../UI/Error";
 
@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const auth = useContext(AuthContext);
+  const history = useHistory();
 
   const initialSignInValues = {
     email: "",
@@ -103,6 +104,12 @@ export default function SignIn() {
       ...signInValues,
       [name]: value,
     });
+  }
+
+  const redirectSignIn = () => {
+    let path="/"; 
+    //console.log('calling me')
+    history.push(path);
   }
 
   const handleSignIn = async (e) => {
@@ -130,12 +137,13 @@ export default function SignIn() {
         setIsLoading(false);
         const {userId, name, userFarm, isAdmin, token} = responseData;
         auth.signIn(token, name, userId, userFarm, isAdmin);
+        redirectSignIn();
       }
     } catch (error) {
       console.log(error.message);
       setIsLoading(false);
       setErrorMessage(
-        `Me ${error.message}` || "Something went wrong, please try again!"
+        `Error: ${error.message}` || "Something went wrong, please try again!"
       );
     }
   }

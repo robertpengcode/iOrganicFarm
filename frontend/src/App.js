@@ -73,7 +73,7 @@ function App() {
   }
 
   const signIn = useCallback((token, name, userId, userFarm, isAdmin) => {
-    setUsername(name)
+    setUsername(name);
     setToken(token);
     setUserId(userId);
     setUserFarm(userFarm);
@@ -87,6 +87,7 @@ function App() {
     setUserId("");
     setUserFarm("");
     setIsAdmin(false);
+    setIsExchanging(false);
   }, []);
 
   const updateProducts = () => {
@@ -117,7 +118,27 @@ function App() {
         <Redirect to="/signin" />
       </Switch>
     );
-  } else {
+  } 
+  else if (!userFarm) {
+    routes = (
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/about" component={AboutUs} />
+        <Route exact path="/shop" component={Shop} />
+        <Route exact path="/cart" component={ShoppingCart} />
+        {/* <Route exact path="/exchange" component={Exchange} />
+        <Route exact path="/exchangeplatform" component={ExchangePlatform} />
+        <Route exact path="/exchangeview" component={ExchangeView} /> */}
+        <Route exact path="/contact" component={ContactUs} />
+        <Route exact path="/thankyou" component={ThankYou} />
+        <Route exact path="/success" component={Success} />
+        <Route exact path="/canceled" component={Canceled} />
+        <Route exact path="/admin" component={Admin} />
+        <Redirect to="/contact" />
+      </Switch>
+    );
+  } 
+  else {
     routes = (
       <Switch>
         <Route exact path="/" component={Home} />
@@ -174,21 +195,6 @@ function App() {
                   setSelectedIndex={setSelectedIndex}
                 />
                 {routes}
-                {/* <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/create" component={CreateAccount} />
-            <Route exact path="/signin" component={Signin} />
-            <Route exact path="/about" component={AboutUs} />
-            <Route exact path="/market" component={Market} />
-            <Route exact path="/shop" component={Shop} />
-            <Route exact path="/cart" component={ShoppingCart} />
-            <Route exact path="/exchange" component={Exchange} />
-            <Route exact path="/contact" component={ContactUs} />
-            <Route exact path="/thankyou" component={ThankYou} />
-            <Route exact path="/success" component={Success} />
-            <Route exact path="/canceled" component={Canceled} />
-            <Redirect to="/" />
-          </Switch> */}
                 <Footer
                   tabValue={tabValue}
                   setTabValue={setTabValue}
