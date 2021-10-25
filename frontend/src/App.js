@@ -24,6 +24,8 @@ import { ExchangesContext } from "./context/exchangesContext";
 import { ThemeProvider } from "@material-ui/core/styles";
 import myTheme from "./components/UI/Theme";
 
+let logoutTimer;
+
 function App() {
   const [tabValue, setTabValue] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -33,6 +35,7 @@ function App() {
   const [userId, setUserId] = useState("");
   const [userFarm, setUserFarm] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [tokenExpire, setTokenExpire] = useState(null);
 
   const [productsState, setProductState] = useState([]);
   const [downloadAgain, setDownloadAgain] = useState(false);
@@ -81,7 +84,7 @@ function App() {
       setIsAdmin(isAdmin);
       const tokenExpireDate =
         expire || new Date(new Date().getTime() + 1000 * 60 * 60);
-
+      setTokenExpire(tokenExpireDate);
       localStorage.setItem(
         "userData",
         JSON.stringify({
@@ -123,8 +126,18 @@ function App() {
     setUserFarm("");
     setIsAdmin(false);
     setIsExchanging(false);
+    setTokenExpire(null);
     localStorage.removeItem("userData");
   }, []);
+
+  useEffect(() => {
+    if (token && tokenExpire) {
+      const remainingTime = tokenExpire.getTime() - new Date().getTime();
+      logoutTimer = setTimeout(signOut, remainingTime);
+    } else {
+      clearTimeout(logoutTimer);
+    }
+  }, [token, signOut, tokenExpire]);
 
   const updateProducts = () => {
     setDownloadAgain(!downloadAgain);
