@@ -239,7 +239,7 @@ export default function EditProducts({
     setEditMessage("Deleting Product...");
     try {
       const response = await fetch(
-        `http://localhost:8080/api/product/delete/${prodId}`,
+        process.env.REACT_APP_BACKEND_URL + `/product/delete/${prodId}`,
         {
           method: "DELETE",
           headers: {

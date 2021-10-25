@@ -116,7 +116,7 @@ export default function SignIn() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8080/api/user/signin", {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/user/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

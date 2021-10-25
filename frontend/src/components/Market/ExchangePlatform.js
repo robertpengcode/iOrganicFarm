@@ -208,7 +208,7 @@ const ExchangePlatform = () => {
     setExchangeMessage("Creating New Exchange Request...");
     try {
       const response = await fetch(
-        "http://localhost:8080/api/exchange/create",
+        process.env.REACT_APP_BACKEND_URL + `/exchange/create`,
         {
           method: "POST",
           headers: {

@@ -205,7 +205,7 @@ const ExchangeView = () => {
     }
     try {
       const response = await fetch(
-        `http://localhost:8080/api/exchange/update/${exchangeId}`,
+        process.env.REACT_APP_BACKEND_URL + `/exchange/update/${exchangeId}`,
         {
           method: "PUT",
           headers: {
@@ -233,7 +233,7 @@ const ExchangeView = () => {
     setExchangeMessage("Deleting exchange...");
     try {
       const response = await fetch(
-        `http://localhost:8080/api/exchange/delete/${exchangeId}`,
+        process.env.REACT_APP_BACKEND_URL + `/exchange/delete/${exchangeId}`,
         {
           method: "DELETE",
           headers: {

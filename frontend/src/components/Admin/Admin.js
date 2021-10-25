@@ -157,7 +157,7 @@ const Admin = () => {
   async function handleCreateProduct() {
     setAdminMessage("Creating New Product...");
     try {
-      const response = await fetch("http://localhost:8080/api/product/create", {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/product/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -202,7 +202,7 @@ const Admin = () => {
     setAdminMessage("Updating Product...");
     try {
       const response = await fetch(
-        `http://localhost:8080/api/product/update/${updateId}`,
+        process.env.REACT_APP_BACKEND_URL + `/product/update/${updateId}`,
         {
           method: "PUT",
           headers: {

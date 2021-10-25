@@ -57,7 +57,7 @@ function App() {
 
   async function fetchProducts() {
     try {
-      const response = await fetch("http://localhost:8080/api/product/");
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/product/`);
       const responseData = await response.json();
       setProductState(responseData);
     } catch (error) {
@@ -67,7 +67,7 @@ function App() {
 
   async function fetchExchanges() {
     try {
-      const response = await fetch("http://localhost:8080/api/exchange/");
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/exchange/`);
       const responseData = await response.json();
       setExchangesState(responseData);
     } catch (error) {
@@ -164,6 +164,8 @@ function App() {
         <Route exact path="/cart" component={ShoppingCart} />
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
+        <Route exact path="/success" component={Success} />
+        <Route exact path="/canceled" component={Canceled} />
         <Redirect to="/signin" />
       </Switch>
     );
@@ -174,9 +176,6 @@ function App() {
         <Route exact path="/about" component={AboutUs} />
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={ShoppingCart} />
-        {/* <Route exact path="/exchange" component={Exchange} />
-        <Route exact path="/exchangeplatform" component={ExchangePlatform} />
-        <Route exact path="/exchangeview" component={ExchangeView} /> */}
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/thankyou" component={ThankYou} />
         <Route exact path="/success" component={Success} />
