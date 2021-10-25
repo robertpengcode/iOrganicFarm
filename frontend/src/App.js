@@ -72,14 +72,49 @@ function App() {
     }
   }
 
-  const signIn = useCallback((token, name, userId, userFarm, isAdmin) => {
-    setUsername(name);
-    setToken(token);
-    setUserId(userId);
-    setUserFarm(userFarm);
-    setIsAdmin(isAdmin);
-    fetchExchanges();
-  }, []);
+  const signIn = useCallback(
+    (token, name, userId, userFarm, isAdmin, expire) => {
+      setUsername(name);
+      setToken(token);
+      setUserId(userId);
+      setUserFarm(userFarm);
+      setIsAdmin(isAdmin);
+      const tokenExpireDate =
+        expire || new Date(new Date().getTime() + 1000 * 60 * 60);
+
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          token: token,
+          name: name,
+          userId: userId,
+          userFarm: userFarm,
+          isAdmin: isAdmin,
+          expire: tokenExpireDate.toISOString(),
+        })
+      );
+      fetchExchanges();
+    },
+    []
+  );
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    if (
+      storedData &&
+      storedData.token &&
+      new Date(storedData.expire) > new Date()
+    ) {
+      signIn(
+        storedData.token,
+        storedData.name,
+        storedData.userId,
+        storedData.userFarm,
+        storedData.isAdmin,
+        new Date(storedData.expire)
+      );
+    }
+  }, [signIn]);
 
   const signOut = useCallback(() => {
     setUsername("");
@@ -88,6 +123,7 @@ function App() {
     setUserFarm("");
     setIsAdmin(false);
     setIsExchanging(false);
+    localStorage.removeItem("userData");
   }, []);
 
   const updateProducts = () => {
@@ -118,8 +154,7 @@ function App() {
         <Redirect to="/signin" />
       </Switch>
     );
-  } 
-  else if (!userFarm) {
+  } else if (!userFarm) {
     routes = (
       <Switch>
         <Route exact path="/" component={Home} />
@@ -137,8 +172,7 @@ function App() {
         <Redirect to="/contact" />
       </Switch>
     );
-  } 
-  else {
+  } else {
     routes = (
       <Switch>
         <Route exact path="/" component={Home} />
