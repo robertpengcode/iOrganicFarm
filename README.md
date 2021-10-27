@@ -22,7 +22,7 @@ Node.js, Express.js - for user, authentication, product, exchange, and payment A
 ### Database
 Mongodb Atlas - for user, product, and exchange collections
 
-### Storage
+### Cloud Storage
 AWS S3 - for storing product images
 
 ### Other Technologies
