@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -56,6 +56,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AboutUs() {
+
+  useEffect(() => {
+    document.title = "About Us iOrganicFarm";
+  }, []);
+
   const classes = useStyles();
 
   return (

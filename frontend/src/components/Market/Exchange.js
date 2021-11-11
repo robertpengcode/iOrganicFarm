@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   productsBox: {
@@ -38,11 +39,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Exchange() {
+  useEffect(() => {
+    document.title = "Exchange Products iOrganicFarm";
+  }, []);
+
   const classes = useStyles();
   const { updateIsExchanging } = useContext(IsExchangingContext);
   const exchangeItems = useSelector((state) => state.exchangeItems);
   const { currentFarm } = useContext(AuthContext);
-  
+
   useEffect(() => {
     updateIsExchanging(true);
   });
@@ -77,8 +82,10 @@ export default function Exchange() {
         justifyContent="space-between"
         className={classes.topContainer}
       >
-        <Grid item className={classes.shopTitle}>
-          Exchange Products
+        <Grid item>
+          <Typography variant="h1" className={classes.shopTitle}>
+            Exchange Products
+          </Typography>
         </Grid>
         <Grid
           item

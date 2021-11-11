@@ -78,6 +78,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ContactUs() {
+  useEffect(() => {
+    document.title = "Contact Us iOrganicFarm";
+  }, []);
+
   const classes = useStyles();
 
   const initialEmailValues = {

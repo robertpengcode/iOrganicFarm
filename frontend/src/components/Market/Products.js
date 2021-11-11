@@ -168,11 +168,14 @@ const Products = () => {
       size="small"
       className={classes.formControl}
     >
-      <InputLabel>Sort by</InputLabel>
+      <InputLabel id="sortby">Sort by</InputLabel>
       <Select
         name="option"
         defaultValue=""
         value={sortOption}
+        labelId="sortby"
+        id="select"
+        label="sortby"
         onChange={(e) => {
           handleSortOptions(e);
         }}
@@ -197,7 +200,7 @@ const Products = () => {
             alignItems="center"
           >
             <Grid item className={classes.searchIconBox}>
-              <SearchIcon />
+              <SearchIcon role="img" aria-label="search icon"/>
             </Grid>
             <Grid item className={classes.searchBox}>
               <TextField
@@ -205,6 +208,7 @@ const Products = () => {
                 variant="outlined"
                 size="small"
                 name="search"
+                label="search"
                 fullWidth
                 value={searchValue}
                 onChange={handleSearch}

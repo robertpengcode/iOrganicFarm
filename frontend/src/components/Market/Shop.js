@@ -17,6 +17,8 @@ const useStyles = makeStyles(theme => ({
   },
   shopTitle: {
     ...theme.typography.text,
+    marginTop: "0.5rem",
+    marginBottom: "0.5rem",
     fontSize: "1.8rem",
     color: theme.palette.common.armyGreen,
     [theme.breakpoints.down("sm")]: {
@@ -31,10 +33,13 @@ export default function Shop() {
   useEffect(() => {
     updateIsExchanging(false);
   });
+  useEffect(() => {
+    document.title = "Shop Now iOrganicFarm";
+  }, []);
 
   return (
-    <Container>
-      <Typography className={classes.shopTitle}>
+    <Container id="main">
+      <Typography variant="h1" className={classes.shopTitle} >
         Shop Our Organic Products
       </Typography>
       <Box className={classes.productsBox}>

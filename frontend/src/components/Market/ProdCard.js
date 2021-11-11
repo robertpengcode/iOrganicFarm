@@ -92,7 +92,7 @@ const Card = (props) => {
         className={classes.cardContainer}
       >
         <Grid item className={classes.cardPic}>
-          <Image src={props.imgUrl} />
+          <Image src={props.imgUrl} alt={props.vendor+' '+props.name}/>
         </Grid>
         <Grid item className={classes.cardVendorBox}>
           <Grid container alignItems="center">

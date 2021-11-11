@@ -13,24 +13,24 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   footer: {
     ...theme.typography.footer,
     backgroundColor: theme.palette.primary.main,
     fontSize: "1rem",
     padding: "0.2rem",
     [theme.breakpoints.down("md")]: {
-      fontSize: "0.75rem"
+      fontSize: "0.75rem",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "0.75rem"
-    }
+      fontSize: "0.75rem",
+    },
   },
   gridItem: {
     marginTop: "1rem",
     marginBottom: "1rem",
     marginLeft: "4rem",
-    marginRight: "4rem"
+    marginRight: "4rem",
   },
   gridLink: {
     fontSize: "0.75rem",
@@ -38,16 +38,16 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.contrastText,
     opacity: "0.75",
     "&:hover": {
-      opacity: "1"
-    }
+      opacity: "1",
+    },
   },
   gridItemMain: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   copyRight: {
     ...theme.typography.footer,
-    opacity: "0.75"
-  }
+    opacity: "0.75",
+  },
 }));
 
 export default function Footer(props) {
@@ -174,16 +174,32 @@ export default function Footer(props) {
   const iconButtons = (
     <Fragment>
       <Grid container direction="row" justifyContent="center">
-        <IconButton target="_blank" href="https://www.facebook.com">
+        <IconButton
+          target="_blank"
+          href="https://www.facebook.com"
+          aria-label="Follow i organic farm on Facebook"
+        >
           <FacebookIcon />
         </IconButton>
-        <IconButton target="_blank" href="https://www.instagram.com">
+        <IconButton
+          target="_blank"
+          href="https://www.instagram.com"
+          aria-label="Follow i organic farm on Instagram"
+        >
           <InstagramIcon />
         </IconButton>
-        <IconButton target="_blank" href="https://www.twitter.com">
+        <IconButton
+          target="_blank"
+          href="https://www.twitter.com"
+          aria-label="Follow i organic farm on Twitter"
+        >
           <TwitterIcon />
         </IconButton>
-        <IconButton target="_blank" href="https://www.youtube.com">
+        <IconButton
+          target="_blank"
+          href="https://www.youtube.com"
+          aria-label="Follow i organic farm on YouTube"
+        >
           <YouTubeIcon />
         </IconButton>
       </Grid>

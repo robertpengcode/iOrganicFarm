@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, Fragment, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  Fragment,
+  useMemo,
+} from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IsExchangingContext } from "./../../context/isExchangingContext";
@@ -90,7 +96,12 @@ const useStyles = makeStyles((theme) => ({
   username: {
     ...theme.typography.text,
     color: theme.palette.common.armyGreen,
-  }
+  },
+  // skip: {
+  //   "&:focus": {
+  //     marginLeft: "5rem",
+  //   }
+  // }
 }));
 
 function ElevationScroll(props) {
@@ -117,7 +128,7 @@ export default function Header(props) {
   const { isExchanging } = useContext(IsExchangingContext);
   const { exchanges } = useContext(ExchangesContext);
   const { currentFarm, username } = useContext(AuthContext);
-  const firstName = username.split(' ')[0];
+  const firstName = username.split(" ")[0];
 
   const handleTabValue = (e, tabValue) => {
     props.setTabValue(tabValue);
@@ -139,10 +150,13 @@ export default function Header(props) {
     setOpen(false);
   };
 
-  const menuOptions = useMemo(()=> [
-    { name: "SHOP NOW", link: "/shop", tabValue: 2 },
-    { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
-  ], []);
+  const menuOptions = useMemo(
+    () => [
+      { name: "SHOP NOW", link: "/shop", tabValue: 2 },
+      { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
+    ],
+    []
+  );
 
   // const menuOptions = [
   //   // { name: "MARKET", link: "/market", tabValue: 2 },
@@ -150,19 +164,22 @@ export default function Header(props) {
   //   { name: "EXCHANGE", link: "/exchange", tabValue: 2 },
   // ];
 
-  const routes = useMemo(() => [
-    { name: "HOME", link: "/", tabValue: 0 },
-    { name: "ABOUT US", link: "/about", tabValue: 1 },
-    {
-      name: "MARKET",
-      link: "/market",
-      tabValue: 2,
-      ariaOwns: anchorEl ? "simple-menu" : undefined,
-      ariaPopup: anchorEl ? "true" : undefined,
-      onMouseOver: (event) => handleHover(event),
-    },
-    { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
-  ], [anchorEl]);
+  const routes = useMemo(
+    () => [
+      { name: "HOME", link: "/", tabValue: 0 },
+      { name: "ABOUT US", link: "/about", tabValue: 1 },
+      {
+        name: "MARKET",
+        link: "/market",
+        tabValue: 2,
+        ariaOwns: anchorEl ? "simple-menu" : undefined,
+        ariaPopup: anchorEl ? "true" : undefined,
+        onMouseOver: (event) => handleHover(event),
+      },
+      { name: "CONTACT", link: "/contact", tabValue: 3, target: "_blank" },
+    ],
+    [anchorEl]
+  );
 
   // const routes = [
   //   { name: "HOME", link: "/", tabValue: 0 },
@@ -213,7 +230,7 @@ export default function Header(props) {
   const totalExchangeRequests = myExchanges.length;
 
   const cartIcon = (
-    <IconButton component={Link} to="/cart">
+    <IconButton component={Link} to="/cart" aria-label="Go to my shopping cart">
       <Badge badgeContent={totalItems} color="success">
         <ShoppingCartIcon />
       </Badge>
@@ -221,7 +238,11 @@ export default function Header(props) {
   );
 
   const notification = (
-    <IconButton component={Link} to="/exchangeview" >
+    <IconButton
+      component={Link}
+      to="/exchangeview"
+      aria-label="Go to exchange requests"
+    >
       <Badge badgeContent={totalExchangeRequests} color="error">
         <NotificationsIcon />
       </Badge>
@@ -320,6 +341,7 @@ export default function Header(props) {
       </SwipeableDrawer>
       <IconButton
         className={classes.drawerIconContainer}
+        aria-label="drawer"
         onClick={() => setOpenDrawer(!openDrawer)}
       >
         <MenuIcon className={classes.drawerIcon} />
@@ -329,6 +351,9 @@ export default function Header(props) {
 
   return (
     <div className={classes.root}>
+      <div className="skip">
+        <a href="#main">Skip to main content</a>
+      </div>
       <ElevationScroll>
         <AppBar position="static">
           <Toolbar>
@@ -341,10 +366,18 @@ export default function Header(props) {
               iOrganicFarm
             </Typography>
             {matches ? drawer : tabs}
-            {username? <Typography className={classes.username}>{`Welcome ${firstName}!`}</Typography> : null}
+            {username ? (
+              <Typography
+                className={classes.username}
+              >{`Welcome ${firstName}!`}</Typography>
+            ) : null}
             <AuthButtons />
-            {!isExchanging ? cartIcon : <ExchangePlatformButton totalExchangeItems={totalExchangeItems}/>}
-            {currentFarm? notification : null}
+            {!isExchanging ? (
+              cartIcon
+            ) : (
+              <ExchangePlatformButton totalExchangeItems={totalExchangeItems} />
+            )}
+            {currentFarm ? notification : null}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
