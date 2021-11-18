@@ -131,10 +131,10 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell align="center" padding="none">
-          <EditIcon />
+          <EditIcon role="img" aria-label="edit"/>
         </TableCell>
         <TableCell align="center" padding="none">
-          <DeleteIcon />
+          <DeleteIcon role="img" aria-label="delete"/>
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -349,16 +349,18 @@ export default function EditProducts({
                           >
                             <TableCell padding="none">
                               <IconButton
+                                aria-label="edit product"
                                 onClick={() => handleEditProduct(row.id, index)}
                               >
-                                <EditIcon />
+                                <EditIcon role='img'/>
                               </IconButton>
                             </TableCell>
                             <TableCell padding="none">
                               <IconButton
+                                aria-label="delete product"
                                 onClick={() => handleDeleteProduct(row.id)}
                               >
-                                <DeleteIcon />
+                                <DeleteIcon role='img'/>
                               </IconButton>
                             </TableCell>
                             <TableCell

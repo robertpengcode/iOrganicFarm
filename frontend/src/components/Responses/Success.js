@@ -1,12 +1,39 @@
-import React, { Fragment } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
-  text: {
+  text1: {
     ...theme.typography.text,
+    fontSize: "3.5rem",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "3rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "2rem",
+    },
+  },
+  text2: {
+    ...theme.typography.text,
+    fontSize: "2.5rem",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "2rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.5rem",
+    },
+  },
+  text3: {
+    ...theme.typography.text,
+    fontSize: "2rem",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "1.5rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.2rem",
+    },
   },
   paperContainer: {
     backgroundImage: `url(thankImg.jpg)`,
@@ -47,9 +74,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Success = () => {
   const classes = useStyles();
+  useEffect(() => {
+    document.title = "Success iOrganicFarm";
+  }, []);
   return (
-    <Fragment>
-      <Paper elevation={0} className={classes.paperContainer}>
+      <Paper elevation={0} className={classes.paperContainer} id="main" role="main" tabIndex="-1">
         <Grid container className={classes.container} alignItems="center">
           <Grid item xs={1} sm={2} md={3} lg={3}></Grid>
           <Grid item xs={10} sm={8} md={6} lg={6}>
@@ -58,13 +87,13 @@ const Success = () => {
               className={classes.textContainer}
               direction="column"
             >
-              <Typography variant="h3" className={classes.text}>
+              <Typography variant="h1" className={classes.text1}>
                 Payment is accepted.
               </Typography>
-              <Typography variant="h4" className={classes.text}>
+              <Typography className={classes.text2}>
                 Thank you for shopping!
               </Typography>
-              <Typography variant="h5" className={classes.text}>
+              <Typography className={classes.text3}>
                 Your order is on the way.
               </Typography>
             </Grid>
@@ -72,7 +101,6 @@ const Success = () => {
           <Grid item xs={1} sm={2} md={3} lg={3}></Grid>
         </Grid>
       </Paper>
-    </Fragment>
   );
 };
 

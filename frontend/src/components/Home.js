@@ -109,7 +109,7 @@ export default function Home() {
   }, []);
 
   return (
-<Box id="main">
+<Box id="main" role="main">
   <Paper elevation={0} className={classes.paperContainer}>
     <Grid container direction="column">
       <Grid item>

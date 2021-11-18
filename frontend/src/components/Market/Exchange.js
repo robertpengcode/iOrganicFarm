@@ -75,7 +75,7 @@ export default function Exchange() {
     Math.abs(exchangeInTotal - exchangeOutTotal) / exchangeInTotal < 0.05;
 
   return (
-    <Container>
+    <Container id="main" role="main" tabIndex="-1">
       <Grid
         container
         alignItems="center"

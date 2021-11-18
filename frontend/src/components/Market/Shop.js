@@ -38,7 +38,7 @@ export default function Shop() {
   }, []);
 
   return (
-    <Container id="main">
+    <Container id="main" role="main" tabIndex="-1">
       <Typography variant="h1" className={classes.shopTitle} >
         Shop Our Organic Products
       </Typography>

@@ -267,6 +267,7 @@ export default function Header(props) {
             aria-haspopup={route.ariaPopup}
             onMouseOver={route.onMouseOver}
             target={route.target}
+            tabIndex="0"
           />
         ))}
       </Tabs>
@@ -342,6 +343,7 @@ export default function Header(props) {
       <IconButton
         className={classes.drawerIconContainer}
         aria-label="drawer"
+        aria-expanded={openDrawer}
         onClick={() => setOpenDrawer(!openDrawer)}
       >
         <MenuIcon className={classes.drawerIcon} />
@@ -358,10 +360,10 @@ export default function Header(props) {
         <AppBar position="static">
           <Toolbar>
             <Typography
-              variant="h6"
               className={classes.title}
               component={Link}
               to="/"
+              aria-label="home page"
             >
               iOrganicFarm
             </Typography>

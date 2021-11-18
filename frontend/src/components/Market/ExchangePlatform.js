@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ExchangesContext } from "../../context/exchangesContext";
@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
   cartTitle: {
     ...theme.typography.text,
     fontSize: "1.8rem",
+    marginTop: "0.5rem",
+    marginBottom: "0.5rem",
     color: theme.palette.common.armyGreen,
     [theme.breakpoints.down("sm")]: {
       fontSize: "1.5rem",
@@ -176,6 +178,9 @@ const useStyles = makeStyles((theme) => ({
 
 const ExchangePlatform = () => {
   const classes = useStyles();
+  useEffect(() => {
+    document.title = "Exchange Platform iOrganicFarm";
+  }, []);
   const exchangeItems = useSelector((state) => state.exchangeItems);
   const dispatch = useDispatch();
   const [exchangeMessage, setExchangeMessage] = useState("");
@@ -249,8 +254,8 @@ const ExchangePlatform = () => {
   );
 
   return (
-    <Container>
-      <Typography className={classes.cartTitle}>
+    <Container id="main" role="main" tabIndex="-1">
+      <Typography variant="h1" className={classes.cartTitle}>
         My Exchange Platform
       </Typography>
       <Box className={classes.cartBox}>
@@ -274,7 +279,7 @@ const ExchangePlatform = () => {
                         alignItems="center"
                       >
                         <Grid item className={classes.cartItemPic}>
-                          <Image src={cartItem.imgUrl} />
+                          <Image src={cartItem.imgUrl} alt={cartItem.vendor+' '+cartItem.name}/>
                         </Grid>
                         <Grid item className={classes.cartVendor}>
                           {cartItem.vendor}
@@ -298,6 +303,7 @@ const ExchangePlatform = () => {
                       >
                         <Grid item className={classes.cartIconButton}>
                           <IconButton
+                            aria-label="increase one"
                             onClick={() =>
                               dispatch({
                                 type: "exINCREASE",
@@ -310,6 +316,7 @@ const ExchangePlatform = () => {
                         </Grid>
                         <Grid item className={classes.cartIconButton}>
                           <IconButton
+                            aria-label="decrease one"
                             onClick={() => {
                               if (cartItem.quantity > 1) {
                                 dispatch({
@@ -329,6 +336,7 @@ const ExchangePlatform = () => {
                         </Grid>
                         <Grid item className={classes.cartIconButton}>
                           <IconButton
+                            aria-label="remove item"
                             onClick={() =>
                               dispatch({ type: "exREMOVE", payload: cartItem })
                             }
@@ -363,7 +371,7 @@ const ExchangePlatform = () => {
                         alignItems="center"
                       >
                         <Grid item className={classes.cartItemPic}>
-                          <Image src={cartItem.imgUrl} />
+                          <Image src={cartItem.imgUrl} alt={cartItem.vendor+' '+cartItem.name}/>
                         </Grid>
                         <Grid item className={classes.cartVendor}>
                           {cartItem.vendor}
@@ -387,6 +395,7 @@ const ExchangePlatform = () => {
                       >
                         <Grid item className={classes.cartIconButton}>
                           <IconButton
+                            aria-label="increase one"
                             onClick={() =>
                               dispatch({
                                 type: "exINCREASE",
@@ -399,6 +408,7 @@ const ExchangePlatform = () => {
                         </Grid>
                         <Grid item className={classes.cartIconButton}>
                           <IconButton
+                            aria-label="decrease one"
                             onClick={() => {
                               if (cartItem.quantity > 1) {
                                 dispatch({
@@ -418,6 +428,7 @@ const ExchangePlatform = () => {
                         </Grid>
                         <Grid item className={classes.cartIconButton}>
                           <IconButton
+                            aria-label="remove item"
                             onClick={() =>
                               dispatch({ type: "exREMOVE", payload: cartItem })
                             }

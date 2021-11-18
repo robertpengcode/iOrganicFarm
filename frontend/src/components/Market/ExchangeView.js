@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ExchangesContext } from "./../../context/exchangesContext";
 import { AuthContext } from "./../../context/authContext";
@@ -35,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
   cartTitle: {
     ...theme.typography.text,
     fontSize: "1.8rem",
+    marginTop: "0.5rem",
+    marginBottom: "0.5rem",
     color: theme.palette.common.armyGreen,
     [theme.breakpoints.down("sm")]: {
       fontSize: "1.5rem",
@@ -186,6 +188,9 @@ const useStyles = makeStyles((theme) => ({
 
 const ExchangeView = () => {
   const classes = useStyles();
+  useEffect(() => {
+    document.title = "Exchange View iOrganicFarm";
+  }, []);
   const { exchanges, updateExchanges } = useContext(ExchangesContext);
   const { currentFarm, token } = useContext(AuthContext);
   const [exchangeMessage, setExchangeMessage] = useState();
@@ -263,8 +268,8 @@ const ExchangeView = () => {
   );
 
   return (
-    <Container>
-      <Typography className={classes.cartTitle}>Exchange Requests</Typography>
+    <Container id="main" role="main" tabIndex="-1">
+      <Typography className={classes.cartTitle} variant="h1">Exchange Requests</Typography>
       <Box className={classes.cartBox}>
         {exchangeMessage ? exchangeMessageBox : null}
         {myExchanges.length ? (
@@ -315,7 +320,7 @@ const ExchangeView = () => {
                             alignItems="center"
                           >
                             <Grid item className={classes.cartItemPic}>
-                              <Image src={cartItem.imgUrl} />
+                              <Image src={cartItem.imgUrl} alt={cartItem.vendor+' '+cartItem.name}/>
                             </Grid>
                             <Grid item className={classes.cartVendor}>
                               {cartItem.vendor}
@@ -350,7 +355,7 @@ const ExchangeView = () => {
                           alignItems="center"
                         >
                           <Grid item className={classes.cartItemPic}>
-                            <Image src={cartItem.imgUrl} />
+                            <Image src={cartItem.imgUrl} alt={cartItem.vendor+' '+cartItem.name}/>
                           </Grid>
                           <Grid item className={classes.cartVendor}>
                             {cartItem.vendor}

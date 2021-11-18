@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ProductsContext } from "../../context/productsContext";
 import EditProducts from "./EditProducts";
 import { AuthContext } from "./../../context/authContext";
@@ -33,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
   adminTitle: {
     ...theme.typography.text,
     fontSize: "1.8rem",
+    marginTop: "0.5rem",
+    marginBottom: "0.5rem",
     color: theme.palette.common.armyGreen,
     [theme.breakpoints.down("sm")]: {
       fontSize: "1.5rem",
@@ -89,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Admin = () => {
   const classes = useStyles();
+  useEffect(() => {
+    document.title = "Admin Page iOrganicFarm";
+  }, []);
   const { updateProducts } = useContext(ProductsContext);
   const { currentFarm, token } = useContext(AuthContext);
   const vendors = [
@@ -272,14 +277,14 @@ const Admin = () => {
       size="small"
       className={classes.formControl}
     >
-      <InputLabel>Product Name</InputLabel>
+      <InputLabel >Product Name</InputLabel>
       <Select
         name="name"
         value={productValues.name}
         onChange={handleChangeSelect}
       >
         {productNames.map((productName, id) => (
-          <MenuItem key={id} value={productName}>
+          <MenuItem key={id} value={productName} >
             {productName}
           </MenuItem>
         ))}
@@ -315,8 +320,8 @@ const Admin = () => {
   );
 
   return (
-    <Box className={classes.adminContainer}>
-      <Typography className={classes.adminTitle}>Admin Page</Typography>
+    <Box className={classes.adminContainer} id="main" role="main" tabIndex="-1">
+      <Typography className={classes.adminTitle} variant="h1">Admin Page</Typography>
       <Grid container direction={"column"} spacing={2} alignItems="center">
         {adminMessage ? adminMessageBox : null}
         <Grid item className={classes.adminEditProdContainer}>

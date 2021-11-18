@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
   cartTitle: {
     ...theme.typography.text,
     fontSize: "1.8rem",
+    marginTop: "0.5rem",
+    marginBottom: "0.5rem",
     color: theme.palette.common.armyGreen,
     [theme.breakpoints.down("sm")]: {
       fontSize: "1.5rem",
@@ -185,8 +187,8 @@ const ShoppingCart = () => {
   }
 
   return (
-    <Container>
-      <Typography className={classes.cartTitle}>My Shopping Cart</Typography>
+    <Container id="main" role="main" tabIndex="-1">
+      <Typography className={classes.cartTitle} variant="h1">My Shopping Cart</Typography>
       <Box className={classes.cartBox}>
         <Grid container direction="column" className={classes.cartContainer}>
           {cartItems.map((cartItem, i) => (
@@ -200,7 +202,7 @@ const ShoppingCart = () => {
                       alignItems="center"
                     >
                       <Grid item className={classes.cartItemPic}>
-                        <Image src={cartItem.imgUrl} />
+                        <Image src={cartItem.imgUrl} alt={cartItem.vendor+' '+cartItem.name}/>
                       </Grid>
                       <Grid item className={classes.cartVendor}>
                         {cartItem.vendor}
@@ -224,6 +226,7 @@ const ShoppingCart = () => {
                     >
                       <Grid item className={classes.cartIconButton}>
                         <IconButton
+                          aria-label="increase one"
                           onClick={() =>
                             dispatch({ type: "INCREASE", payload: cartItem })
                           }
@@ -233,6 +236,7 @@ const ShoppingCart = () => {
                       </Grid>
                       <Grid item className={classes.cartIconButton}>
                         <IconButton
+                          aria-label="decrease one"
                           onClick={() => {
                             if (cartItem.quantity > 1) {
                               dispatch({ type: "DECREASE", payload: cartItem });
@@ -246,6 +250,7 @@ const ShoppingCart = () => {
                       </Grid>
                       <Grid item className={classes.cartIconButton}>
                         <IconButton
+                          aria-label="remove item"
                           onClick={() =>
                             dispatch({ type: "REMOVE", payload: cartItem })
                           }

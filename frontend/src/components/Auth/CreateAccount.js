@@ -146,7 +146,7 @@ export default function CreateAccount() {
       <form className={classes.contactform} onSubmit={handleCreateAccount}>
         <Grid container direction="column">
           <Grid item>
-            <Typography className={classes.formTitle}>
+            <Typography className={classes.formTitle} variant="h1">
               Create Account
             </Typography>
           </Grid>
@@ -206,7 +206,7 @@ export default function CreateAccount() {
     </Paper>
   );
   return isAccountCreated === false ? (
-    <Paper className={classes.paperContainer}>
+    <Paper className={classes.paperContainer} id="main" role="main" tabIndex="-1">
       <Grid container className={classes.container} alignItems="center">
         <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
         <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>

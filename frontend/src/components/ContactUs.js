@@ -162,7 +162,7 @@ export default function ContactUs() {
           <Grid item>
             <Grid container direction="row" alignItems="flex-end" justifyContent="center" spacing={1}>
               <Grid item><EmailIcon fontSize="large" className={classes.emailIcon}/></Grid>
-              <Grid item><Typography className={classes.emailTitle}>Email Us</Typography></Grid>
+              <Grid item><Typography className={classes.emailTitle} variant="h1">Email Us</Typography></Grid>
             </Grid>
           </Grid>
           <Grid item>
@@ -238,7 +238,7 @@ export default function ContactUs() {
     </Paper>
   );
   return emailSent === false ? 
-  <Paper className={classes.paperContainer}>
+  <Paper className={classes.paperContainer} id="main" role="main" tabIndex="-1">
     <Grid container className={classes.container} alignItems="center">
       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
       <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>
