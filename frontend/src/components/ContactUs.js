@@ -95,6 +95,10 @@ export default function ContactUs() {
 
   const [emailValues, setEmailValues] = useState(initialEmailValues);
   const [emailSent, setEmailSent] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [isPhoneError, setIsPhoneError] = useState(false);
 
   function redirectToThankYou() {
     setEmailSent(true);
@@ -115,10 +119,22 @@ export default function ContactUs() {
 
   function handleChange(e) {
     const { name, value } = e.target;
+    let isEmailValid;
+    let isPhoneValid;
     setEmailValues({
       ...emailValues,
       [name]: value,
     });
+    if (name === 'email') {
+      isEmailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) || value==="";
+      isEmailValid ? setIsEmailError(false) : setIsEmailError(true);
+      isEmailValid ? setEmailErrorMessage('') : setEmailErrorMessage('Invalid email');
+    }
+    if (name === 'phone') {
+      isPhoneValid = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(value) || value==="";
+      isPhoneValid ? setIsPhoneError(false) : setIsPhoneError(true);
+      isPhoneValid ? setPhoneErrorMessage('') : setPhoneErrorMessage('Invalid phone number');
+    }
   }
 
   function handleChangeSelect(e) {
@@ -157,7 +173,7 @@ export default function ContactUs() {
 
   const emailForm = (
     <Paper className={classes.paper}>
-      <form className={classes.contactform} onSubmit={sendEmail}>
+      <form className={classes.contactform} onSubmit={sendEmail} >
         <Grid container direction="column">
           <Grid item>
             <Grid container direction="row" alignItems="flex-end" justifyContent="center" spacing={1}>
@@ -173,6 +189,7 @@ export default function ContactUs() {
               value={emailValues.subject}
               onChange={handleChange}
               className={classes.emailItem}
+              autoComplete="on"
             />
           </Grid>
           <Grid item className={classes.selectMenu}>
@@ -186,6 +203,7 @@ export default function ContactUs() {
               value={emailValues.name}
               onChange={handleChange}
               className={classes.emailItem}
+              autoComplete="on"
             />
           </Grid>
           <Grid item>
@@ -197,6 +215,9 @@ export default function ContactUs() {
               value={emailValues.email}
               onChange={handleChange}
               className={classes.emailItem}
+              autoComplete="on"
+              error={isEmailError}
+              helperText={emailErrorMessage}
             />
           </Grid>
           <Grid item>
@@ -207,6 +228,9 @@ export default function ContactUs() {
               value={emailValues.phone}
               onChange={handleChange}
               className={classes.emailItem}
+              autoComplete="on"
+              error={isPhoneError}
+              helperText={phoneErrorMessage}
             />
           </Grid>
           <Grid item>
@@ -220,6 +244,7 @@ export default function ContactUs() {
               value={emailValues.message}
               onChange={handleChange}
               className={classes.emailItem}
+              autoComplete="on"
             />
           </Grid>
           <Grid item>
@@ -238,7 +263,7 @@ export default function ContactUs() {
     </Paper>
   );
   return emailSent === false ? 
-  <Paper className={classes.paperContainer} id="main" role="main" tabIndex="-1">
+  <Paper className={classes.paperContainer} role="main" id="main" tabIndex="-1">
     <Grid container className={classes.container} alignItems="center">
       <Grid item xs={1} sm={1} md={2} lg={3} className={classes.sub}></Grid>
       <Grid item xs={10} sm={10} md={8} lg={6} className={classes.sub}>

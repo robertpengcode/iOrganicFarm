@@ -120,7 +120,7 @@ export default function Header(props) {
   const cartItems = useSelector((state) => state.cartItems);
   const exchangeItems = useSelector((state) => state.exchangeItems);
   const theme = useTheme();
-  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  //const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("md"));
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openMenu, setOpen] = React.useState(false);
@@ -304,8 +304,8 @@ export default function Header(props) {
   const drawer = (
     <Fragment>
       <SwipeableDrawer
-        disableBackdropTransition={!iOS}
-        disableDiscovery={iOS}
+        //disableBackdropTransition={!iOS}
+        //disableDiscovery={iOS}
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}

@@ -163,12 +163,13 @@ const Products = () => {
   );
 
   const sortMenu = (
+
     <FormControl
       variant="outlined"
       size="small"
       className={classes.formControl}
     >
-      <InputLabel id="sortby">Sort by</InputLabel>
+      <InputLabel id="sortby" >Sort by</InputLabel>
       <Select
         name="option"
         defaultValue=""
@@ -179,9 +180,17 @@ const Products = () => {
         onChange={(e) => {
           handleSortOptions(e);
         }}
+        // inputProps={{
+        //   "aria-label": "sortby"
+        // }}
       >
+
         {sortOptionsList.map((option, id) => (
-          <MenuItem key={id} value={option}>
+          <MenuItem key={id} value={option}
+          //  inputProps={{
+          //   "aria-label": "sortby"
+          // }}
+          >
             {option}
           </MenuItem>
         ))}

@@ -93,6 +93,8 @@ export default function SignIn() {
   const [signInValues, setSignInValues] = useState(initialSignInValues);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isEmailError, setIsEmailError] = useState(false);
 
   useEffect(() => {
     setSignInValues(signInValues);
@@ -100,10 +102,16 @@ export default function SignIn() {
 
   function handleChange(e) {
     const { name, value } = e.target;
+    let isEmailValid;
     setSignInValues({
       ...signInValues,
       [name]: value,
     });
+    if (name === 'email') {
+      isEmailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) || value==="";
+      isEmailValid ? setIsEmailError(false) : setIsEmailError(true);
+      isEmailValid ? setEmailErrorMessage('') : setEmailErrorMessage('Invalid email');
+    }
   }
 
   const redirectSignIn = () => {
@@ -166,10 +174,12 @@ export default function SignIn() {
               variant="outlined"
               label="Your Email (Required)"
               name="email"
-              //value={emailValues.email}
               value={signInValues.email}
               onChange={handleChange}
               className={classes.emailItem}
+              autoComplete="on"
+              error={isEmailError}
+              helperText={emailErrorMessage}
             />
           </Grid>
           <Grid item>

@@ -1,7 +1,7 @@
 .skip a{
     position: absolute;
-    left:10000px;
-    top: auto;
+    /* left:10000px; */
+    top: -100px;
     width: 1px;
     height: 1px;
 }
@@ -10,4 +10,5 @@
     position: static;
     width: auto;
     height: auto;
+    top: 0;
 }

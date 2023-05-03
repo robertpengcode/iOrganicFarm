@@ -89,6 +89,8 @@ export default function CreateAccount() {
   const [isLoading, setIsLoading] = useState(false);
   const [createAccountMessage, setCreateAccountMessage] = useState("");
   const [isAccountCreated, setIsAccountCreated] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isEmailError, setIsEmailError] = useState(false);
 
   useEffect(() => {
     setAccountValues(accountValues);
@@ -104,10 +106,16 @@ export default function CreateAccount() {
 
   function handleChange(e) {
     const { name, value } = e.target;
+    let isEmailValid;
     setAccountValues({
       ...accountValues,
       [name]: value,
     });
+    if (name === 'email') {
+      isEmailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) || value==="";
+      isEmailValid ? setIsEmailError(false) : setIsEmailError(true);
+      isEmailValid ? setEmailErrorMessage('') : setEmailErrorMessage('Invalid email');
+    }
   }
 
   async function handleCreateAccount(e) {
@@ -176,6 +184,9 @@ export default function CreateAccount() {
               value={accountValues.email}
               onChange={handleChange}
               className={classes.emailItem}
+              autoComplete="on"
+              error={isEmailError}
+              helperText={emailErrorMessage}
             />
           </Grid>
           <Grid item>
