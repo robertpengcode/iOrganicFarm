@@ -12,20 +12,20 @@ const exchangeRoute = require("./routes/exchange");
 const stripeRoute = require("./routes/stripe");
 
 //connect to DB
-// mongoose.connect(process.env.DB_CONNECT, () => console.log("connected to db!"));
+mongoose.connect(process.env.DB_CONNECT, () => console.log("connected to db!"));
 
 //rewrite for deploying to Cyclic (05/03/2023)
 //MongoDB connections work a little differently with serverless.
 //To avoid bugs, connections should be established before a server's listen method is called.
 //To make sure this happens every time, call the listen method in the connect callback.
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.DB_CONNECT);
-  } catch (error) {
-    console.log("error:", error);
-    process.exit(1);
-  }
-};
+// const connectDB = async () => {
+//   try {
+//     const conn = await mongoose.connect(process.env.DB_CONNECT);
+//   } catch (error) {
+//     console.log("error:", error);
+//     process.exit(1);
+//   }
+// };
 
 //Middleware
 app.use(express.json());
@@ -59,10 +59,10 @@ app.use("/", stripeRoute);
 
 app.get("/", cors(), (req, res) => res.send("Hello!!! running..."));
 
-//app.listen(port, () => console.log(`listening on ${port}...`));
+app.listen(port, () => console.log(`listening on ${port}...`));
 //rewrite for deploying to Cyclic (05/03/2023)
-connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`listening on ${port}...`);
-  });
-});
+// connectDB().then(() => {
+//   app.listen(port, () => {
+//     console.log(`listening on ${port}...`);
+//   });
+// });
